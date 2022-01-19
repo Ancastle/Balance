@@ -6,5 +6,11 @@ const LANGUAGES = {
     balance: ["Balance", "Balance"],
     settings: ["Settings", "Opciones"],
   },
+  expences: {
+    tabs: {
+      debit: ["Debit", "Débito"],
+      debt: ["Debts", "Deudas"],
+    },
+  },
 };
 export default LANGUAGES;
