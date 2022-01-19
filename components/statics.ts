@@ -1,4 +1,4 @@
-const LANGUAGES = {
+export const LANGUAGES = {
   footer: {
     home: ["Home", "Inicio"],
     expences: ["Expences", "Egresos"],
@@ -13,4 +13,5 @@ const LANGUAGES = {
     },
   },
 };
-export default LANGUAGES;
+
+export const STORAGE = { transactions: "FAppTransactions" };

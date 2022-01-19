@@ -4,7 +4,7 @@ import { Text, Icon, HStack, Center, Pressable } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 //Utils
-import LANGUAGES from "../languages";
+import { LANGUAGES } from "../statics";
 
 interface FooterProps {
   currentSection: number;

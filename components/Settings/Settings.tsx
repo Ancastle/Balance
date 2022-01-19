@@ -9,7 +9,7 @@ import TabsHeader from "../Shared/TabsHeader";
 import { Tab } from "../types";
 
 // Utils
-import LANGUAGES from "../languages";
+import { LANGUAGES } from "../statics";
 
 //TBD: MAKE DINAMIC
 const appLanguage = 1;
