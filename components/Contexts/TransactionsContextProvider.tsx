@@ -61,7 +61,7 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
         console.log("Error: Could not store to transactions data");
       }
     },
-    []
+    [transactions]
   );
 
   const editTransaction = React.useCallback(

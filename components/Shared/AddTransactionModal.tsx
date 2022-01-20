@@ -41,7 +41,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
     setAmount("");
   }, []);
 
-  const isSaveDisabled = React.useCallback(
+  const isSaveDisabled = React.useMemo(
     () => !name || !amount || !categoryId || categoryId === "reset",
     [name, amount, categoryId]
   );
@@ -51,16 +51,16 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
     [categories]
   );
 
-  const handleSave = React.useCallback(
-    () =>
-      addTransaction({
-        name: name,
-        value: amount.toString(),
-        categoryId: categoryId,
-        type: type,
-      }),
-    [name, amount, categoryId]
-  );
+  const handleSave = React.useCallback(() => {
+    addTransaction({
+      name: name,
+      value: amount.toString(),
+      categoryId: categoryId,
+      type: type,
+    });
+    resetModal();
+    onClose();
+  }, [name, amount, categoryId, type]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -131,7 +131,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
             >
               Cancel
             </Button>
-            <Button onPress={handleSave} isDisabled={isSaveDisabled()}>
+            <Button onPress={handleSave} isDisabled={isSaveDisabled}>
               Save
             </Button>
           </Button.Group>
