@@ -3,6 +3,7 @@ import { Center } from "native-base";
 
 // Components
 import TabsHeader from "../Shared/TabsHeader";
+import DebitTransactions from "../Shared/DebitTransactions";
 
 // Types
 import { Tab } from "../types";
@@ -14,19 +15,15 @@ import { LANGUAGES } from "../statics";
 const appLanguage = 1;
 
 const Entries: React.FC = () => {
-  const [tabIndex, setTabIndex] = React.useState<number>(0);
-
   const tabs: Tab[] = [
-    { key: "first", title: LANGUAGES.expences.tabs.debit[appLanguage] },
-    { key: "second", title: LANGUAGES.expences.tabs.debt[appLanguage] },
+    { key: "first", title: LANGUAGES.entry.tabs.debit[appLanguage] },
+    { key: "second", title: LANGUAGES.entry.tabs.loans[appLanguage] },
   ];
+
   return (
     <TabsHeader
       tabs={tabs}
-      onTabChange={(tab: number) => {
-        setTabIndex(tab);
-      }}
-      firstRoute={<Center flex={1}>1</Center>}
+      firstRoute={<DebitTransactions type="entry" />}
       secondRoute={<Center flex={1}>2</Center>}
     />
   );

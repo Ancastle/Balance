@@ -8,12 +8,19 @@ export const LANGUAGES = {
     balance: ["Balance", "Balance"],
     settings: ["Settings", "Opciones"],
   },
-  expences: {
+  expence: {
     tabs: {
-      debit: ["Debit", "Débito"],
-      debt: ["Debts", "Deudas"],
+      debit: ["Debits", "Débitos"],
+      debt: ["Pending debts", "Deudas pendientes"],
     },
     debitLabels: ["Debit Expences", "Egresos a Débito"],
+  },
+  entry: {
+    tabs: {
+      debit: ["Debits", "Débitos"],
+      loans: ["Pending loans", "Prestamos pendientes"],
+    },
+    debitLabels: ["Debit Entries", "Ingresos a Débito"],
   },
 };
 

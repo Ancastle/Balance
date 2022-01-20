@@ -8,14 +8,12 @@ import { Tab } from "../types";
 
 interface TabsHeaderProps {
   tabs: Tab[];
-  onTabChange: (tab: number) => void;
   firstRoute: React.ReactElement;
   secondRoute: React.ReactElement;
 }
 
 const TabsHeader: React.FC<TabsHeaderProps> = ({
   tabs,
-  onTabChange,
   firstRoute,
   secondRoute,
 }) => {
@@ -49,7 +47,6 @@ const TabsHeader: React.FC<TabsHeaderProps> = ({
               <Pressable
                 onPress={() => {
                   setIndex(i);
-                  onTabChange(i);
                 }}
               >
                 <Animated.Text style={{ color }}>{route.title}</Animated.Text>
