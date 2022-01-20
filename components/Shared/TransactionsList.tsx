@@ -13,25 +13,39 @@ import {
 import ReviewTransactionModal from "./ReviewTransactionModal";
 
 // Contexts
-import { CategoriesContext } from "../Contexts/CategoriesContextProvider";
-
-// Utils
-import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../utils";
+import { TransactionsContext } from "../Contexts/TransactionsContextProvider";
 
 // Types
 import { Transaction, TransactionsListData, TransactionType } from "../types";
 
+// Utils
+import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../utils";
+import { LANGUAGES } from "../statics";
+
 interface TransactionsListProps {
-  data: TransactionsListData[];
   type: TransactionType;
 }
 
-const TransactionsList: React.FC<TransactionsListProps> = ({ data, type }) => {
-  const { categories } = React.useContext(CategoriesContext);
+//TBD: MAKE DINAMIC
+const appLanguage = 1;
+
+const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
+  const { transactions } = React.useContext(TransactionsContext);
 
   const [showViewModal, setShowViewModal] = React.useState(false);
-
   const [transaction, setTransaction] = React.useState<Transaction>();
+
+  const showingTransactions = React.useMemo(
+    () => transactions.filter((transaction) => transaction.type === type),
+    [transactions, type]
+  );
+
+  const data = [
+    {
+      title: LANGUAGES[type].debitLabels[appLanguage],
+      data: showingTransactions,
+    },
+  ];
 
   return (
     <>
