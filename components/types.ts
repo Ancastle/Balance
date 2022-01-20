@@ -2,6 +2,12 @@ export type Tab = { key: string; title: string };
 
 export type TransactionType = "expence" | "entry";
 
+export interface Category {
+  id: string;
+  name: string;
+  type: string;
+}
+
 export interface TransactionInput {
   name: string;
   type: TransactionType;
@@ -14,10 +20,10 @@ export interface TransactionDay {
   month: number;
 }
 
-export type TransactionHour = {
+export interface TransactionHour {
   hour: number;
   minutes: number;
-};
+}
 
 export interface Transaction {
   id: string | number[];
@@ -27,4 +33,9 @@ export interface Transaction {
   value: string;
   day: TransactionDay;
   hour: TransactionHour;
+}
+
+export interface TransactionsListData {
+  title: string;
+  data: Transaction[];
 }

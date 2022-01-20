@@ -1,4 +1,3 @@
-// Externals
 import * as React from "react";
 import { Center } from "native-base";
 

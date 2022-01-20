@@ -1,4 +1,3 @@
-// Externals
 import * as React from "react";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -36,11 +35,11 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
       const value = await AsyncStorage.getItem(STORAGE.transactions);
       if (value) {
         const parsed = JSON.parse(value);
-        setTransactions(parsed.registers);
+        setTransactions(parsed.transactions);
         setHasFetchedTransactions(true);
       }
     } catch (e) {
-      console.log("There was an error trying to fetch the Registers data");
+      console.log("Error: Could fetch transactions data");
     }
   }, []);
 
@@ -81,7 +80,7 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
           }
         });
         setTransactions(newTransactions);
-        const jsonValue = JSON.stringify({ registers: newTransactions });
+        const jsonValue = JSON.stringify({ transactions: newTransactions });
         await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
       } catch (e) {
         console.log("Error: Could not store to transactions data");

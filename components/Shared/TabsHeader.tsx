@@ -1,4 +1,3 @@
-// Externals
 import * as React from "react";
 import { Dimensions, StatusBar, Animated, Pressable } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
