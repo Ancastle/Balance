@@ -3,6 +3,7 @@ import { Center } from "native-base";
 
 // Components
 import TabsHeader from "../Shared/TabsHeader";
+import BalanceTransactionsList from "./BalanceTransactionsList";
 
 // Types
 import { Tab } from "../types";
@@ -14,16 +15,14 @@ import { LANGUAGES } from "../statics";
 const appLanguage = 1;
 
 const Balance: React.FC = () => {
-  const [tabIndex, setTabIndex] = React.useState<number>(0);
-
   const tabs: Tab[] = [
-    { key: "first", title: LANGUAGES.expence.tabs.debit[appLanguage] },
+    { key: "first", title: LANGUAGES.balance.tabs.balance[appLanguage] },
     { key: "second", title: LANGUAGES.expence.tabs.debt[appLanguage] },
   ];
   return (
     <TabsHeader
       tabs={tabs}
-      firstRoute={<Center flex={1}>1</Center>}
+      firstRoute={<BalanceTransactionsList />}
       secondRoute={<Center flex={1}>2</Center>}
     />
   );

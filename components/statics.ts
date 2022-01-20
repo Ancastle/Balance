@@ -22,6 +22,11 @@ export const LANGUAGES = {
     },
     debitLabels: ["Debit Entries", "Ingresos a Débito"],
   },
+  balance: {
+    tabs: {
+      balance: ["Balance", "Balance"],
+    },
+  },
 };
 
 export const STORAGE = {
