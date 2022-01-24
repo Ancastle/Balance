@@ -73,12 +73,11 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
                   <Box flex={1.5}>{` ${makeDoubleDigit(
                     item.day.day
                   )}/${makeDoubleDigit(item.day.month)}`}</Box>
-                  <Box flex={6} justifyContent={"flex-start"}>
+                  <Box flex={6} justifyContent="flex-start">
                     <Text numberOfLines={1}> {item.name}</Text>
                   </Box>
                   <Center flex={2.5}>
                     <Text numberOfLines={1}>
-                      {" "}
                       {makeCurrencyFormat(parseInt(item.value, 10))}
                     </Text>
                   </Center>

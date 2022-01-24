@@ -14,6 +14,7 @@ interface CategoryProps {
   category: CategoryType;
   onEdit: () => void;
   onDelete: (categoryId: UuId) => void;
+  mode: string;
 }
 
 //TBD: MAKE DINAMIC
@@ -24,6 +25,7 @@ const Category: React.FC<CategoryProps> = ({
   category,
   onEdit,
   onDelete,
+  mode,
 }) => {
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
 
@@ -76,32 +78,44 @@ const Category: React.FC<CategoryProps> = ({
       <Flex direction="row" justifyContent="space-between">
         <Center marginLeft={2}>{category.name}</Center>
         <Center flexDirection="row">
-          <Pressable
-            disabled={isMain}
-            onPress={() => {
-              onEdit();
-            }}
-            padding={1}
-          >
-            <MaterialIcons
-              name={"edit"}
-              size={20}
-              color={isMain ? "grey" : "black"}
-            />
-          </Pressable>
-          <Pressable
-            disabled={isMain}
-            onPress={() => {
-              setIsConfirmOpen(true);
-            }}
-            padding={1}
-          >
-            <MaterialCommunityIcons
-              name={"delete-forever"}
-              size={20}
-              color={isMain ? "grey" : "black"}
-            />
-          </Pressable>
+          {mode === "add" ? (
+            <Pressable disabled={isMain} padding={1}>
+              <MaterialCommunityIcons
+                name="delete-forever"
+                size={20}
+                color="transparent"
+              />
+            </Pressable>
+          ) : (
+            <>
+              <Pressable
+                disabled={isMain}
+                onPress={() => {
+                  onEdit();
+                }}
+                padding={1}
+              >
+                <MaterialIcons
+                  name="edit"
+                  size={20}
+                  color={isMain ? "grey" : "black"}
+                />
+              </Pressable>
+              <Pressable
+                disabled={isMain}
+                onPress={() => {
+                  setIsConfirmOpen(true);
+                }}
+                padding={1}
+              >
+                <MaterialCommunityIcons
+                  name="delete-forever"
+                  size={20}
+                  color={isMain ? "grey" : "black"}
+                />
+              </Pressable>
+            </>
+          )}
         </Center>
       </Flex>
     </Box>

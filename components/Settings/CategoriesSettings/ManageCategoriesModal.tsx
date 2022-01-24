@@ -19,6 +19,7 @@ interface ManageCategoriesModalProps {
   isOpen: boolean;
   onClose: () => void;
   type: TransactionType;
+  mode: string;
 }
 
 //TBD: MAKE DINAMIC
@@ -28,6 +29,7 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
   isOpen,
   onClose,
   type,
+  mode,
 }) => {
   const { categories, addCategory, editCategory, deleteCategory } =
     React.useContext(CategoriesContext);
@@ -53,20 +55,25 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
           {showingCategories.map((category, index) => {
             return (
               <Category
-                onDelete={(categoryId) => deleteCategory(categoryId)}
+                onDelete={(categoryId) => {
+                  deleteCategory(categoryId);
+                }}
+                mode={mode}
                 color={isEven(index) ? "primary.500" : "primary.300"}
                 key={index}
                 category={category}
-                onEdit={() => setEditingCategory(category)}
+                onEdit={() => {
+                  setEditingCategory(category);
+                }}
               />
             );
           })}
           <CategoryInputModal
             isOpen={isAdding}
             onClose={() => setIsAdding(false)}
-            onSave={async (newCategoryName) =>
-              addCategory(newCategoryName, type)
-            }
+            onSave={(newCategoryName) => {
+              addCategory(newCategoryName, type);
+            }}
           />
           <CategoryInputModal
             isOpen={!!editingCategory}
@@ -81,11 +88,15 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
         </Modal.Body>
         <Modal.Footer>
           <Box marginBottom={1}>
-            <Text fontSize="xs">
-              {type === "entry"
-                ? LANGUAGES.settings.tabs.categories.entryNote[appLanguage]
-                : LANGUAGES.settings.tabs.categories.expencesNote[appLanguage]}
-            </Text>
+            {mode === "edit" && (
+              <Text fontSize="xs">
+                {type === "entry"
+                  ? LANGUAGES.settings.tabs.categories.entryNote[appLanguage]
+                  : LANGUAGES.settings.tabs.categories.expencesNote[
+                      appLanguage
+                    ]}
+              </Text>
+            )}
           </Box>
           <Box>
             <Button.Group space={2}>
@@ -96,15 +107,19 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
                   onClose();
                 }}
               >
-                {LANGUAGES.cancel[appLanguage]}
+                Ok
               </Button>
-              <Button
-                onPress={() => {
-                  setIsAdding(true);
-                }}
-              >
-                {LANGUAGES.add[appLanguage]}
-              </Button>
+              {mode === "add" ? (
+                <Button
+                  onPress={() => {
+                    setIsAdding(true);
+                  }}
+                >
+                  {LANGUAGES.add[appLanguage]}
+                </Button>
+              ) : (
+                <></>
+              )}
             </Button.Group>
           </Box>
         </Modal.Footer>

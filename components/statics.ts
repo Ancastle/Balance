@@ -36,13 +36,15 @@ export const LANGUAGES = {
       categories: {
         tabLabel: ["Categories", "Categorias"],
         label: ["Manage categories", "Administrar categorias"],
-        manageEntries: [
-          "Manage entry categories",
-          "Administrar categorias de ingresos",
+        addEntries: ["Add entry categories", "Agregar categorias de ingresos"],
+        addExpences: [
+          "Add expence categories",
+          "Agregar categorias de egresos",
         ],
-        manageExpences: [
-          "Manage expence categories",
-          "Administrar categorias de egresos",
+        editEntries: ["Edit entry categories", "Editar categorias de ingresos"],
+        editExpences: [
+          "Edit expence categories",
+          "Editar categorias de egresos",
         ],
         expencesNote: [
           "Note: Transactions that belong to deleted categories will be assigned to 'Other expences'",

@@ -24,6 +24,7 @@ const appLanguage = 1;
 
 const CategoriesSettings: React.FC = () => {
   const [type, setType] = React.useState<TransactionType>();
+  const [mode, setMode] = React.useState("");
   const [showEditModal, setShowEditModal] = React.useState(false);
 
   const data = React.useMemo(
@@ -32,14 +33,24 @@ const CategoriesSettings: React.FC = () => {
         title: LANGUAGES.settings.tabs.categories.label[appLanguage],
         data: [
           {
-            name: LANGUAGES.settings.tabs.categories.manageExpences[
-              appLanguage
-            ],
+            name: LANGUAGES.settings.tabs.categories.addExpences[appLanguage],
             type: "expence",
+            mode: "add",
           },
           {
-            name: LANGUAGES.settings.tabs.categories.manageEntries[appLanguage],
+            name: LANGUAGES.settings.tabs.categories.addEntries[appLanguage],
             type: "entry",
+            mode: "add",
+          },
+          {
+            name: LANGUAGES.settings.tabs.categories.editExpences[appLanguage],
+            type: "expence",
+            mode: "edit",
+          },
+          {
+            name: LANGUAGES.settings.tabs.categories.editEntries[appLanguage],
+            type: "entry",
+            mode: "edit",
           },
         ],
       },
@@ -64,13 +75,14 @@ const CategoriesSettings: React.FC = () => {
                 py={1.5}
                 onPress={() => {
                   setType(item.type);
+                  setMode(item.mode);
                   setShowEditModal(true);
                 }}
               >
                 <Flex direction="row" py={1.5}>
-                  <Center flex={1}>
+                  <Box ml={7} flex={1} justifyContent="flex-start">
                     <Text>{item.name}</Text>
-                  </Center>
+                  </Box>
                 </Flex>
               </Pressable>
             }
@@ -84,11 +96,12 @@ const CategoriesSettings: React.FC = () => {
           </Center>
         )}
       />
-      {!!type && (
+      {!!type && !!mode && (
         <ManageCategoriesModal
           isOpen={showEditModal}
           onClose={() => setShowEditModal(false)}
           type={type}
+          mode={mode}
         />
       )}
     </>
