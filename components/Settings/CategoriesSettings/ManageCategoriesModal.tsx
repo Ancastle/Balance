@@ -7,6 +7,7 @@ import Category from "./Category";
 
 // Contexts
 import { CategoriesContext } from "../../Contexts/CategoriesContextProvider";
+import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
 
 // Types
 import { CategoryType, TransactionType } from "../../types";
@@ -22,9 +23,6 @@ interface ManageCategoriesModalProps {
   mode: string;
 }
 
-//TBD: MAKE DINAMIC
-const appLanguage = 1;
-
 const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
   isOpen,
   onClose,
@@ -33,6 +31,11 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
 }) => {
   const { categories, addCategory, editCategory, deleteCategory } =
     React.useContext(CategoriesContext);
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
 
   const [editingCategory, setEditingCategory] = React.useState<CategoryType>();
   const [isAdding, setIsAdding] = React.useState(false);

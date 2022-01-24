@@ -4,16 +4,22 @@ import { Center } from "native-base";
 // Components
 import TabsHeader from "../Shared/TabsHeader";
 
+// Contexts
+import { PreferencesContext } from "../Contexts/PreferencesContextProvider";
+
 // Types
 import { Tab } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
 
-//TBD: MAKE DINAMIC
-const appLanguage = 1;
-
 const Home: React.FC = () => {
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
+
   const [tabIndex, setTabIndex] = React.useState<number>(0);
 
   const tabs: Tab[] = [

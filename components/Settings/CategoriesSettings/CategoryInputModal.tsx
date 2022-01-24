@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
 import { CategoriesContext } from "../../Contexts/CategoriesContextProvider";
+import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
 
 // Types
 import { CategoryType } from "../../types";
@@ -16,15 +17,18 @@ interface CategoryInputModalProps {
   category?: CategoryType;
 }
 
-//TBD: MAKE DINAMIC
-const appLanguage = 1;
-
 const CategoryInputModal: React.FC<CategoryInputModalProps> = ({
   isOpen,
   onClose,
   onSave,
   category,
 }) => {
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
+
   const { categories } = React.useContext(CategoriesContext);
 
   const [newCategoryName, setNewCategoryName] = React.useState("");

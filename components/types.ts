@@ -4,6 +4,10 @@ export type TransactionType = "expence" | "entry";
 
 export type UuId = string | number[];
 
+export interface Preferences {
+  appLanguage: number;
+}
+
 export interface CategoryType {
   id: UuId;
   name: string;
@@ -35,9 +39,4 @@ export interface Transaction {
   value: string;
   day: TransactionDay;
   hour: TransactionHour;
-}
-
-export interface TransactionsListData {
-  title: string;
-  data: Transaction[];
 }

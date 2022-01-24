@@ -1,4 +1,4 @@
-import { CategoryType } from "./types";
+import { CategoryType, Preferences } from "./types";
 
 export const LANGUAGES = {
   cancel: ["Cancel", "Cancelar"],
@@ -81,6 +81,7 @@ export const LANGUAGES = {
 export const STORAGE = {
   transactions: "FAppTransactions",
   categories: "FAppCategories",
+  preferences: "FAppPreferences",
 };
 
 export const INITIAL_CATEGORIES: CategoryType[] = [
@@ -95,3 +96,7 @@ export const INITIAL_CATEGORIES: CategoryType[] = [
     type: "expence",
   },
 ];
+
+export const INITIAL_PREFERENCES: Preferences = {
+  appLanguage: 1,
+};

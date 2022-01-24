@@ -14,9 +14,10 @@ import ReviewTransactionModal from "./ReviewTransactionModal";
 
 // Contexts
 import { TransactionsContext } from "../Contexts/TransactionsContextProvider";
+import { PreferencesContext } from "../Contexts/PreferencesContextProvider";
 
 // Types
-import { Transaction, TransactionsListData, TransactionType } from "../types";
+import { Transaction, TransactionType } from "../types";
 
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../utils";
@@ -26,11 +27,13 @@ interface TransactionsListProps {
   type: TransactionType;
 }
 
-//TBD: MAKE DINAMIC
-const appLanguage = 1;
-
 const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
   const { transactions } = React.useContext(TransactionsContext);
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();

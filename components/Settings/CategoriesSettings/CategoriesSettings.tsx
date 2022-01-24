@@ -12,6 +12,9 @@ import {
 // Components
 import ManageCategoriesModal from "./ManageCategoriesModal";
 
+// Contexts
+import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
+
 // Types
 import { TransactionType } from "../../types";
 
@@ -19,10 +22,13 @@ import { TransactionType } from "../../types";
 import { isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
-//TBD: MAKE DINAMIC
-const appLanguage = 1;
-
 const CategoriesSettings: React.FC = () => {
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
+
   const [type, setType] = React.useState<TransactionType>();
   const [mode, setMode] = React.useState("");
   const [showEditModal, setShowEditModal] = React.useState(false);

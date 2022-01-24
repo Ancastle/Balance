@@ -3,7 +3,7 @@ import { Box, Pressable, Flex, Center, AlertDialog, Button } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import { CategoriesContext } from "../../Contexts/CategoriesContextProvider";
+import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
 
 // Types
 import { CategoryType, UuId } from "../../types";
@@ -17,9 +17,6 @@ interface CategoryProps {
   mode: string;
 }
 
-//TBD: MAKE DINAMIC
-const appLanguage = 1;
-
 const Category: React.FC<CategoryProps> = ({
   color,
   category,
@@ -27,6 +24,12 @@ const Category: React.FC<CategoryProps> = ({
   onDelete,
   mode,
 }) => {
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
+
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
 
   const cancelRef = React.useRef(null);

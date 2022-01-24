@@ -11,16 +11,19 @@ import {
 
 // Contexts
 import { TransactionsContext } from "../../Contexts/TransactionsContextProvider";
+import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
 
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
-//TBD: MAKE DINAMIC
-const appLanguage = 1;
-
 const BalanceTransactionsList: React.FC = () => {
   const { transactions, totalBalance } = React.useContext(TransactionsContext);
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
 
   const data = [
     {
