@@ -15,7 +15,7 @@ import { TransactionsContext } from "../Contexts/TransactionsContextProvider";
 import { CategoriesContext } from "../Contexts/CategoriesContextProvider";
 
 // Types
-import { Category, TransactionType } from "../types";
+import { TransactionType } from "../types";
 
 interface AddTransactionModalProps {
   isOpen: boolean;
@@ -115,7 +115,11 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
             onValueChange={(itemValue) => setCategoryId(itemValue)}
           >
             {showingCategories.map((category, i) => (
-              <Select.Item key={i} label={category.name} value={category.id} />
+              <Select.Item
+                key={i}
+                label={category.name}
+                value={category.id.toString()}
+              />
             ))}
           </Select>
         </Modal.Body>

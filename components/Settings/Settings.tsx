@@ -3,6 +3,7 @@ import { Center } from "native-base";
 
 // Components
 import TabsHeader from "../Shared/TabsHeader";
+import CategoriesSettings from "./CategoriesSettings";
 
 // Types
 import { Tab } from "../types";
@@ -14,16 +15,18 @@ import { LANGUAGES } from "../statics";
 const appLanguage = 1;
 
 const Settings: React.FC = () => {
-  const [tabIndex, setTabIndex] = React.useState<number>(0);
-
   const tabs: Tab[] = [
-    { key: "first", title: LANGUAGES.expence.tabs.debit[appLanguage] },
-    { key: "second", title: LANGUAGES.expence.tabs.debt[appLanguage] },
+    {
+      key: "first",
+      title: LANGUAGES.settings.tabs.categories.tabLabel[appLanguage],
+    },
+    { key: "second", title: LANGUAGES.settings.tabs.preferences[appLanguage] },
   ];
+
   return (
     <TabsHeader
       tabs={tabs}
-      firstRoute={<Center flex={1}>1</Center>}
+      firstRoute={<CategoriesSettings />}
       secondRoute={<Center flex={1}>2</Center>}
     />
   );

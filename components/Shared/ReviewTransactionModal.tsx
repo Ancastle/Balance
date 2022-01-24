@@ -117,7 +117,11 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
             isDisabled={!isEditing}
           >
             {categories.map((category, i) => (
-              <Select.Item key={i} label={category.name} value={category.id} />
+              <Select.Item
+                key={i}
+                label={category.name}
+                value={category.id.toString()}
+              />
             ))}
           </Select>
         </Modal.Body>

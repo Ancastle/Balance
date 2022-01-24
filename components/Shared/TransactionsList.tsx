@@ -40,12 +40,15 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
     [transactions, type]
   );
 
-  const data = [
-    {
-      title: LANGUAGES[type].debitLabels[appLanguage],
-      data: showingTransactions,
-    },
-  ];
+  const data = React.useMemo(
+    () => [
+      {
+        title: LANGUAGES[type].debitLabels[appLanguage],
+        data: showingTransactions,
+      },
+    ],
+    [showingTransactions]
+  );
 
   return (
     <>

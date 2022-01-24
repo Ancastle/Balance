@@ -2,8 +2,10 @@ export type Tab = { key: string; title: string };
 
 export type TransactionType = "expence" | "entry";
 
-export interface Category {
-  id: string;
+export type UuId = string | number[];
+
+export interface CategoryType {
+  id: UuId;
   name: string;
   type: string;
 }
@@ -26,7 +28,7 @@ export interface TransactionHour {
 }
 
 export interface Transaction {
-  id: string | number[];
+  id: UuId;
   name: string;
   type: TransactionType;
   categoryId: string;
