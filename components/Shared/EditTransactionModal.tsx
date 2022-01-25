@@ -28,7 +28,7 @@ interface ReviewTransactionModalProps {
   onClose: () => void;
 }
 
-const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
+const EditTransactionModal: React.FC<ReviewTransactionModalProps> = ({
   isOpen,
   onClose,
   type,
@@ -42,7 +42,6 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
     [preferences]
   );
 
-  const [isEditing, setIsEditing] = React.useState(false);
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");
   const [value, setValue] = React.useState("");
@@ -58,14 +57,14 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
     onClose();
   }, [transaction, name, value, categoryId]);
 
-  const isSaveEnabled = React.useMemo(
+  const isSaveDisabled = React.useMemo(
     () =>
-      !!name &&
-      !!value &&
-      !!categoryId &&
-      (name !== transaction.name ||
-        value !== transaction.value ||
-        categoryId !== transaction.categoryId),
+      !name ||
+      !value ||
+      !categoryId ||
+      (name === transaction.name &&
+        value === transaction.value &&
+        categoryId === transaction.categoryId),
     [name, value, categoryId, transaction]
   );
 
@@ -84,11 +83,7 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Content maxWidth="400px">
         <Modal.CloseButton />
-        <Modal.Header>
-          {isEditing
-            ? LANGUAGES.editingTransaction[appLanguage]
-            : LANGUAGES.reviewingTransaction[appLanguage]}
-        </Modal.Header>
+        <Modal.Header>{LANGUAGES.editingTransaction[appLanguage]}</Modal.Header>
         <Modal.Body>
           <FormControl>
             <Input
@@ -101,7 +96,6 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
                 />
               }
               placeholder={LANGUAGES.name[appLanguage]}
-              isDisabled={!isEditing}
               value={name}
               onChangeText={(text) => setName(text)}
             />
@@ -119,7 +113,6 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
                 />
               }
               placeholder={LANGUAGES.value[appLanguage]}
-              isDisabled={!isEditing}
               value={value}
               onChangeText={(text) => setValue(text)}
             />
@@ -134,7 +127,6 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
             }}
             mt={3}
             onValueChange={(itemValue) => setCategoryId(itemValue)}
-            isDisabled={!isEditing}
           >
             {showingCategories.map((category, i) => (
               <Select.Item
@@ -151,21 +143,13 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
               variant="ghost"
               colorScheme="blueGray"
               onPress={() => {
-                setIsEditing(false);
                 onClose();
               }}
             >
               {LANGUAGES.cancel[appLanguage]}
             </Button>
-            <Button
-              onPress={() => {
-                isEditing ? handleSubmit() : setIsEditing(true);
-              }}
-              isDisabled={isEditing ? !isSaveEnabled : false}
-            >
-              {isEditing
-                ? LANGUAGES.save[appLanguage]
-                : LANGUAGES.edit[appLanguage]}
+            <Button onPress={handleSubmit} isDisabled={isSaveDisabled}>
+              {LANGUAGES.save[appLanguage]}
             </Button>
           </Button.Group>
         </Modal.Footer>
@@ -174,4 +158,4 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
   );
 };
 
-export default ReviewTransactionModal;
+export default EditTransactionModal;

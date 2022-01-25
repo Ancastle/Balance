@@ -9,7 +9,6 @@ export const LANGUAGES = {
   value: ["Value", "Valor"],
   edit: ["Edit", "Editar"],
   selectCategory: ["Select a category", "Elige una categoria"],
-  reviewingTransaction: ["Reviewing transaction", "Revisando transacción"],
   editingTransaction: ["Editing transaction", "Editando transacción"],
   otherExpences: ["Other expences", "Otros egresos"],
   otherEntries: ["Other entries", "Otros ingresos"],

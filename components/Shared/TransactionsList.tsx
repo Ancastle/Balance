@@ -10,7 +10,7 @@ import {
 } from "native-base";
 
 // Components
-import ReviewTransactionModal from "./ReviewTransactionModal";
+import ReviewTransactionModal from "./EditTransactionModal";
 
 // Contexts
 import { TransactionsContext } from "../Contexts/TransactionsContextProvider";
