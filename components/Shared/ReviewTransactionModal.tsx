@@ -13,9 +13,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 //Contexts
 import { TransactionsContext } from "../Contexts/TransactionsContextProvider";
 import { CategoriesContext } from "../Contexts/CategoriesContextProvider";
+import { PreferencesContext } from "../Contexts/PreferencesContextProvider";
 
 //Types
 import { Transaction, TransactionType } from "../types";
+
+// Utils
+import { LANGUAGES } from "../statics";
 
 interface ReviewTransactionModalProps {
   isOpen: boolean;
@@ -32,6 +36,11 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
 }) => {
   const { editTransaction } = React.useContext(TransactionsContext);
   const { categories } = React.useContext(CategoriesContext);
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
 
   const [isEditing, setIsEditing] = React.useState(false);
   const [categoryId, setCategoryId] = React.useState("");
@@ -46,11 +55,23 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
       categoryId: categoryId,
     };
     editTransaction(editedTransaction);
+    onClose();
   }, [transaction, name, value, categoryId]);
 
   const isSaveEnabled = React.useMemo(
-    () => !!name && !!value && !!categoryId,
-    [name, value, categoryId]
+    () =>
+      !!name &&
+      !!value &&
+      !!categoryId &&
+      (name !== transaction.name ||
+        value !== transaction.value ||
+        categoryId !== transaction.categoryId),
+    [name, value, categoryId, transaction]
+  );
+
+  const showingCategories = React.useMemo(
+    () => categories.filter((category) => category.type === type),
+    [categories]
   );
 
   React.useEffect(() => {
@@ -64,9 +85,9 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
       <Modal.Content maxWidth="400px">
         <Modal.CloseButton />
         <Modal.Header>
-          {`${isEditing ? "Editando" : "Viendo"} ${
-            type === "expence" ? "egreso" : "ingreso"
-          }`}
+          {isEditing
+            ? LANGUAGES.editingTransaction[appLanguage]
+            : LANGUAGES.reviewingTransaction[appLanguage]}
         </Modal.Header>
         <Modal.Body>
           <FormControl>
@@ -79,7 +100,7 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
                   color="muted.400"
                 />
               }
-              placeholder="Nombre"
+              placeholder={LANGUAGES.name[appLanguage]}
               isDisabled={!isEditing}
               value={name}
               onChangeText={(text) => setName(text)}
@@ -97,7 +118,7 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
                   color="muted.400"
                 />
               }
-              placeholder="Valor"
+              placeholder={LANGUAGES.value[appLanguage]}
               isDisabled={!isEditing}
               value={value}
               onChangeText={(text) => setValue(text)}
@@ -106,8 +127,7 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
           <Select
             selectedValue={categoryId}
             minWidth="200"
-            accessibilityLabel="Choose Service"
-            placeholder="Elige una categoria"
+            placeholder={LANGUAGES.selectCategory[appLanguage]}
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size="5" />,
@@ -116,7 +136,7 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
             onValueChange={(itemValue) => setCategoryId(itemValue)}
             isDisabled={!isEditing}
           >
-            {categories.map((category, i) => (
+            {showingCategories.map((category, i) => (
               <Select.Item
                 key={i}
                 label={category.name}
@@ -135,7 +155,7 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
                 onClose();
               }}
             >
-              Cancelar
+              {LANGUAGES.cancel[appLanguage]}
             </Button>
             <Button
               onPress={() => {
@@ -143,7 +163,9 @@ const ReviewTransactionModal: React.FC<ReviewTransactionModalProps> = ({
               }}
               isDisabled={isEditing ? !isSaveEnabled : false}
             >
-              {isEditing ? "Guardar" : "Editar"}
+              {isEditing
+                ? LANGUAGES.save[appLanguage]
+                : LANGUAGES.edit[appLanguage]}
             </Button>
           </Button.Group>
         </Modal.Footer>

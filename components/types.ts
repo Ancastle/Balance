@@ -2,6 +2,11 @@ export type Tab = { key: string; title: string };
 
 export type TransactionType = "expence" | "entry";
 
+export interface Language {
+  name: string;
+  id: number;
+}
+
 export type UuId = string | number[];
 
 export interface Preferences {

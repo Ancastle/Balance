@@ -20,8 +20,6 @@ const Home: React.FC = () => {
     [preferences]
   );
 
-  const [tabIndex, setTabIndex] = React.useState<number>(0);
-
   const tabs: Tab[] = [
     { key: "first", title: LANGUAGES.expence.tabs.debit[appLanguage] },
     { key: "second", title: LANGUAGES.expence.tabs.debt[appLanguage] },

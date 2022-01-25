@@ -13,9 +13,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 // Contexts
 import { TransactionsContext } from "../Contexts/TransactionsContextProvider";
 import { CategoriesContext } from "../Contexts/CategoriesContextProvider";
+import { PreferencesContext } from "../Contexts/PreferencesContextProvider";
 
 // Types
 import { TransactionType } from "../types";
+
+// Utils
+import { LANGUAGES } from "../statics";
 
 interface AddTransactionModalProps {
   isOpen: boolean;
@@ -30,6 +34,11 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
 }) => {
   const { addTransaction } = React.useContext(TransactionsContext);
   const { categories } = React.useContext(CategoriesContext);
+  const { preferences } = React.useContext(PreferencesContext);
+  const appLanguage = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
 
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");
@@ -67,7 +76,9 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
       <Modal.Content maxWidth="400px">
         <Modal.CloseButton />
         <Modal.Header>
-          {type === "expence" ? "Agregando egreso" : "Agregando ingreso"}
+          {type === "expence"
+            ? LANGUAGES.expence.adding[appLanguage]
+            : LANGUAGES.entry.adding[appLanguage]}
         </Modal.Header>
         <Modal.Body>
           <FormControl>
@@ -80,7 +91,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
                   color="muted.400"
                 />
               }
-              placeholder="Nombre"
+              placeholder={LANGUAGES.name[appLanguage]}
               value={name}
               onChangeText={(text) => setName(text)}
             />
@@ -97,7 +108,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
                   color="muted.400"
                 />
               }
-              placeholder="Valor"
+              placeholder={LANGUAGES.value[appLanguage]}
               value={amount}
               onChangeText={(text) => setAmount(text)}
             />
@@ -105,8 +116,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
           <Select
             selectedValue={categoryId}
             minWidth="200"
-            accessibilityLabel="Choose Service"
-            placeholder="Elige una categoría"
+            placeholder={LANGUAGES.selectCategory[appLanguage]}
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size="5" />,
@@ -133,10 +143,10 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
                 onClose();
               }}
             >
-              Cancel
+              {LANGUAGES.cancel[appLanguage]}
             </Button>
             <Button onPress={handleSave} isDisabled={isSaveDisabled}>
-              Save
+              {LANGUAGES.save[appLanguage]}
             </Button>
           </Button.Group>
         </Modal.Footer>

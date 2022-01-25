@@ -6,13 +6,14 @@ import uuid from "react-native-uuid";
 import { CategoryType, TransactionType, UuId } from "../types";
 
 // Statics
-import { INITIAL_CATEGORIES, STORAGE } from "../statics";
+import { INITIAL_CATEGORIES, LANGUAGES, STORAGE } from "../statics";
 
 export interface CategoriesContextProps {
   categories: CategoryType[];
   addCategory: (categoryName: string, categoryType: TransactionType) => void;
   editCategory: (categoryNewName: string, categoryId: UuId) => void;
   deleteCategory: (categoryId: UuId) => void;
+  adjustCategoryNames: (oldLanguage: number, newLanguage: number) => void;
 }
 
 const CategoriesContext = React.createContext<CategoriesContextProps>({
@@ -20,6 +21,7 @@ const CategoriesContext = React.createContext<CategoriesContextProps>({
   addCategory: () => "addCategory",
   editCategory: () => "editCategory",
   deleteCategory: () => "deleteCategory",
+  adjustCategoryNames: () => "adjustCategoryNames",
 });
 
 const CategoriesContextProvider: React.FC = ({ children }) => {
@@ -100,6 +102,26 @@ const CategoriesContextProvider: React.FC = ({ children }) => {
     [categories]
   );
 
+  const adjustCategoryNames = React.useCallback(
+    async (oldLanguage: number, newLanguage: number) => {
+      try {
+        const newCategories = categories.map((category) =>
+          category.name === LANGUAGES.otherEntries[oldLanguage]
+            ? { ...category, name: LANGUAGES.otherEntries[newLanguage] }
+            : category.name === LANGUAGES.otherExpences[oldLanguage]
+            ? { ...category, name: LANGUAGES.otherExpences[newLanguage] }
+            : category
+        );
+        setCategories(newCategories);
+        const jsonValue = JSON.stringify({ categories: newCategories });
+        await AsyncStorage.setItem(STORAGE.categories, jsonValue);
+      } catch (e) {
+        console.log("Error: Could not store to categories data");
+      }
+    },
+    [categories]
+  );
+
   React.useEffect(() => {
     if (!hasFetchedCategories) {
       fetchCategories();
@@ -113,6 +135,7 @@ const CategoriesContextProvider: React.FC = ({ children }) => {
         addCategory,
         editCategory,
         deleteCategory,
+        adjustCategoryNames,
       }}
     >
       {children}

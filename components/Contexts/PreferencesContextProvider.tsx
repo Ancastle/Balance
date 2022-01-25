@@ -2,17 +2,21 @@ import * as React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Types
-import { Preferences } from "../types";
+import { Language, Preferences } from "../types";
 
 // Statics
 import { INITIAL_PREFERENCES, STORAGE } from "../statics";
 
 export interface PreferencesContextProps {
   preferences: Preferences;
+  languages: Language[];
+  changeLanguage: (newLanguageId: string) => void;
 }
 
 const PreferencesContext = React.createContext<PreferencesContextProps>({
   preferences: { appLanguage: 1 },
+  languages: [{ name: "ES", id: 1 }],
+  changeLanguage: () => "changeLanguage",
 });
 
 //appLanguage: 0 -> EN, 1 -> ES
@@ -41,6 +45,31 @@ const PreferencesContextProvider: React.FC = ({ children }) => {
     }
   }, []);
 
+  const changeLanguage = React.useCallback(
+    async (newLanguageId: string) => {
+      try {
+        const newPreferences = {
+          ...preferences,
+          appLanguage: parseInt(newLanguageId, 10),
+        };
+        setPreferences(newPreferences);
+        const jsonValue = JSON.stringify({ preferences: newPreferences });
+        await AsyncStorage.setItem(STORAGE.preferences, jsonValue);
+      } catch (e) {
+        console.log("Error: Could not store to preferences");
+      }
+    },
+    [preferences]
+  );
+
+  const languages: Language[] = React.useMemo(
+    () => [
+      { name: "English", id: 0 },
+      { name: "Español", id: 1 },
+    ],
+    []
+  );
+
   React.useEffect(() => {
     if (!hasFetchedPreferences) {
       fetchPreferences();
@@ -51,6 +80,8 @@ const PreferencesContextProvider: React.FC = ({ children }) => {
     <PreferencesContext.Provider
       value={{
         preferences,
+        languages,
+        changeLanguage,
       }}
     >
       {children}

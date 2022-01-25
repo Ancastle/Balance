@@ -5,6 +5,14 @@ export const LANGUAGES = {
   add: ["Add", "Agregar"],
   delete: ["Delete", "Eliminar"],
   save: ["Save", "Guardar"],
+  name: ["Name", "Nombre"],
+  value: ["Value", "Valor"],
+  edit: ["Edit", "Editar"],
+  selectCategory: ["Select a category", "Elige una categoria"],
+  reviewingTransaction: ["Reviewing transaction", "Revisando transacción"],
+  editingTransaction: ["Editing transaction", "Editando transacción"],
+  otherExpences: ["Other expences", "Otros egresos"],
+  otherEntries: ["Other entries", "Otros ingresos"],
   footer: {
     home: ["Home", "Inicio"],
     expences: ["Expences", "Egresos"],
@@ -18,6 +26,7 @@ export const LANGUAGES = {
       debt: ["Pending debts", "Deudas pendientes"],
     },
     debitLabels: ["Debit Expences", "Egresos a Débito"],
+    adding: ["Adding expence", "Agregando egreso"],
   },
   entry: {
     tabs: {
@@ -25,6 +34,7 @@ export const LANGUAGES = {
       loans: ["Pending loans", "Prestamos pendientes"],
     },
     debitLabels: ["Debit Entries", "Ingresos a Débito"],
+    adding: ["Adding entry", "Agregando ingreso"],
   },
   balance: {
     tabs: {
@@ -73,7 +83,16 @@ export const LANGUAGES = {
           "Se debe ingresar un nombre para la categoria",
         ],
       },
-      preferences: ["Preferences", "Preferencias"],
+      preferences: {
+        tabLabel: ["Preferences", "Preferencias"],
+        label: ["Manage preferences", "Administrar preferencias"],
+        changeLanguage: ["Change language", "Cambiar idioma"],
+        changeLanguageModalTitle: ["Change language", "Cambiar idioma"],
+        changeLanguagePlaceholder: [
+          "Select a language",
+          "Selecciona un idioma",
+        ],
+      },
     },
   },
 };
