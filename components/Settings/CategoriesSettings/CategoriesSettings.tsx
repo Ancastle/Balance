@@ -13,7 +13,7 @@ import {
 import ManageCategoriesModal from "./ManageCategoriesModal";
 
 // Contexts
-import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
+import { PreferencesContext } from "../../Contexts";
 
 // Types
 import { TransactionType } from "../../types";

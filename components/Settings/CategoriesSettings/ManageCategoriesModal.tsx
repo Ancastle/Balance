@@ -6,8 +6,7 @@ import CategoryInputModal from "./CategoryInputModal";
 import Category from "./Category";
 
 // Contexts
-import { CategoriesContext } from "../../Contexts/CategoriesContextProvider";
-import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
+import { CategoriesContext, PreferencesContext } from "../../Contexts";
 
 // Types
 import { CategoryType, TransactionType } from "../../types";

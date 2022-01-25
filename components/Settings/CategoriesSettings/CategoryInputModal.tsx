@@ -3,8 +3,7 @@ import { Button, Modal, FormControl, Input, Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import { CategoriesContext } from "../../Contexts/CategoriesContextProvider";
-import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
+import { CategoriesContext, PreferencesContext } from "../../Contexts";
 
 // Types
 import { CategoryType } from "../../types";

@@ -1,12 +1,12 @@
 import * as React from "react";
 
 // Components
-import TabsHeader from "../Shared/TabsHeader";
+import { TabsHeader } from "../Shared";
 import PreferencesSettings from "./PreferencesSettings";
 import CategoriesSettings from "./CategoriesSettings";
 
 // Contexts
-import { PreferencesContext } from "../Contexts/PreferencesContextProvider";
+import { PreferencesContext } from "../Contexts";
 
 // Types
 import { Tab } from "../types";

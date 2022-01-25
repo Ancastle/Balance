@@ -3,12 +3,14 @@ import React from "react";
 import { Box, NativeBaseProvider } from "native-base";
 
 // Components
-import AppRouter from "./components/ApplicationLayout/AppRouter";
+import AppRouter from "./components/ApplicationLayout";
 
 // Context Providers
-import { CategoriesContextProvider } from "./components/Contexts/CategoriesContextProvider";
-import { TransactionsContextProvider } from "./components/Contexts/TransactionsContextProvider";
-import { PreferencesContextProvider } from "./components/Contexts/PreferencesContextProvider";
+import {
+  CategoriesContextProvider,
+  TransactionsContextProvider,
+  PreferencesContextProvider,
+} from "./components/Contexts";
 
 export default function App() {
   return (

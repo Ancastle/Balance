@@ -2,11 +2,11 @@ import * as React from "react";
 import { Center } from "native-base";
 
 // Components
-import TabsHeader from "../Shared/TabsHeader";
+import { TabsHeader } from "../Shared";
 import BalanceTransactionsList from "./BalanceTransactionsList";
 
 // Contexts
-import { PreferencesContext } from "../Contexts/PreferencesContextProvider";
+import { PreferencesContext } from "../Contexts";
 
 // Types
 import { Tab } from "../types";

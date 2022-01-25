@@ -10,8 +10,7 @@ import {
 } from "native-base";
 
 // Contexts
-import { TransactionsContext } from "../../Contexts/TransactionsContextProvider";
-import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
+import { TransactionsContext, PreferencesContext } from "../../Contexts";
 
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat } from "../../utils";

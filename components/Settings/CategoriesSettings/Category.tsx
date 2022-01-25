@@ -3,7 +3,7 @@ import { Box, Pressable, Flex, Center, AlertDialog, Button } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
+import { PreferencesContext } from "../../Contexts";
 
 // Types
 import { CategoryType, UuId } from "../../types";

@@ -4,8 +4,8 @@ import React from "react";
 import Footer from "./Footer";
 import Home from "../Home";
 import Expences from "../Expences";
-import Entries from "../Entries/Entries";
-import Balance from "../Balance/Balance";
+import Entries from "../Entries";
+import Balance from "../Balance";
 import Settings from "../Settings";
 
 const AppRouter: React.FC = () => {

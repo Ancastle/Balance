@@ -3,7 +3,7 @@ import { Text, Icon, HStack, Center, Pressable } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import { PreferencesContext } from "../Contexts/PreferencesContextProvider";
+import { PreferencesContext } from "../Contexts";
 
 // Utils
 import { LANGUAGES } from "../statics";

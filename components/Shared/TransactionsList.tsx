@@ -13,8 +13,7 @@ import {
 import ReviewTransactionModal from "./EditTransactionModal";
 
 // Contexts
-import { TransactionsContext } from "../Contexts/TransactionsContextProvider";
-import { PreferencesContext } from "../Contexts/PreferencesContextProvider";
+import { TransactionsContext, PreferencesContext } from "../Contexts";
 
 // Types
 import { Transaction, TransactionType } from "../types";

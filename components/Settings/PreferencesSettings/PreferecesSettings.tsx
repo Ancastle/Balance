@@ -13,7 +13,7 @@ import {
 import ChangeLanguageModal from "./ChangeLanguageModal";
 
 // Contexts
-import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
+import { PreferencesContext } from "../../Contexts";
 
 // Utils
 import { isEven } from "../../utils";

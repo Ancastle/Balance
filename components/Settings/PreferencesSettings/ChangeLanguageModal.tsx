@@ -2,8 +2,7 @@ import React from "react";
 import { Button, Modal, Box, Select, CheckIcon } from "native-base";
 
 // Contexts
-import { PreferencesContext } from "../../Contexts/PreferencesContextProvider";
-import { CategoriesContext } from "../../Contexts/CategoriesContextProvider";
+import { CategoriesContext, PreferencesContext } from "../../Contexts";
 
 // Utils
 import { LANGUAGES } from "../../statics";
