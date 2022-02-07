@@ -20,11 +20,7 @@ import { isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
 const PreferencesSettings: React.FC = () => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
 

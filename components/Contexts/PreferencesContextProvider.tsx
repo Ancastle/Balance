@@ -8,15 +8,15 @@ import { Language, Preferences } from "../types";
 import { INITIAL_PREFERENCES, STORAGE } from "../statics";
 
 export interface PreferencesContextProps {
-  preferences: Preferences;
   languages: Language[];
   changeLanguage: (newLanguageId: string) => void;
+  appLanguage: number;
 }
 
 const PreferencesContext = React.createContext<PreferencesContextProps>({
-  preferences: { appLanguage: 1 },
   languages: [{ name: "ES", id: 1 }],
   changeLanguage: () => "changeLanguage",
+  appLanguage: 1,
 });
 
 //appLanguage: 0 -> EN, 1 -> ES
@@ -62,6 +62,11 @@ const PreferencesContextProvider: React.FC = ({ children }) => {
     [preferences]
   );
 
+  const appLanguage: number = React.useMemo(
+    () => preferences.appLanguage,
+    [preferences]
+  );
+
   const languages: Language[] = React.useMemo(
     () => [
       { name: "English", id: 0 },
@@ -79,9 +84,9 @@ const PreferencesContextProvider: React.FC = ({ children }) => {
   return (
     <PreferencesContext.Provider
       value={{
-        preferences,
         languages,
         changeLanguage,
+        appLanguage,
       }}
     >
       {children}

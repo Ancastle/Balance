@@ -28,11 +28,7 @@ interface TransactionsListProps {
 
 const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
   const { transactions } = React.useContext(TransactionsContext);
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();

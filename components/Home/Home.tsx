@@ -14,11 +14,7 @@ import { Tab } from "../types";
 import { LANGUAGES } from "../statics";
 
 const Home: React.FC = () => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   const tabs: Tab[] = [
     { key: "first", title: LANGUAGES.expence.tabs.debit[appLanguage] },

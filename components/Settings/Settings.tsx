@@ -15,22 +15,21 @@ import { Tab } from "../types";
 import { LANGUAGES } from "../statics";
 
 const Settings: React.FC = () => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
-  const tabs: Tab[] = [
-    {
-      key: "first",
-      title: LANGUAGES.settings.tabs.categories.tabLabel[appLanguage],
-    },
-    {
-      key: "second",
-      title: LANGUAGES.settings.tabs.preferences.tabLabel[appLanguage],
-    },
-  ];
+  const tabs: Tab[] = React.useMemo(
+    () => [
+      {
+        key: "first",
+        title: LANGUAGES.settings.tabs.categories.tabLabel[appLanguage],
+      },
+      {
+        key: "second",
+        title: LANGUAGES.settings.tabs.preferences.tabLabel[appLanguage],
+      },
+    ],
+    [appLanguage]
+  );
 
   return (
     <TabsHeader

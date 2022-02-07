@@ -23,11 +23,7 @@ import { isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
 const CategoriesSettings: React.FC = () => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   const [type, setType] = React.useState<TransactionType>();
   const [mode, setMode] = React.useState("");

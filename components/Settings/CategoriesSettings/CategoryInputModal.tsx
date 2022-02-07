@@ -22,11 +22,7 @@ const CategoryInputModal: React.FC<CategoryInputModalProps> = ({
   onSave,
   category,
 }) => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   const { categories } = React.useContext(CategoriesContext);
 

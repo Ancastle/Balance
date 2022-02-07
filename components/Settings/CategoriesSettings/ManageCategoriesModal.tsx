@@ -30,11 +30,7 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
 }) => {
   const { categories, addCategory, editCategory, deleteCategory } =
     React.useContext(CategoriesContext);
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   const [editingCategory, setEditingCategory] = React.useState<CategoryType>();
   const [isAdding, setIsAdding] = React.useState(false);

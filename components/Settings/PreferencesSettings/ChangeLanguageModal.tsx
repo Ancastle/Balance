@@ -17,12 +17,8 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
   onClose,
 }) => {
   const { adjustCategoryNames } = React.useContext(CategoriesContext);
-  const { preferences, languages, changeLanguage } =
+  const { appLanguage, languages, changeLanguage } =
     React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
 
   const [selectedLanguage, setSelectedLanguage] = React.useState("");
 

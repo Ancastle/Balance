@@ -14,11 +14,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ currentSection, onChangeSection }) => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   return (
     <HStack bg="primary.900" alignItems="center" safeAreaBottom shadow={6}>

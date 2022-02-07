@@ -14,16 +14,15 @@ import { Tab } from "../types";
 import { LANGUAGES } from "../statics";
 
 const Entries: React.FC = () => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
-  const tabs: Tab[] = [
-    { key: "first", title: LANGUAGES.entry.tabs.debit[appLanguage] },
-    { key: "second", title: LANGUAGES.entry.tabs.loans[appLanguage] },
-  ];
+  const tabs: Tab[] = React.useMemo(
+    () => [
+      { key: "first", title: LANGUAGES.entry.tabs.debit[appLanguage] },
+      { key: "second", title: LANGUAGES.entry.tabs.loans[appLanguage] },
+    ],
+    [appLanguage]
+  );
 
   return (
     <TabsHeader

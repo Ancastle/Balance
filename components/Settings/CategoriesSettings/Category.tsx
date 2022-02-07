@@ -24,11 +24,7 @@ const Category: React.FC<CategoryProps> = ({
   onDelete,
   mode,
 }) => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
 

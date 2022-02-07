@@ -38,11 +38,7 @@ const EditTransactionModal: React.FC<ReviewTransactionModalProps> = ({
 }) => {
   const { editTransaction } = React.useContext(TransactionsContext);
   const { categories } = React.useContext(CategoriesContext);
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");

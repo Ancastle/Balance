@@ -18,20 +18,19 @@ import { LANGUAGES } from "../../statics";
 
 const BalanceTransactionsList: React.FC = () => {
   const { transactions, totalBalance } = React.useContext(TransactionsContext);
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
-  );
+  const { appLanguage } = React.useContext(PreferencesContext);
 
-  const data = [
-    {
-      title: `${
-        LANGUAGES.balance.tabs.balance[appLanguage]
-      }: ${makeCurrencyFormat(totalBalance)}`,
-      data: transactions,
-    },
-  ];
+  const data = React.useMemo(
+    () => [
+      {
+        title: `${
+          LANGUAGES.balance.tabs.balance[appLanguage]
+        }: ${makeCurrencyFormat(totalBalance)}`,
+        data: transactions,
+      },
+    ],
+    [appLanguage, totalBalance, transactions]
+  );
 
   return (
     <>

@@ -15,16 +15,16 @@ import { Tab } from "../types";
 import { LANGUAGES } from "../statics";
 
 const Balance: React.FC = () => {
-  const { preferences } = React.useContext(PreferencesContext);
-  const appLanguage = React.useMemo(
-    () => preferences.appLanguage,
-    [preferences]
+  const { appLanguage } = React.useContext(PreferencesContext);
+
+  const tabs: Tab[] = React.useMemo(
+    () => [
+      { key: "first", title: LANGUAGES.balance.tabs.balance[appLanguage] },
+      { key: "second", title: LANGUAGES.expence.tabs.debt[appLanguage] },
+    ],
+    [appLanguage]
   );
 
-  const tabs: Tab[] = [
-    { key: "first", title: LANGUAGES.balance.tabs.balance[appLanguage] },
-    { key: "second", title: LANGUAGES.expence.tabs.debt[appLanguage] },
-  ];
   return (
     <TabsHeader
       tabs={tabs}
