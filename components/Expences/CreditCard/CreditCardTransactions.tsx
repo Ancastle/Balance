@@ -1,14 +1,17 @@
 import React from "react";
+import { Button } from "native-base";
 
 // Components
-import {
-  AddTransactionModal,
-  TransactionsList,
-  FabComponent,
-} from "../../Shared";
+import { AddTransactionModal, TransactionsList } from "../../Shared";
+
+// Contexts
+import { PreferencesContext } from "../../Contexts";
 
 // Types
 import { TransactionType } from "../../types";
+
+// Utils
+import { LANGUAGES } from "../../statics";
 
 interface DebitTransactionsProps {
   type: TransactionType;
@@ -17,10 +20,20 @@ interface DebitTransactionsProps {
 const CreditCardTransactions: React.FC<DebitTransactionsProps> = ({ type }) => {
   const [showAddModal, setShowAddModal] = React.useState(false);
 
+  const { appLanguage } = React.useContext(PreferencesContext);
+
   return (
     <>
       <TransactionsList type={type} />
-      <FabComponent onClick={() => setShowAddModal(true)} />
+      <Button
+        bg="primary.900"
+        bottom={5}
+        width="350"
+        height="50"
+        onPress={() => setShowAddModal(true)}
+      >
+        {LANGUAGES.add[appLanguage]}
+      </Button>
       <AddTransactionModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
