@@ -5,7 +5,7 @@ import { Center } from "native-base";
 import { TabsHeader, DebitTransactions } from "../Shared";
 
 // Contexts
-import { PreferencesContext } from "../Contexts";
+import { PreferencesContext, TransactionsContext } from "../Contexts";
 
 // Types
 import { Tab } from "../types";
@@ -15,6 +15,8 @@ import { LANGUAGES } from "../statics";
 
 const Entries: React.FC = () => {
   const { appLanguage } = React.useContext(PreferencesContext);
+  const { addTransaction, editTransaction } =
+    React.useContext(TransactionsContext);
 
   const tabs: Tab[] = React.useMemo(
     () => [
@@ -27,7 +29,13 @@ const Entries: React.FC = () => {
   return (
     <TabsHeader
       tabs={tabs}
-      firstRoute={<DebitTransactions type="entry" />}
+      firstRoute={
+        <DebitTransactions
+          type="entry"
+          onAdd={addTransaction}
+          onEdit={editTransaction}
+        />
+      }
       secondRoute={<Center flex={1}>2</Center>}
     />
   );

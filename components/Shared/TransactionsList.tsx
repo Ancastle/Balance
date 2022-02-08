@@ -24,9 +24,13 @@ import { LANGUAGES } from "../statics";
 
 interface TransactionsListProps {
   type: TransactionType;
+  onEdit: (editingTransaction: Transaction) => void;
 }
 
-const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
+const TransactionsList: React.FC<TransactionsListProps> = ({
+  type,
+  onEdit,
+}) => {
   const { transactions } = React.useContext(TransactionsContext);
   const { appLanguage } = React.useContext(PreferencesContext);
 
@@ -97,6 +101,7 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
           isOpen={showViewModal}
           onClose={() => setShowViewModal(false)}
           transaction={transaction}
+          onEdit={onEdit}
           type={type}
         />
       )}

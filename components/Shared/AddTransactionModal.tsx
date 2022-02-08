@@ -18,7 +18,7 @@ import {
 } from "../Contexts";
 
 // Types
-import { TransactionType } from "../types";
+import { TransactionInput, TransactionType } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
@@ -27,14 +27,15 @@ interface AddTransactionModalProps {
   isOpen: boolean;
   onClose: () => void;
   type: TransactionType;
+  onAdd: (newTransaction: TransactionInput) => void;
 }
 
 const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   isOpen,
   onClose,
   type,
+  onAdd,
 }) => {
-  const { addTransaction } = React.useContext(TransactionsContext);
   const { categories } = React.useContext(CategoriesContext);
   const { appLanguage } = React.useContext(PreferencesContext);
 
@@ -59,7 +60,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   );
 
   const handleSave = React.useCallback(() => {
-    addTransaction({
+    onAdd({
       name: name,
       value: amount.toString(),
       categoryId: categoryId,

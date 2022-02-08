@@ -28,6 +28,7 @@ interface ReviewTransactionModalProps {
   transaction: Transaction;
   type: TransactionType;
   onClose: () => void;
+  onEdit: (editingTransaction: Transaction) => void;
 }
 
 const EditTransactionModal: React.FC<ReviewTransactionModalProps> = ({
@@ -35,8 +36,8 @@ const EditTransactionModal: React.FC<ReviewTransactionModalProps> = ({
   onClose,
   type,
   transaction,
+  onEdit,
 }) => {
-  const { editTransaction } = React.useContext(TransactionsContext);
   const { categories } = React.useContext(CategoriesContext);
   const { appLanguage } = React.useContext(PreferencesContext);
 
@@ -51,7 +52,7 @@ const EditTransactionModal: React.FC<ReviewTransactionModalProps> = ({
       value: value,
       categoryId: categoryId,
     };
-    editTransaction(editedTransaction);
+    onEdit(editedTransaction);
     onClose();
   }, [transaction, name, value, categoryId]);
 

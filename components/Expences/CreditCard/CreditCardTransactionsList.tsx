@@ -21,19 +21,20 @@ import { Transaction, TransactionType } from "../../types";
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
+import EditTransactionModal from "../../Shared/EditTransactionModal";
 
 const CreditCardTransactionsList: React.FC = () => {
-  const { ccTransactions, totalDebt } = React.useContext(CreditCardContext);
+  const { ccTransactions, totalDebt, editCCTransaction } =
+    React.useContext(CreditCardContext);
   const { appLanguage } = React.useContext(PreferencesContext);
-
-  const TYPE = "expence";
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();
 
   const showingTransactions = React.useMemo(
-    () => ccTransactions.filter((transaction) => transaction.type === TYPE),
-    [ccTransactions, TYPE]
+    () =>
+      ccTransactions.filter((transaction) => transaction.type === "expence"),
+    [ccTransactions]
   );
 
   const data = React.useMemo(
@@ -92,14 +93,15 @@ const CreditCardTransactionsList: React.FC = () => {
           </Center>
         )}
       />
-      {/* {!!transaction && (
-        <ReviewTransactionModal
+      {!!transaction && (
+        <EditTransactionModal
           isOpen={showViewModal}
           onClose={() => setShowViewModal(false)}
           transaction={transaction}
-          type={type}
+          type="expence"
+          onEdit={editCCTransaction}
         />
-      )} */}
+      )}
     </>
   );
 };

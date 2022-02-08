@@ -9,23 +9,29 @@ import AddTransactionModal from "./AddTransactionModal";
 import { PreferencesContext } from "../Contexts";
 
 // Types
-import { TransactionType } from "../types";
+import { TransactionType, Transaction, TransactionInput } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
 
 interface DebitTransactionsProps {
   type: TransactionType;
+  onEdit: (editingTransaction: Transaction) => void;
+  onAdd: (newTransaction: TransactionInput) => void;
 }
 
-const DebitTransactions: React.FC<DebitTransactionsProps> = ({ type }) => {
+const DebitTransactions: React.FC<DebitTransactionsProps> = ({
+  type,
+  onEdit,
+  onAdd,
+}) => {
   const [showAddModal, setShowAddModal] = React.useState(false);
 
   const { appLanguage } = React.useContext(PreferencesContext);
 
   return (
     <>
-      <TransactionsList type={type} />
+      <TransactionsList type={type} onEdit={onEdit} />
       <Center>
         <Button
           bg="primary.900"
@@ -38,6 +44,7 @@ const DebitTransactions: React.FC<DebitTransactionsProps> = ({ type }) => {
         </Button>
       </Center>
       <AddTransactionModal
+        onAdd={onAdd}
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         type={type}

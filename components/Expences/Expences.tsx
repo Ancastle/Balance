@@ -6,7 +6,7 @@ import { TabsHeader, DebitTransactions } from "../Shared";
 import CreditCard from "./CreditCard";
 
 // Contexts
-import { PreferencesContext } from "../Contexts";
+import { PreferencesContext, TransactionsContext } from "../Contexts";
 
 // Types
 import { Tab } from "../types";
@@ -16,6 +16,8 @@ import { LANGUAGES } from "../statics";
 
 const Expences: React.FC = () => {
   const { appLanguage } = React.useContext(PreferencesContext);
+  const { addTransaction, editTransaction } =
+    React.useContext(TransactionsContext);
 
   const tabs: Tab[] = [
     { key: "first", title: LANGUAGES.expence.tabs.debit[appLanguage] },
@@ -29,7 +31,13 @@ const Expences: React.FC = () => {
   return (
     <TabsHeader
       tabs={tabs}
-      firstRoute={<DebitTransactions type="expence" />}
+      firstRoute={
+        <DebitTransactions
+          type="expence"
+          onAdd={addTransaction}
+          onEdit={editTransaction}
+        />
+      }
       secondRoute={<CreditCard />}
       thirdRoute={<Center flex={1}>2</Center>}
     />
