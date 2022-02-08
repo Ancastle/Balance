@@ -7,24 +7,20 @@ import { AddTransactionModal, TransactionsList } from "../../Shared";
 // Contexts
 import { PreferencesContext } from "../../Contexts";
 
-// Types
-import { TransactionType } from "../../types";
-
 // Utils
 import { LANGUAGES } from "../../statics";
+import CreditCardTransactionsList from "./CreditCardTransactionsList";
 
-interface DebitTransactionsProps {
-  type: TransactionType;
-}
+interface DebitTransactionsProps {}
 
-const CreditCardTransactions: React.FC<DebitTransactionsProps> = ({ type }) => {
+const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
   const [showAddModal, setShowAddModal] = React.useState(false);
 
   const { appLanguage } = React.useContext(PreferencesContext);
 
   return (
     <>
-      <TransactionsList type={type} />
+      <CreditCardTransactionsList />
       <Button
         bg="primary.900"
         bottom={5}
@@ -34,12 +30,7 @@ const CreditCardTransactions: React.FC<DebitTransactionsProps> = ({ type }) => {
       >
         {LANGUAGES.add[appLanguage]}
       </Button>
-      <AddTransactionModal
-        isOpen={showAddModal}
-        onClose={() => setShowAddModal(false)}
-        type={type}
-      />
     </>
   );
 };
-export default CreditCardTransactions;
+export default CreditCard;

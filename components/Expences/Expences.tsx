@@ -3,6 +3,7 @@ import { Center } from "native-base";
 
 // Components
 import { TabsHeader, DebitTransactions } from "../Shared";
+import CreditCard from "./CreditCard";
 
 // Contexts
 import { PreferencesContext } from "../Contexts";
@@ -18,14 +19,19 @@ const Expences: React.FC = () => {
 
   const tabs: Tab[] = [
     { key: "first", title: LANGUAGES.expence.tabs.debit[appLanguage] },
-    { key: "second", title: LANGUAGES.expence.tabs.debt[appLanguage] },
+    {
+      key: "second",
+      title: LANGUAGES.expence.tabs.creditCard.tabLabel[appLanguage],
+    },
+    { key: "third", title: LANGUAGES.expence.tabs.debt[appLanguage] },
   ];
 
   return (
     <TabsHeader
       tabs={tabs}
       firstRoute={<DebitTransactions type="expence" />}
-      secondRoute={<Center flex={1}>2</Center>}
+      secondRoute={<CreditCard />}
+      thirdRoute={<Center flex={1}>2</Center>}
     />
   );
 };

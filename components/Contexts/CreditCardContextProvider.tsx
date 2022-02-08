@@ -11,39 +11,39 @@ import { Transaction, TransactionInput } from "../types";
 // Statics
 import { STORAGE } from "../statics";
 
-export interface TransactionsContextProps {
-  transactions: Transaction[];
-  addTransaction: (newTransaction: TransactionInput) => void;
-  editTransaction: (editingTransaction: Transaction) => void;
-  totalBalance: number;
+export interface CreditCardContextProps {
+  ccTransactions: Transaction[];
+  addCCTransaction: (newTransaction: TransactionInput) => void;
+  editCCTransaction: (editingTransaction: Transaction) => void;
+  totalDebt: number;
 }
 
-const TransactionsContext = React.createContext<TransactionsContextProps>({
-  transactions: [],
-  addTransaction: () => "onAddTransaction",
-  editTransaction: () => "onEditTransaction",
-  totalBalance: 0,
+const CreditCardContext = React.createContext<CreditCardContextProps>({
+  ccTransactions: [],
+  addCCTransaction: () => "onAddTransaction",
+  editCCTransaction: () => "onEditTransaction",
+  totalDebt: 0,
 });
 
-const TransactionsContextProvider: React.FC = ({ children }) => {
-  const [transactions, setTransactions] = React.useState<Transaction[]>([]);
+const CreditCardContextProvider: React.FC = ({ children }) => {
+  const [ccTransactions, setCcTransactions] = React.useState<Transaction[]>([]);
   const [hasFetchedTransactions, setHasFetchedTransactions] =
     React.useState(false);
 
   const fetchTransactions = React.useCallback(async () => {
     try {
-      const value = await AsyncStorage.getItem(STORAGE.transactions);
+      const value = await AsyncStorage.getItem(STORAGE.ccTransactions);
       if (value) {
         const parsed = JSON.parse(value);
-        setTransactions(parsed.transactions);
+        setCcTransactions(parsed.transactions);
         setHasFetchedTransactions(true);
       }
     } catch (e) {
-      console.log("Error: Could fetch transactions data");
+      console.log("Error: Could fetch CC transactions data");
     }
   }, []);
 
-  const addTransaction = React.useCallback(
+  const addCCTransaction = React.useCallback(
     async (newTransaction: TransactionInput) => {
       try {
         const date = new Date();
@@ -53,21 +53,21 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
           day: { day: date.getDate(), month: date.getMonth() + 1 },
           hour: { hour: date.getHours(), minutes: date.getMinutes() },
         };
-        const newTransactions = [transaction, ...transactions];
-        setTransactions(newTransactions);
+        const newTransactions = [transaction, ...ccTransactions];
+        setCcTransactions(newTransactions);
         const jsonValue = JSON.stringify({ transactions: newTransactions });
-        await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
+        await AsyncStorage.setItem(STORAGE.ccTransactions, jsonValue);
       } catch (e) {
-        console.log("Error: Could not store to transactions data");
+        console.log("Error: Could not store to CC transactions data");
       }
     },
-    [transactions]
+    [ccTransactions]
   );
 
-  const editTransaction = React.useCallback(
+  const editCCTransaction = React.useCallback(
     async (editingTransaction: Transaction) => {
       try {
-        const newTransactions = transactions.map((t) => {
+        const newTransactions = ccTransactions.map((t) => {
           if (t.id === editingTransaction.id) {
             return {
               ...t,
@@ -79,19 +79,19 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
             return t;
           }
         });
-        setTransactions(newTransactions);
+        setCcTransactions(newTransactions);
         const jsonValue = JSON.stringify({ transactions: newTransactions });
-        await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
+        await AsyncStorage.setItem(STORAGE.ccTransactions, jsonValue);
       } catch (e) {
-        console.log("Error: Could not store to transactions data");
+        console.log("Error: Could not store to CC transactions data");
       }
     },
-    [transactions]
+    [ccTransactions]
   );
 
-  const totalBalance = React.useMemo(
-    () => calculateTotal(transactions, "entry"),
-    [transactions]
+  const totalDebt = React.useMemo(
+    () => calculateTotal(ccTransactions, "expence"),
+    [ccTransactions]
   );
 
   React.useEffect(() => {
@@ -101,17 +101,17 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <TransactionsContext.Provider
+    <CreditCardContext.Provider
       value={{
-        transactions,
-        addTransaction,
-        editTransaction,
-        totalBalance,
+        ccTransactions,
+        addCCTransaction,
+        editCCTransaction,
+        totalDebt,
       }}
     >
       {children}
-    </TransactionsContext.Provider>
+    </CreditCardContext.Provider>
   );
 };
 
-export { TransactionsContextProvider, TransactionsContext };
+export { CreditCardContextProvider, CreditCardContext };

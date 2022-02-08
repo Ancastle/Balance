@@ -10,12 +10,14 @@ interface TabsHeaderProps {
   tabs: Tab[];
   firstRoute: React.ReactElement;
   secondRoute: React.ReactElement;
+  thirdRoute?: React.ReactElement;
 }
 
 const TabsHeader: React.FC<TabsHeaderProps> = ({
   tabs,
   firstRoute,
   secondRoute,
+  thirdRoute,
 }) => {
   const [index, setIndex] = React.useState(0);
 
@@ -26,6 +28,7 @@ const TabsHeader: React.FC<TabsHeaderProps> = ({
   const renderScene = SceneMap({
     first: () => firstRoute,
     second: () => secondRoute,
+    third: () => thirdRoute || null,
   });
 
   const renderTabBar = (props: any) => {

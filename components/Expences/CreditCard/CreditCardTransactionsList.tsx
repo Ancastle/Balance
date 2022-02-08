@@ -10,38 +10,38 @@ import {
 } from "native-base";
 
 // Components
-import EditTransactionModal from "./EditTransactionModal";
+// import ReviewTransactionModal from "./EditTransactionModal";
 
 // Contexts
-import { TransactionsContext, PreferencesContext } from "../Contexts";
+import { CreditCardContext, PreferencesContext } from "../../Contexts";
 
 // Types
-import { Transaction, TransactionType } from "../types";
+import { Transaction, TransactionType } from "../../types";
 
 // Utils
-import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../utils";
-import { LANGUAGES } from "../statics";
+import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../../utils";
+import { LANGUAGES } from "../../statics";
 
-interface TransactionsListProps {
-  type: TransactionType;
-}
-
-const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
-  const { transactions } = React.useContext(TransactionsContext);
+const CreditCardTransactionsList: React.FC = () => {
+  const { ccTransactions, totalDebt } = React.useContext(CreditCardContext);
   const { appLanguage } = React.useContext(PreferencesContext);
+
+  const TYPE = "expence";
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();
 
   const showingTransactions = React.useMemo(
-    () => transactions.filter((transaction) => transaction.type === type),
-    [transactions, type]
+    () => ccTransactions.filter((transaction) => transaction.type === TYPE),
+    [ccTransactions, TYPE]
   );
 
   const data = React.useMemo(
     () => [
       {
-        title: LANGUAGES[type].debitLabels[appLanguage],
+        title: `${
+          LANGUAGES.expence.tabs.creditCard.debt[appLanguage]
+        }: ${makeCurrencyFormat(totalDebt)}`,
         data: showingTransactions,
       },
     ],
@@ -92,16 +92,16 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ type }) => {
           </Center>
         )}
       />
-      {!!transaction && (
-        <EditTransactionModal
+      {/* {!!transaction && (
+        <ReviewTransactionModal
           isOpen={showViewModal}
           onClose={() => setShowViewModal(false)}
           transaction={transaction}
           type={type}
         />
-      )}
+      )} */}
     </>
   );
 };
 
-export default TransactionsList;
+export default CreditCardTransactionsList;

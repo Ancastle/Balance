@@ -3,7 +3,7 @@ import { Button, Center } from "native-base";
 
 // Components
 import TransactionsList from "./TransactionsList";
-import { AddTransactionModal } from "../Shared";
+import AddTransactionModal from "./AddTransactionModal";
 
 // Contexts
 import { PreferencesContext } from "../Contexts";

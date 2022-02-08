@@ -22,7 +22,12 @@ export const LANGUAGES = {
   expence: {
     tabs: {
       debit: ["Debits", "Débitos"],
-      debt: ["Pending debts", "Deudas pendientes"],
+      debt: ["Pending debts", "Deudas"],
+      creditCard: {
+        tabLabel: ["Credit Card", "Tarjeta Crédito"],
+        debt: ["Total debt", "Deuda total"],
+        remaining: ["Remaining balance", "Saldo restante"],
+      },
     },
     debitLabels: ["Debit Expences", "Egresos a Débito"],
     adding: ["Adding expence", "Agregando egreso"],
@@ -100,6 +105,7 @@ export const STORAGE = {
   transactions: "FAppTransactions",
   categories: "FAppCategories",
   preferences: "FAppPreferences",
+  ccTransactions: "FAppCCTransactions",
 };
 
 export const INITIAL_CATEGORIES: CategoryType[] = [
