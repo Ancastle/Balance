@@ -4,6 +4,7 @@ import { Button, Center } from "native-base";
 // Components
 import { AddTransactionModal } from "../../Shared";
 import CreditCardTransactionsList from "./CreditCardTransactionsList";
+import PayCreditCardModal from "./PayCreditCardModal";
 
 // Contexts
 import { PreferencesContext, CreditCardContext } from "../../Contexts";
@@ -50,6 +51,10 @@ const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         type="expence"
+      />
+      <PayCreditCardModal
+        onClose={() => setShowPayModal(false)}
+        isOpen={showPayModal}
       />
     </>
   );

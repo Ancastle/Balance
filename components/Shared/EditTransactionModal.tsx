@@ -23,7 +23,7 @@ import { Transaction, TransactionType } from "../types";
 // Utils
 import { LANGUAGES } from "../statics";
 
-interface ReviewTransactionModalProps {
+interface EditTransactionModalProps {
   isOpen: boolean;
   transaction: Transaction;
   type: TransactionType;
@@ -31,7 +31,7 @@ interface ReviewTransactionModalProps {
   onEdit: (editingTransaction: Transaction) => void;
 }
 
-const EditTransactionModal: React.FC<ReviewTransactionModalProps> = ({
+const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
   isOpen,
   onClose,
   type,
