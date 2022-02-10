@@ -7,21 +7,19 @@ import {
   Icon,
   Select,
   CheckIcon,
+  Text,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
 //Contexts
-import {
-  TransactionsContext,
-  CategoriesContext,
-  PreferencesContext,
-} from "../Contexts";
+import { CategoriesContext, PreferencesContext } from "../Contexts";
 
 //Types
 import { Transaction, TransactionType } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
+import { makeDoubleDigit } from "../utils";
 
 interface EditTransactionModalProps {
   isOpen: boolean;
@@ -136,6 +134,15 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
             ))}
           </Select>
         </Modal.Body>
+        <Text ml={5} mb={4}>
+          {`${LANGUAGES.date[appLanguage]} (dd/mm): ${makeDoubleDigit(
+            transaction.day.day
+          )}/${makeDoubleDigit(transaction.day.month)} \n${
+            LANGUAGES.hour[appLanguage]
+          } : ${makeDoubleDigit(transaction.hour.hour)}:${makeDoubleDigit(
+            transaction.hour.minutes
+          )}`}
+        </Text>
         <Modal.Footer>
           <Button.Group space={2}>
             <Button

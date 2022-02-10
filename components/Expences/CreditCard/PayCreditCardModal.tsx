@@ -23,13 +23,18 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
   onClose,
 }) => {
   const { appLanguage } = React.useContext(PreferencesContext);
-  const { totalDebt } = React.useContext(CreditCardContext);
-  const { totalBalance, addCCPayment } = React.useContext(TransactionsContext);
+  const { totalDebt, payCC } = React.useContext(CreditCardContext);
+  const { totalBalance } = React.useContext(TransactionsContext);
 
   const [value, setValue] = React.useState("");
   const [radio, setRadio] = React.useState("");
 
-  const handleSubmit = React.useCallback((amount = totalDebt) => {}, []);
+  const handleSubmit = React.useCallback(
+    (amount) => {
+      payCC(amount);
+    },
+    [payCC]
+  );
 
   const resetValues = React.useCallback(() => {
     setValue("");

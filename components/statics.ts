@@ -1,6 +1,8 @@
 import { CategoryType, Preferences } from "./types";
 
 export const LANGUAGES = {
+  date: ["Date", "Fecha"],
+  hour: ["Hour", "Hora"],
   cancel: ["Cancel", "Cancelar"],
   add: ["Add", "Agregar"],
   delete: ["Delete", "Eliminar"],

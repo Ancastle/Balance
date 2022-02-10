@@ -16,8 +16,7 @@ interface DebitTransactionsProps {}
 
 const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
   const { appLanguage } = React.useContext(PreferencesContext);
-  const { addCCTransaction, editCCTransaction } =
-    React.useContext(CreditCardContext);
+  const { addCCTransaction, totalDebt } = React.useContext(CreditCardContext);
 
   const [showAddModal, setShowAddModal] = React.useState(false);
   const [showPayModal, setShowPayModal] = React.useState(false);
@@ -42,6 +41,7 @@ const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
           width="350"
           height="50"
           onPress={() => setShowPayModal(true)}
+          isDisabled={totalDebt == 0}
         >
           {LANGUAGES.pay[appLanguage]}
         </Button>
