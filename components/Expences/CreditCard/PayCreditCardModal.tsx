@@ -24,17 +24,30 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
 }) => {
   const { appLanguage } = React.useContext(PreferencesContext);
   const { totalDebt } = React.useContext(CreditCardContext);
-  const { totalBalance } = React.useContext(TransactionsContext);
+  const { totalBalance, addCCPayment } = React.useContext(TransactionsContext);
 
   const [value, setValue] = React.useState("");
   const [radio, setRadio] = React.useState("");
 
-  const handleSubmit = React.useCallback(() => {}, []);
+  const handleSubmit = React.useCallback((amount = totalDebt) => {}, []);
+
+  const resetValues = React.useCallback(() => {
+    setValue("");
+    setRadio("");
+  }, []);
 
   const isSaveDisabled = React.useMemo(
-    () => radio === "two" && parseInt(value, 10) > totalBalance,
+    () =>
+      (radio === "two" && parseInt(value, 10) > totalBalance) ||
+      radio === "" ||
+      (radio === "two" && value === "") ||
+      (radio === "two" && parseInt(value, 10) > totalDebt),
     [radio, totalBalance, value]
   );
+
+  React.useEffect(() => {
+    radio === "one" ? setValue(totalDebt.toString()) : setValue("");
+  }, [radio]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -59,14 +72,16 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
             </Radio>
             <Radio value="two" my={1}>
               {`${LANGUAGES.expence.tabs.creditCard.otherValue[appLanguage]} ${
-                totalBalance < totalDebt &&
-                `(Max. ${makeCurrencyFormat(totalBalance)})`
+                totalBalance < totalDebt
+                  ? `(Max. ${makeCurrencyFormat(totalBalance)})`
+                  : ""
               }`}
             </Radio>
           </Radio.Group>
           {radio === "two" && (
             <FormControl>
               <Input
+                isInvalid={parseInt(value, 10) > totalDebt}
                 InputLeftElement={
                   <Icon
                     as={<MaterialIcons name="attach-money" />}
@@ -82,6 +97,7 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
                 onChangeText={setValue}
                 keyboardType="numeric"
               />
+              <FormControl.ErrorMessage />
             </FormControl>
           )}
         </Modal.Body>
@@ -91,12 +107,16 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
               variant="ghost"
               colorScheme="blueGray"
               onPress={() => {
+                resetValues();
                 onClose();
               }}
             >
               {LANGUAGES.cancel[appLanguage]}
             </Button>
-            <Button onPress={handleSubmit} isDisabled={isSaveDisabled}>
+            <Button
+              onPress={() => handleSubmit(value)}
+              isDisabled={isSaveDisabled}
+            >
               {LANGUAGES.save[appLanguage]}
             </Button>
           </Button.Group>

@@ -15,6 +15,7 @@ export interface TransactionsContextProps {
   transactions: Transaction[];
   addTransaction: (newTransaction: TransactionInput) => void;
   editTransaction: (editingTransaction: Transaction) => void;
+  addCCPayment: (transactions: Transaction[]) => void;
   totalBalance: number;
 }
 
@@ -22,6 +23,7 @@ const TransactionsContext = React.createContext<TransactionsContextProps>({
   transactions: [],
   addTransaction: () => "onAddTransaction",
   editTransaction: () => "onEditTransaction",
+  addCCPayment: () => "addCCPayment",
   totalBalance: 0,
 });
 
@@ -89,6 +91,21 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
     [transactions]
   );
 
+  const addCCPayment = React.useCallback(
+    async (ccPayment: Transaction[]) => {
+      try {
+        console.log(ccPayment);
+        const newTransactions = [...ccPayment, ...transactions];
+        setTransactions(newTransactions);
+        const jsonValue = JSON.stringify({ transactions: newTransactions });
+        await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
+      } catch (e) {
+        console.log("Error: Could not store to transactions data");
+      }
+    },
+    [transactions]
+  );
+
   const totalBalance = React.useMemo(
     () => calculateTotal(transactions, "entry"),
     [transactions]
@@ -106,6 +123,7 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
         transactions,
         addTransaction,
         editTransaction,
+        addCCPayment,
         totalBalance,
       }}
     >
