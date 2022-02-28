@@ -17,8 +17,8 @@ const Home: React.FC = () => {
   const { appLanguage } = React.useContext(PreferencesContext);
 
   const tabs: Tab[] = [
-    { key: "first", title: LANGUAGES.expence.tabs.debit[appLanguage] },
-    { key: "second", title: LANGUAGES.expence.tabs.debt[appLanguage] },
+    { key: "first", title: LANGUAGES.home.tabs.home[appLanguage] },
+    { key: "second", title: LANGUAGES.home.tabs.history[appLanguage] },
   ];
   return (
     <TabsHeader

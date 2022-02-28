@@ -22,6 +22,9 @@ export const LANGUAGES = {
     balance: ["Balance", "Balance"],
     settings: ["Settings", "Opciones"],
   },
+  home: {
+    tabs: { home: ["Home", "Inicio"], history: ["History", "Historial"] },
+  },
   expence: {
     tabs: {
       debit: ["Debits", "Débitos"],
@@ -41,10 +44,9 @@ export const LANGUAGES = {
   },
   entry: {
     tabs: {
-      debit: ["Debits", "Débitos"],
-      loans: ["Pending loans", "Prestamos pendientes"],
+      debit: ["Entries", "Ingresos"],
     },
-    debitLabels: ["Debit Entries", "Ingresos a Débito"],
+    debitLabels: ["Entries", "Ingresos"],
     adding: ["Adding entry", "Agregando ingreso"],
   },
   balance: {
@@ -113,6 +115,7 @@ export const STORAGE = {
   categories: "FAppCategories",
   preferences: "FAppPreferences",
   ccTransactions: "FAppCCTransactions",
+  people: "FAppPeople",
 };
 
 export const INITIAL_CATEGORIES: CategoryType[] = [

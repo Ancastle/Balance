@@ -19,10 +19,7 @@ const Entries: React.FC = () => {
     React.useContext(TransactionsContext);
 
   const tabs: Tab[] = React.useMemo(
-    () => [
-      { key: "first", title: LANGUAGES.entry.tabs.debit[appLanguage] },
-      { key: "second", title: LANGUAGES.entry.tabs.loans[appLanguage] },
-    ],
+    () => [{ key: "first", title: LANGUAGES.entry.tabs.debit[appLanguage] }],
     [appLanguage]
   );
 
@@ -36,7 +33,6 @@ const Entries: React.FC = () => {
           onEdit={editTransaction}
         />
       }
-      secondRoute={<Center flex={1}>2</Center>}
     />
   );
 };

@@ -9,7 +9,7 @@ import { Tab } from "../types";
 interface TabsHeaderProps {
   tabs: Tab[];
   firstRoute: React.ReactElement;
-  secondRoute: React.ReactElement;
+  secondRoute?: React.ReactElement;
   thirdRoute?: React.ReactElement;
 }
 
@@ -27,7 +27,7 @@ const TabsHeader: React.FC<TabsHeaderProps> = ({
 
   const renderScene = SceneMap({
     first: () => firstRoute,
-    second: () => secondRoute,
+    second: () => secondRoute || null,
     third: () => thirdRoute || null,
   });
 

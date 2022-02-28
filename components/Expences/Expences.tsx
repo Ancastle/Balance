@@ -25,7 +25,6 @@ const Expences: React.FC = () => {
       key: "second",
       title: LANGUAGES.expence.tabs.creditCard.tabLabel[appLanguage],
     },
-    { key: "third", title: LANGUAGES.expence.tabs.debt[appLanguage] },
   ];
 
   return (
@@ -39,7 +38,6 @@ const Expences: React.FC = () => {
         />
       }
       secondRoute={<CreditCard />}
-      thirdRoute={<Center flex={1}>2</Center>}
     />
   );
 };

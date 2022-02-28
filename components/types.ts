@@ -19,6 +19,12 @@ export interface CategoryType {
   type: string;
 }
 
+export interface Person {
+  id: UuId;
+  name: string;
+  value: string;
+}
+
 export interface TransactionInput {
   name: string;
   type: TransactionType;
