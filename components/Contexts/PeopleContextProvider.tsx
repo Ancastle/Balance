@@ -13,6 +13,7 @@ export interface PeopleContextProps {
   addPerson: (personName: string) => void;
   editPerson: (newPersonName: string, personId: UuId) => void;
   deletePerson: (personId: UuId) => void;
+  addTransaction: (personId: UuId, value: number, whoPays: string) => void;
 }
 
 const PeopleContext = React.createContext<PeopleContextProps>({
@@ -20,6 +21,7 @@ const PeopleContext = React.createContext<PeopleContextProps>({
   addPerson: () => "addPerson",
   editPerson: () => "editPerson",
   deletePerson: () => "deletePerson",
+  addTransaction: () => "addTransaction",
 });
 
 const PeopleContextProvider: React.FC = ({ children }) => {
@@ -54,7 +56,14 @@ const PeopleContextProvider: React.FC = ({ children }) => {
             value: "0",
           },
         ];
-        setPeople(newPeople);
+        setPeople((prevState) => [
+          ...prevState,
+          {
+            name: personName,
+            id: uuid.v4(),
+            value: "0",
+          },
+        ]);
         const jsonValue = JSON.stringify({ people: newPeople });
         await AsyncStorage.setItem(STORAGE.people, jsonValue);
       } catch (e) {
@@ -90,7 +99,31 @@ const PeopleContextProvider: React.FC = ({ children }) => {
         const newPeople = people.filter((person) => person.id !== personId);
         setPeople(newPeople);
         const jsonValue = JSON.stringify({ people: newPeople });
-        await AsyncStorage.setItem(STORAGE.categories, jsonValue);
+        await AsyncStorage.setItem(STORAGE.people, jsonValue);
+      } catch (e) {
+        console.log("Error: Could not store to people data");
+      }
+    },
+    [people]
+  );
+
+  const addTransaction = React.useCallback(
+    async (personId: UuId, value: number, whoPays: string) => {
+      try {
+        const newPeople = people.map((person) =>
+          person.id === personId
+            ? {
+                ...person,
+                value:
+                  whoPays === "me"
+                    ? (parseInt(person.value, 10) + value).toString()
+                    : (parseInt(person.value, 10) - value).toString(),
+              }
+            : person
+        );
+        setPeople(newPeople);
+        const jsonValue = JSON.stringify({ people: newPeople });
+        await AsyncStorage.setItem(STORAGE.people, jsonValue);
       } catch (e) {
         console.log("Error: Could not store to people data");
       }
@@ -111,6 +144,7 @@ const PeopleContextProvider: React.FC = ({ children }) => {
         addPerson,
         editPerson,
         deletePerson,
+        addTransaction,
       }}
     >
       {children}

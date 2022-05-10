@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Center } from "native-base";
 
 // Components
 import { TabsHeader } from "../Shared";
 import BalanceTransactionsList from "./BalanceTransactionsList";
+import DebtsLoans from "./DebtsLoans";
 
 // Contexts
 import { PreferencesContext } from "../Contexts";
@@ -20,7 +20,10 @@ const Balance: React.FC = () => {
   const tabs: Tab[] = React.useMemo(
     () => [
       { key: "first", title: LANGUAGES.balance.tabs.balance[appLanguage] },
-      { key: "second", title: LANGUAGES.expence.tabs.debt[appLanguage] },
+      {
+        key: "second",
+        title: LANGUAGES.balance.tabs.debtsLoans.tabLabel[appLanguage],
+      },
     ],
     [appLanguage]
   );
@@ -29,7 +32,7 @@ const Balance: React.FC = () => {
     <TabsHeader
       tabs={tabs}
       firstRoute={<BalanceTransactionsList />}
-      secondRoute={<Center flex={1}>2</Center>}
+      secondRoute={<DebtsLoans />}
     />
   );
 };

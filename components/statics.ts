@@ -52,6 +52,28 @@ export const LANGUAGES = {
   balance: {
     tabs: {
       balance: ["Balance", "Balance"],
+      debtsLoans: {
+        tabLabel: ["Debts/Loans", "Deudas/Prestamos"],
+        addPersonButton: ["Add person", "Agregar persona"],
+        removePerson: ["Remove person", "Eliminar persona"],
+        addTransaction: ["Add transaction", "Agregar transacción"],
+        addingPersonButton: ["Adding  person", "Agregando persona"],
+        addingTransaction: ["Adding transaction", "Agregando transacción"],
+        selectAPerson: ["Select a person", "Selecciona una persona"],
+        selectWhoPays: ["Select who pays", "Selecciona quien paga"],
+        transactionMe: ["Me", "Yo"],
+        addingPerson: ["Adding person", "Agregando persona"],
+        isCash: ["In cash", "En efectivo"],
+        nameTaken: [
+          "There's already a person with that name",
+          "Ya hay una persona con ese nombre",
+        ],
+        valueError: [
+          "You can only delete people with 0 balance",
+          "Solo se puede borrar personas con saldo 0",
+        ],
+        deletingPerson: ["Removing person", "Eliminando persona"],
+      },
     },
   },
   settings: {

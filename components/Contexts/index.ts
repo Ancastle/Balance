@@ -15,3 +15,4 @@ export {
   CreditCardContextProvider,
   CreditCardContext,
 } from "./CreditCardContextProvider";
+export { PeopleContextProvider, PeopleContext } from "./PeopleContextProvider";

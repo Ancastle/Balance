@@ -11,6 +11,7 @@ import {
   TransactionsContextProvider,
   PreferencesContextProvider,
   CreditCardContextProvider,
+  PeopleContextProvider,
 } from "./components/Contexts";
 
 export default function App() {
@@ -20,9 +21,11 @@ export default function App() {
         <CategoriesContextProvider>
           <PreferencesContextProvider>
             <CreditCardContextProvider>
-              <Box flex={1} bg="white">
-                <AppRouter />
-              </Box>
+              <PeopleContextProvider>
+                <Box flex={1} bg="white">
+                  <AppRouter />
+                </Box>
+              </PeopleContextProvider>
             </CreditCardContextProvider>
           </PreferencesContextProvider>
         </CategoriesContextProvider>
