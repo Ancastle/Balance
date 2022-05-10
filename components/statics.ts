@@ -72,7 +72,13 @@ export const LANGUAGES = {
           "You can only delete people with 0 balance",
           "Solo se puede borrar personas con saldo 0",
         ],
+        moneyExceeded: [
+          "Your account does not have that much money",
+          "Tu cuenta no tiene suficiente dinero",
+        ],
         deletingPerson: ["Removing person", "Eliminando persona"],
+        paysToYou: ["pays you", "te paga"],
+        youPayTo: ["You pay to", "Pagas a"],
       },
     },
   },

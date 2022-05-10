@@ -13,7 +13,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import { PreferencesContext } from "../../Contexts";
+import { PreferencesContext, TransactionsContext } from "../../Contexts";
 
 // Types
 import { Person } from "../../types";
@@ -35,6 +35,8 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   person,
 }) => {
   const { appLanguage } = React.useContext(PreferencesContext);
+  const { addTransaction, totalBalance } =
+    React.useContext(TransactionsContext);
 
   const [whoPays, setWhoPays] = React.useState("");
   const [amount, setAmount] = React.useState("");
@@ -46,17 +48,38 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   }, []);
 
   const isSaveDisabled = React.useMemo(
-    () => !amount || !whoPays || !person,
+    () =>
+      !amount ||
+      !whoPays ||
+      !person ||
+      (whoPays === "me" && parseInt(amount, 10) > totalBalance),
     [amount, whoPays, person]
   );
 
   const handleSave = React.useCallback(() => {
     if (person) {
       onTransaction(person, amount, whoPays);
+      if (!isCash) {
+        if (whoPays === "me") {
+          addTransaction({
+            name: `${LANGUAGES.balance.tabs.debtsLoans.youPayTo[appLanguage]} ${person.name}`,
+            type: "expence",
+            value: amount,
+            categoryId: "expence0",
+          });
+        } else {
+          addTransaction({
+            name: `${person.name} ${LANGUAGES.balance.tabs.debtsLoans.paysToYou[appLanguage]}`,
+            type: "entry",
+            value: amount,
+            categoryId: "entry0",
+          });
+        }
+      }
       resetModal();
       onClose();
     }
-  }, [whoPays, amount, person]);
+  }, [whoPays, amount, person, isCash]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -109,6 +132,11 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
               isDisabled={!person}
             />
           </FormControl>
+          {parseInt(amount) > totalBalance && !isCash && (
+            <Text bold>
+              {LANGUAGES.balance.tabs.debtsLoans.moneyExceeded[appLanguage]}
+            </Text>
+          )}
           <Checkbox
             value=""
             isChecked={isCash}
