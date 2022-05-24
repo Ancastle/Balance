@@ -23,7 +23,11 @@ export const LANGUAGES = {
     settings: ["Settings", "Opciones"],
   },
   home: {
-    tabs: { home: ["Home", "Inicio"], history: ["History", "Historial"] },
+    tabs: {
+      home: ["Home", "Inicio"],
+      history: ["History", "Historial"],
+      charts: ["Graphs", "Gráficos"],
+    },
   },
   expence: {
     tabs: {

@@ -132,7 +132,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
               isDisabled={!person}
             />
           </FormControl>
-          {parseInt(amount) > totalBalance && !isCash && (
+          {parseInt(amount) > totalBalance && !isCash && whoPays === "me" && (
             <Text bold>
               {LANGUAGES.balance.tabs.debtsLoans.moneyExceeded[appLanguage]}
             </Text>

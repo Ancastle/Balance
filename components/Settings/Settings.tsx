@@ -21,11 +21,11 @@ const Settings: React.FC = () => {
     () => [
       {
         key: "first",
-        title: LANGUAGES.settings.tabs.categories.tabLabel[appLanguage],
+        title: LANGUAGES.settings.tabs.preferences.tabLabel[appLanguage],
       },
       {
         key: "second",
-        title: LANGUAGES.settings.tabs.preferences.tabLabel[appLanguage],
+        title: LANGUAGES.settings.tabs.categories.tabLabel[appLanguage],
       },
     ],
     [appLanguage]
@@ -34,8 +34,8 @@ const Settings: React.FC = () => {
   return (
     <TabsHeader
       tabs={tabs}
-      firstRoute={<CategoriesSettings />}
-      secondRoute={<PreferencesSettings />}
+      firstRoute={<PreferencesSettings />}
+      secondRoute={<CategoriesSettings />}
     />
   );
 };
