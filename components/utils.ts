@@ -1,5 +1,6 @@
 /// Types
 import { Transaction } from "./types";
+import { LANGUAGES } from "./statics";
 
 export const makeDoubleDigit = (number: number) => {
   if (number.toString().length === 1) {
@@ -26,4 +27,21 @@ export const calculateTotal = (
       return total - parseInt(transaction.value);
     }
   }, 0);
+};
+
+export const getLastMonths = (
+  actualMonth: number,
+  language: number,
+  numberOfMonths: number
+) => {
+  const MONTHS = LANGUAGES.months;
+  const lastXMonths = [];
+  for (let index = actualMonth; lastXMonths.length < numberOfMonths; index--) {
+    if (index >= 0) {
+      lastXMonths.push(MONTHS[language][index]);
+    } else {
+      lastXMonths.push(MONTHS[language][12 + index]);
+    }
+  }
+  return lastXMonths.reverse();
 };

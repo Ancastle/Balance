@@ -35,6 +35,7 @@ export interface TransactionInput {
 export interface TransactionDay {
   day: number;
   month: number;
+  year: number;
 }
 
 export interface TransactionHour {

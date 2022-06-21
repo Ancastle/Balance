@@ -13,14 +13,15 @@ import {
 import ChangeLanguageModal from "./ChangeLanguageModal";
 
 // Contexts
-import { PreferencesContext } from "../../Contexts";
+import { PreferencesContext, TransactionsContext } from "../../Contexts";
 
 // Utils
 import { isEven } from "../../utils";
-import { LANGUAGES } from "../../statics";
+import { LANGUAGES, DEVONLYTestingRecords } from "../../statics";
 
 const PreferencesSettings: React.FC = () => {
   const { appLanguage } = React.useContext(PreferencesContext);
+  const { settTransactions } = React.useContext(TransactionsContext);
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
 
@@ -33,7 +34,11 @@ const PreferencesSettings: React.FC = () => {
             name: LANGUAGES.settings.tabs.preferences.changeLanguage[
               appLanguage
             ],
-            set: setShowLanguageModal,
+            set: () => setShowLanguageModal(true),
+          },
+          {
+            name: LANGUAGES.DEVONLYsetTestingRecords[0],
+            set: () => settTransactions(DEVONLYTestingRecords),
           },
         ],
       },
@@ -57,7 +62,7 @@ const PreferencesSettings: React.FC = () => {
               <Pressable
                 py={1.5}
                 onPress={() => {
-                  item.set(true);
+                  item.set();
                 }}
               >
                 <Flex direction="row" py={1.5}>

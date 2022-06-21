@@ -17,6 +17,7 @@ export interface TransactionsContextProps {
   editTransaction: (editingTransaction: Transaction) => void;
   addCCPayment: (transactions: Transaction[]) => void;
   totalBalance: number;
+  settTransactions: (transactionss: Transaction[]) => void;
 }
 
 const TransactionsContext = React.createContext<TransactionsContextProps>({
@@ -25,6 +26,7 @@ const TransactionsContext = React.createContext<TransactionsContextProps>({
   editTransaction: () => "onEditTransaction",
   addCCPayment: () => "addCCPayment",
   totalBalance: 0,
+  settTransactions: () => "",
 });
 
 const TransactionsContextProvider: React.FC = ({ children }) => {
@@ -32,6 +34,10 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
   const [hasFetchedTransactions, setHasFetchedTransactions] =
     React.useState(false);
 
+  const settTransactions = React.useCallback(
+    (transactionss) => setTransactions(transactionss),
+    [transactions, setTransactions]
+  );
   const fetchTransactions = React.useCallback(async () => {
     try {
       const value = await AsyncStorage.getItem(STORAGE.transactions);
@@ -52,7 +58,11 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
         const transaction: Transaction = {
           ...newTransaction,
           id: uuid.v4(),
-          day: { day: date.getDate(), month: date.getMonth() + 1 },
+          day: {
+            day: date.getDate(),
+            month: date.getMonth() + 1,
+            year: date.getFullYear(),
+          },
           hour: { hour: date.getHours(), minutes: date.getMinutes() },
         };
         const newTransactions = [transaction, ...transactions];
@@ -94,7 +104,6 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
   const addCCPayment = React.useCallback(
     async (ccPayment: Transaction[]) => {
       try {
-        console.log(ccPayment);
         const newTransactions = [...ccPayment, ...transactions];
         setTransactions(newTransactions);
         const jsonValue = JSON.stringify({ transactions: newTransactions });
@@ -125,6 +134,7 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
         editTransaction,
         addCCPayment,
         totalBalance,
+        settTransactions,
       }}
     >
       {children}

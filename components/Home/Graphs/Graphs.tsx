@@ -1,74 +1,212 @@
 import * as React from "react";
-import { Center, View, Text } from "native-base";
-import { Dimensions } from "react-native";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
-
-// Components
+import { ScrollView, Center, Select, CheckIcon } from "native-base";
 
 // Contexts
-import { PreferencesContext, TransactionsContext } from "../../Contexts";
+import {
+  CategoriesContext,
+  PreferencesContext,
+  TransactionsContext,
+} from "../../Contexts";
 
-// Types
-import { Tab } from "../../types";
+// Components
+import { CategoriesLineChart } from "./CategoriesLineChart";
 
 // Utils
-import { LANGUAGES } from "../../statics";
+import { LANGUAGES, pastMonths } from "../../statics";
+import { getLastMonths } from "../../utils";
+import { MonthsPieChart } from "./MonthsPieChart";
 
 const Graphs: React.FC = () => {
+  const { transactions } = React.useContext(TransactionsContext);
+  const { categories } = React.useContext(CategoriesContext);
+  const { appLanguage } = React.useContext(PreferencesContext);
+  const [transactionType, setTransacctionType] = React.useState("");
+  const [monthOrCategory, setMonthOrCategory] = React.useState("");
+  const [categoryId, setCategoryId] = React.useState("");
+  const [periodRange, setPeriodRange] = React.useState("");
+  const [typeOfAnalysis, setTypeOfAnalysis] = React.useState("");
+  const [selectedMonth, setSelectedMonth] = React.useState("");
+
+  const selectedCategories = React.useMemo(
+    () => categories.filter((cat) => cat.type === transactionType),
+    [transactionType]
+  );
+
+  const chartOptions = React.useMemo(() => {
+    const options = [
+      { label: LANGUAGES.lineChart[appLanguage], value: "lineChart" },
+      { label: LANGUAGES.plainNumbers[appLanguage], value: "plainNumbers" },
+    ];
+    if (monthOrCategory === "byMonth") {
+      options.push({
+        label: LANGUAGES.pieChart[appLanguage],
+        value: "pieChart",
+      });
+    }
+    return options;
+  }, [monthOrCategory]);
+
+  const lastMonths = React.useMemo(() => {
+    const date = new Date();
+    return getLastMonths(
+      date.getMonth(),
+      appLanguage,
+      parseInt(periodRange, 10)
+    );
+  }, [periodRange]);
+
   return (
-    <View>
-      <Text>Bezier Line Chart</Text>
-      <LineChart
-        data={{
-          labels: ["January", "February", "March", "April", "May", "June"],
-          datasets: [
-            {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-              ],
-            },
-          ],
+    <Center>
+      <ScrollView
+        maxW="400"
+        h="80"
+        _contentContainerStyle={{
+          px: "10px",
+          mb: "4",
+          minW: "72",
+          minH: 100,
         }}
-        width={Dimensions.get("window").width} // from react-native
-        height={220}
-        yAxisLabel="$"
-        yAxisSuffix="k"
-        yAxisInterval={1} // optional, defaults to 1
-        chartConfig={{
-          backgroundColor: "#e26a00",
-          backgroundGradientFrom: "#fb8c00",
-          backgroundGradientTo: "#ffa726",
-          decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-          propsForDots: {
-            r: "6",
-            strokeWidth: "2",
-            stroke: "#ffa726",
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-    </View>
+      >
+        <Select
+          top={1}
+          selectedValue={transactionType}
+          minWidth="380"
+          placeholder={LANGUAGES.selectTransactionType[appLanguage]}
+          _selectedItem={{
+            bg: "teal.600",
+            endIcon: <CheckIcon size="5" />,
+          }}
+          mt={3}
+          onValueChange={(itemValue) => setTransacctionType(itemValue)}
+        >
+          <Select.Item
+            key={0}
+            label={LANGUAGES.expenceWord[appLanguage]}
+            value="expence"
+          />
+          <Select.Item
+            key={1}
+            label={LANGUAGES.entryWord[appLanguage]}
+            value="entry"
+          />
+        </Select>
+        {!!transactionType && (
+          <Select
+            selectedValue={monthOrCategory}
+            minWidth="200"
+            placeholder={LANGUAGES.graphWord[appLanguage]}
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={3}
+            onValueChange={(itemValue) => setMonthOrCategory(itemValue)}
+          >
+            <Select.Item
+              key={0}
+              label={LANGUAGES.byCategory[appLanguage]}
+              value="byCategory"
+            />
+            <Select.Item
+              key={1}
+              label={LANGUAGES.byMonth[appLanguage]}
+              value="byMonth"
+            />
+          </Select>
+        )}
+
+        {monthOrCategory === "byCategory" && (
+          <Select
+            selectedValue={categoryId}
+            minWidth="200"
+            placeholder={LANGUAGES.selectCategory[appLanguage]}
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={3}
+            onValueChange={(itemValue) => setCategoryId(itemValue)}
+          >
+            {selectedCategories.map((cat) => (
+              <Select.Item key={0} label={cat.name} value={cat.id.toString()} />
+            ))}
+          </Select>
+        )}
+        {((monthOrCategory === "byCategory" && !!categoryId) ||
+          monthOrCategory === "byMonth") && (
+          <Select
+            selectedValue={periodRange}
+            minWidth="200"
+            placeholder={LANGUAGES.selectARange[appLanguage]}
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={3}
+            onValueChange={(itemValue) => setPeriodRange(itemValue)}
+          >
+            {pastMonths.map((item, i) => (
+              <Select.Item
+                key={i}
+                label={LANGUAGES.lastMonths[appLanguage](item)}
+                value={item}
+              />
+            ))}
+          </Select>
+        )}
+        {!!periodRange && (
+          <Select
+            selectedValue={typeOfAnalysis}
+            minWidth="200"
+            placeholder={LANGUAGES.graphType[appLanguage]}
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={3}
+            onValueChange={(itemValue) => setTypeOfAnalysis(itemValue)}
+          >
+            {chartOptions.map((item, i) => (
+              <Select.Item key={i} label={item.label} value={item.value} />
+            ))}
+          </Select>
+        )}
+        {typeOfAnalysis === "pieChart" && (
+          <Select
+            selectedValue={selectedMonth}
+            minWidth="200"
+            placeholder={LANGUAGES.selectMonth[appLanguage]}
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={3}
+            onValueChange={(itemValue) => setSelectedMonth(itemValue)}
+          >
+            {lastMonths.map((item, i) => (
+              <Select.Item key={i} label={item} value={item} />
+            ))}
+          </Select>
+        )}
+        {monthOrCategory === "byCategory" && typeOfAnalysis === "lineChart" && (
+          <CategoriesLineChart
+            transactions={transactions}
+            transactionType={transactionType}
+            categoryId={categoryId}
+            lastMonths={lastMonths}
+          />
+        )}
+        {monthOrCategory === "byMonth" && typeOfAnalysis === "pieChart" && (
+          <MonthsPieChart
+            transactions={transactions}
+            transactionType={transactionType}
+            categoryId={categoryId}
+            selectedMonth={selectedMonth}
+            selectedCategories={selectedCategories}
+          />
+        )}
+      </ScrollView>
+    </Center>
   );
 };
 
