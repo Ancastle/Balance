@@ -1,5 +1,5 @@
 /// Types
-import { Transaction } from "./types";
+import { monthIdentifier, Transaction } from "./types";
 import { LANGUAGES } from "./statics";
 
 export const makeDoubleDigit = (number: number) => {
@@ -33,15 +33,41 @@ export const getLastMonths = (
   actualMonth: number,
   language: number,
   numberOfMonths: number
-) => {
+): monthIdentifier[] => {
   const MONTHS = LANGUAGES.months;
   const lastXMonths = [];
+  const date = new Date();
   for (let index = actualMonth; lastXMonths.length < numberOfMonths; index--) {
     if (index >= 0) {
-      lastXMonths.push(MONTHS[language][index]);
+      lastXMonths.push({
+        name: MONTHS[language][index],
+        year: date.getFullYear(),
+        index: index + 1,
+      });
     } else {
-      lastXMonths.push(MONTHS[language][12 + index]);
+      lastXMonths.push({
+        name: MONTHS[language][12 + index],
+        year: date.getFullYear() - 1,
+        index: 13 + index,
+      });
     }
   }
   return lastXMonths.reverse();
+};
+
+export const random_rgba = () => {
+  var o = Math.round,
+    r = Math.random,
+    s = 255;
+  return (
+    "rgba(" +
+    o(r() * s) +
+    "," +
+    o(r() * s) +
+    "," +
+    o(r() * s) +
+    "," +
+    r().toFixed(1) +
+    ")"
+  );
 };

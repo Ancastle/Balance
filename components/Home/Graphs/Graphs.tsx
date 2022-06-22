@@ -10,11 +10,13 @@ import {
 
 // Components
 import { CategoriesLineChart } from "./CategoriesLineChart";
+import { MonthsPieChart } from "./MonthsPieChart";
+import { MonthsLineChart } from "./MonthsLineChart";
 
 // Utils
 import { LANGUAGES, pastMonths } from "../../statics";
 import { getLastMonths } from "../../utils";
-import { MonthsPieChart } from "./MonthsPieChart";
+import { MonthsNumbers } from "./MonthNumbers";
 
 const Graphs: React.FC = () => {
   const { transactions } = React.useContext(TransactionsContext);
@@ -54,6 +56,10 @@ const Graphs: React.FC = () => {
       parseInt(periodRange, 10)
     );
   }, [periodRange]);
+
+  const fullSelectedMonth = React.useMemo(() => {
+    return lastMonths.find((i) => i.name === selectedMonth);
+  }, [lastMonths, selectedMonth]);
 
   return (
     <Center>
@@ -127,8 +133,8 @@ const Graphs: React.FC = () => {
             mt={3}
             onValueChange={(itemValue) => setCategoryId(itemValue)}
           >
-            {selectedCategories.map((cat) => (
-              <Select.Item key={0} label={cat.name} value={cat.id.toString()} />
+            {selectedCategories.map((cat, i) => (
+              <Select.Item key={i} label={cat.name} value={cat.id.toString()} />
             ))}
           </Select>
         )}
@@ -184,7 +190,7 @@ const Graphs: React.FC = () => {
             onValueChange={(itemValue) => setSelectedMonth(itemValue)}
           >
             {lastMonths.map((item, i) => (
-              <Select.Item key={i} label={item} value={item} />
+              <Select.Item key={i} label={item.name} value={item.name} />
             ))}
           </Select>
         )}
@@ -196,13 +202,29 @@ const Graphs: React.FC = () => {
             lastMonths={lastMonths}
           />
         )}
-        {monthOrCategory === "byMonth" && typeOfAnalysis === "pieChart" && (
-          <MonthsPieChart
+        {monthOrCategory === "byMonth" &&
+          typeOfAnalysis === "pieChart" &&
+          !!selectedMonth && (
+            <MonthsPieChart
+              transactions={transactions}
+              transactionType={transactionType}
+              selectedMonth={fullSelectedMonth}
+              selectedCategories={selectedCategories}
+            />
+          )}
+        {monthOrCategory === "byMonth" && typeOfAnalysis === "lineChart" && (
+          <MonthsLineChart
             transactions={transactions}
             transactionType={transactionType}
-            categoryId={categoryId}
-            selectedMonth={selectedMonth}
+            lastMonths={lastMonths}
             selectedCategories={selectedCategories}
+          />
+        )}
+        {monthOrCategory === "byMonth" && typeOfAnalysis === "plainNumbers" && (
+          <MonthsNumbers
+            transactions={transactions}
+            transactionType={transactionType}
+            lastMonths={lastMonths}
           />
         )}
       </ScrollView>

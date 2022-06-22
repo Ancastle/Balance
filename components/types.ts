@@ -52,3 +52,17 @@ export interface Transaction {
   day: TransactionDay;
   hour: TransactionHour;
 }
+
+export interface monthIdentifier {
+  name: string;
+  index: number;
+  year: number;
+}
+
+export interface monthData {
+  name: string;
+  year: number;
+  type: string;
+  transactions: Transaction[];
+  value: number;
+}

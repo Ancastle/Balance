@@ -5,6 +5,17 @@ export const LANGUAGES = {
     "Select a transaction type",
     "Selecciona el tipo de transacción",
   ],
+  numbersByMonth: [
+    (typeOfTransactions: string) => `Total of ${typeOfTransactions}s by month`,
+    (typeOfTransactions: string) =>
+      `Total de ${
+        typeOfTransactions === "expence" ? "egreso" : "ingreso"
+      }s por mes`,
+  ],
+  currentMonthModalTitle: [
+    (monthName: string) => `Totals by category in ${monthName}`,
+    (monthName: string) => `Total por categoría en ${monthName}`,
+  ],
   selectMonth: ["Select a month", "Selecciona un mes"],
   lineChart: ["Line chart", "Diagrama de lineas"],
   plainNumbers: ["Plain numbers", "Números"],
@@ -24,6 +35,20 @@ export const LANGUAGES = {
       `Historial de ${
         typeOfTransactions === "expence" ? "egreso" : "ingreso"
       }s para la categoria seleccionada`,
+  ],
+  monthLineChartTitle: [
+    (typeOfTransactions: string) => `History of ${typeOfTransactions}s`,
+    (typeOfTransactions: string) =>
+      `Historial de ${
+        typeOfTransactions === "expence" ? "egreso" : "ingreso"
+      }s`,
+  ],
+  pieChartTitle: [
+    (typeOfTransactions: string) => `Diagram of ${typeOfTransactions}s `,
+    (typeOfTransactions: string) =>
+      `Historial de ${
+        typeOfTransactions === "expence" ? "egreso" : "ingreso"
+      }s`,
   ],
   byCategory: ["By category", "Por categoría"],
   byMonth: ["By month", "Por mes"],

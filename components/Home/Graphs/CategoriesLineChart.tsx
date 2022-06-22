@@ -7,7 +7,7 @@ import { LineChart } from "react-native-chart-kit";
 import { PreferencesContext } from "../../Contexts";
 
 // Types
-import { Transaction } from "../../types";
+import { monthIdentifier, Transaction } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
@@ -17,7 +17,7 @@ interface CategoriesLineChartProps {
   transactions: Transaction[];
   transactionType: string;
   categoryId: string;
-  lastMonths: string[];
+  lastMonths: monthIdentifier[];
 }
 
 export const CategoriesLineChart: React.FC<CategoriesLineChartProps> = ({
@@ -28,24 +28,14 @@ export const CategoriesLineChart: React.FC<CategoriesLineChartProps> = ({
 }) => {
   const { appLanguage } = React.useContext(PreferencesContext);
 
-  const labels = React.useMemo(() => {
-    return lastMonths.map((item) => item.substring(0, 3).toUpperCase());
-  }, [lastMonths]);
-
   const data = React.useMemo(() => {
-    const date = new Date();
-    const thisYearOrPast = date.getFullYear() || date.getFullYear() - 1;
-    const monthsNumbers = lastMonths.map(
-      (item) =>
-        LANGUAGES.months[appLanguage].findIndex((month) => month === item) + 1
-    );
-    return monthsNumbers.map((item) =>
+    return lastMonths.map((item) =>
       transactions
         .filter(
           (i) =>
             i.categoryId.toString() === categoryId &&
-            i.day.month === item &&
-            i.day.year === thisYearOrPast
+            i.day.month === item.index &&
+            i.day.year === item.year
         )
         .reduce((accumulator, object) => {
           return accumulator + parseInt(object.value, 10);
@@ -60,7 +50,7 @@ export const CategoriesLineChart: React.FC<CategoriesLineChartProps> = ({
       </Text>
       <LineChart
         data={{
-          labels: labels,
+          labels: lastMonths.map((i) => i.name),
           datasets: [
             {
               data: data,

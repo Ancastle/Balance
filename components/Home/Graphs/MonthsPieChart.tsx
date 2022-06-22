@@ -7,17 +7,16 @@ import { PieChart } from "react-native-chart-kit";
 import { PreferencesContext } from "../../Contexts";
 
 // Types
-import { CategoryType, Transaction } from "../../types";
+import { CategoryType, monthIdentifier, Transaction } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
-import { getLastMonths } from "../../utils";
+import { random_rgba } from "../../utils";
 
 interface MonthsPieChartProps {
   transactions: Transaction[];
   transactionType: string;
-  categoryId: string;
-  selectedMonth: string;
+  selectedMonth?: monthIdentifier;
   selectedCategories: CategoryType[];
 }
 
@@ -25,37 +24,11 @@ export const MonthsPieChart: React.FC<MonthsPieChartProps> = ({
   transactions,
   selectedCategories,
   transactionType,
-  categoryId,
   selectedMonth,
 }) => {
   const { appLanguage } = React.useContext(PreferencesContext);
 
-  const random_rgba = () => {
-    var o = Math.round,
-      r = Math.random,
-      s = 255;
-    return (
-      "rgba(" +
-      o(r() * s) +
-      "," +
-      o(r() * s) +
-      "," +
-      o(r() * s) +
-      "," +
-      r().toFixed(1) +
-      ")"
-    );
-  };
-
-  const selectedMonthNumber = React.useMemo(() => {
-    return (
-      LANGUAGES.months[appLanguage].findIndex(
-        (item) => item === selectedMonth
-      ) + 1
-    );
-  }, [selectedMonth]);
-  const date = new Date();
-  const thisYearOrPast = date.getFullYear() || date.getFullYear() - 1;
+  console.log(selectedCategories, selectedMonth);
 
   const data = React.useMemo(() => {
     return selectedCategories.map((item, i) => ({
@@ -67,8 +40,8 @@ export const MonthsPieChart: React.FC<MonthsPieChartProps> = ({
         .filter(
           (trans) =>
             trans.categoryId === item.id &&
-            trans.day.month === selectedMonthNumber &&
-            trans.day.year === thisYearOrPast
+            trans.day.month === selectedMonth?.index &&
+            trans.day.year === selectedMonth?.year
         )
         .reduce((accumulator, object) => {
           return accumulator + parseInt(object.value, 10);
@@ -78,20 +51,16 @@ export const MonthsPieChart: React.FC<MonthsPieChartProps> = ({
 
   return (
     <>
-      <Text>
-        {LANGUAGES.lineChartTitle[appLanguage](transactionType, categoryId)}
-      </Text>
+      <Text>{LANGUAGES.pieChartTitle[appLanguage](transactionType)}</Text>
       <PieChart
         data={data}
-        width={430}
+        width={Dimensions.get("window").width - 15}
         height={320}
         accessor={"value"}
-        backgroundColor={"transparent"}
+        backgroundColor={"none"}
         chartConfig={{
-          backgroundGradientFrom: "#1E2923",
-          backgroundGradientFromOpacity: 0,
-          backgroundGradientTo: "#08130D",
-          backgroundGradientToOpacity: 0.5,
+          backgroundGradientFrom: "#2596be",
+          backgroundGradientTo: "#2596be",
           color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
           strokeWidth: 2, // optional, default 3
           barPercentage: 0.5,
