@@ -66,3 +66,8 @@ export interface monthData {
   transactions: Transaction[];
   value: number;
 }
+export interface categoryData {
+  name: string;
+  transactions: Transaction[];
+  value: number;
+}

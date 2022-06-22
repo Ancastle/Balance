@@ -26,21 +26,20 @@ interface MonthsNumbersProps {
   transactions: Transaction[];
   transactionType: string;
   lastMonths: monthIdentifier[];
+  selectedCategories: CategoryType[];
 }
 
 export const MonthsNumbers: React.FC<MonthsNumbersProps> = ({
   transactions,
   transactionType,
   lastMonths,
+  selectedCategories,
 }) => {
   const { appLanguage } = React.useContext(PreferencesContext);
   const [showCategories, setShowCategories] = React.useState(false);
   const [currentMonth, setCurrentMonth] = React.useState<
     monthData | undefined
   >();
-
-  console.log(currentMonth);
-  console.log(showCategories);
 
   const showingTotals = React.useMemo(
     () =>
@@ -121,6 +120,7 @@ export const MonthsNumbers: React.FC<MonthsNumbersProps> = ({
           isOpen={showCategories}
           onClose={() => setShowCategories(false)}
           currentMonth={currentMonth}
+          selectedCategories={selectedCategories}
         />
       )}
     </>

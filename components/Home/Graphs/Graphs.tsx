@@ -225,6 +225,7 @@ const Graphs: React.FC = () => {
             transactions={transactions}
             transactionType={transactionType}
             lastMonths={lastMonths}
+            selectedCategories={selectedCategories}
           />
         )}
       </ScrollView>

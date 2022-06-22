@@ -16,6 +16,12 @@ export const LANGUAGES = {
     (monthName: string) => `Totals by category in ${monthName}`,
     (monthName: string) => `Total por categoría en ${monthName}`,
   ],
+  currentCategoryCurrentMonthTitle: [
+    (monthName: string, categoryName: string) =>
+      `${categoryName} in ${monthName}`,
+    (monthName: string, categoryName: string) =>
+      `${categoryName} en ${monthName}`,
+  ],
   selectMonth: ["Select a month", "Selecciona un mes"],
   lineChart: ["Line chart", "Diagrama de lineas"],
   plainNumbers: ["Plain numbers", "Números"],
@@ -112,7 +118,7 @@ export const LANGUAGES = {
     tabs: {
       home: ["Home", "Inicio"],
       history: ["History", "Historial"],
-      charts: ["Graphs", "Gráficos"],
+      charts: ["Analysis", "Análisis"],
     },
   },
   expence: {
