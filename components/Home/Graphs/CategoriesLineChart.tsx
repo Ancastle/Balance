@@ -41,7 +41,7 @@ export const CategoriesLineChart: React.FC<CategoriesLineChartProps> = ({
           return accumulator + parseInt(object.value, 10);
         }, 0)
     );
-  }, [lastMonths]);
+  }, [lastMonths, categoryId]);
 
   return (
     <>

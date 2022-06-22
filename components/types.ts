@@ -65,7 +65,9 @@ export interface monthData {
   type: string;
   transactions: Transaction[];
   value: number;
+  index?: number;
 }
+
 export interface categoryData {
   name: string;
   transactions: Transaction[];

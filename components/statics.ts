@@ -12,6 +12,14 @@ export const LANGUAGES = {
         typeOfTransactions === "expence" ? "egreso" : "ingreso"
       }s por mes`,
   ],
+  numbersByCategory: [
+    (typeOfTransactions: string, name: string) =>
+      `Total of ${typeOfTransactions}s of ${name}`,
+    (typeOfTransactions: string, name: string) =>
+      `Total de ${
+        typeOfTransactions === "expence" ? "egreso" : "ingreso"
+      }s de ${name}`,
+  ],
   currentMonthModalTitle: [
     (monthName: string) => `Totals by category in ${monthName}`,
     (monthName: string) => `Total por categoría en ${monthName}`,

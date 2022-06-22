@@ -17,6 +17,7 @@ import { MonthsLineChart } from "./MonthsLineChart";
 import { LANGUAGES, pastMonths } from "../../statics";
 import { getLastMonths } from "../../utils";
 import { MonthsNumbers } from "./MonthNumbers";
+import { CategoriesNumbers } from "./CategoriesNumbers";
 
 const Graphs: React.FC = () => {
   const { transactions } = React.useContext(TransactionsContext);
@@ -32,6 +33,11 @@ const Graphs: React.FC = () => {
   const selectedCategories = React.useMemo(
     () => categories.filter((cat) => cat.type === transactionType),
     [transactionType]
+  );
+
+  const selectedCategory = React.useMemo(
+    () => categories.find((cat) => cat.id === categoryId),
+    [categoryId]
   );
 
   const chartOptions = React.useMemo(() => {
@@ -228,6 +234,15 @@ const Graphs: React.FC = () => {
             selectedCategories={selectedCategories}
           />
         )}
+        {monthOrCategory === "byCategory" &&
+          typeOfAnalysis === "plainNumbers" &&
+          selectedCategory && (
+            <CategoriesNumbers
+              transactions={transactions}
+              lastMonths={lastMonths}
+              category={selectedCategory}
+            />
+          )}
       </ScrollView>
     </Center>
   );

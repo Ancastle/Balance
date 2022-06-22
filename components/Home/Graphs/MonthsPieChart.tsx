@@ -28,8 +28,6 @@ export const MonthsPieChart: React.FC<MonthsPieChartProps> = ({
 }) => {
   const { appLanguage } = React.useContext(PreferencesContext);
 
-  console.log(selectedCategories, selectedMonth);
-
   const data = React.useMemo(() => {
     return selectedCategories.map((item, i) => ({
       name: item.name,
