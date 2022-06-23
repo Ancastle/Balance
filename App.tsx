@@ -12,24 +12,27 @@ import {
   PreferencesContextProvider,
   CreditCardContextProvider,
   PeopleContextProvider,
+  HistoryContextProvider,
 } from "./components/Contexts";
 
 export default function App() {
   return (
     <NativeBaseProvider>
-      <TransactionsContextProvider>
-        <CategoriesContextProvider>
-          <PreferencesContextProvider>
-            <CreditCardContextProvider>
-              <PeopleContextProvider>
-                <Box flex={1} bg="white">
-                  <AppRouter />
-                </Box>
-              </PeopleContextProvider>
-            </CreditCardContextProvider>
-          </PreferencesContextProvider>
-        </CategoriesContextProvider>
-      </TransactionsContextProvider>
+      <HistoryContextProvider>
+        <TransactionsContextProvider>
+          <CategoriesContextProvider>
+            <PreferencesContextProvider>
+              <CreditCardContextProvider>
+                <PeopleContextProvider>
+                  <Box flex={1} bg="white">
+                    <AppRouter />
+                  </Box>
+                </PeopleContextProvider>
+              </CreditCardContextProvider>
+            </PreferencesContextProvider>
+          </CategoriesContextProvider>
+        </TransactionsContextProvider>
+      </HistoryContextProvider>
     </NativeBaseProvider>
   );
 }

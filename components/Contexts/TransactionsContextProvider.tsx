@@ -2,6 +2,10 @@ import * as React from "react";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Contexts
+import { HistoryContext } from "./HistoryContextProvider";
+import { PreferencesContext } from "./PreferencesContextProvider";
+
 // Utils
 import { calculateTotal } from "../utils";
 
@@ -9,7 +13,7 @@ import { calculateTotal } from "../utils";
 import { Transaction, TransactionInput } from "../types";
 
 // Statics
-import { STORAGE } from "../statics";
+import { STORAGE, LANGUAGES } from "../statics";
 
 export interface TransactionsContextProps {
   transactions: Transaction[];
@@ -31,6 +35,8 @@ const TransactionsContext = React.createContext<TransactionsContextProps>({
 
 const TransactionsContextProvider: React.FC = ({ children }) => {
   const [transactions, setTransactions] = React.useState<Transaction[]>([]);
+  const { addRegister, history } = React.useContext(HistoryContext);
+  const { appLanguage } = React.useContext(PreferencesContext);
   const [hasFetchedTransactions, setHasFetchedTransactions] =
     React.useState(false);
 
@@ -67,18 +73,23 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
         };
         const newTransactions = [transaction, ...transactions];
         setTransactions(newTransactions);
+        addRegister(
+          `${LANGUAGES.addTransaction[appLanguage]} ${newTransaction.name}`,
+          date
+        );
         const jsonValue = JSON.stringify({ transactions: newTransactions });
         await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
       } catch (e) {
         console.log("Error: Could not store to transactions data");
       }
     },
-    [transactions]
+    [transactions, history]
   );
 
   const editTransaction = React.useCallback(
     async (editingTransaction: Transaction) => {
       try {
+        const date = new Date();
         const newTransactions = transactions.map((t) => {
           if (t.id === editingTransaction.id) {
             return {
@@ -92,6 +103,10 @@ const TransactionsContextProvider: React.FC = ({ children }) => {
           }
         });
         setTransactions(newTransactions);
+        addRegister(
+          `${LANGUAGES.editTransaction[appLanguage]} ${editingTransaction.name}`,
+          date
+        );
         const jsonValue = JSON.stringify({ transactions: newTransactions });
         await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
       } catch (e) {

@@ -3,16 +3,18 @@ import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Utils
-import { calculateTotal } from "../utils";
+import { calculateTotal, makeCurrencyFormat } from "../utils";
 
 // Contexts
 import { TransactionsContext } from "./TransactionsContextProvider";
+import { HistoryContext } from "./HistoryContextProvider";
+import { PreferencesContext } from "./PreferencesContextProvider";
 
 // Types
 import { Transaction, TransactionInput } from "../types";
 
 // Statics
-import { STORAGE } from "../statics";
+import { STORAGE, LANGUAGES } from "../statics";
 
 export interface CreditCardContextProps {
   ccTransactions: Transaction[];
@@ -32,6 +34,8 @@ const CreditCardContext = React.createContext<CreditCardContextProps>({
 
 const CreditCardContextProvider: React.FC = ({ children }) => {
   const { addCCPayment } = React.useContext(TransactionsContext);
+  const { addRegister } = React.useContext(HistoryContext);
+  const { appLanguage } = React.useContext(PreferencesContext);
   const [ccTransactions, setCcTransactions] = React.useState<Transaction[]>([]);
   const [hasFetchedTransactions, setHasFetchedTransactions] =
     React.useState(false);
@@ -56,11 +60,19 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
         const transaction: Transaction = {
           ...newTransaction,
           id: uuid.v4(),
-          day: { day: date.getDate(), month: date.getMonth() + 1 },
+          day: {
+            day: date.getDate(),
+            month: date.getMonth() + 1,
+            year: date.getFullYear(),
+          },
           hour: { hour: date.getHours(), minutes: date.getMinutes() },
         };
         const newTransactions = [transaction, ...ccTransactions];
         setCcTransactions(newTransactions);
+        addRegister(
+          `${LANGUAGES.addCCTransaction[appLanguage]} ${newTransaction.name}`,
+          date
+        );
         const jsonValue = JSON.stringify({ transactions: newTransactions });
         await AsyncStorage.setItem(STORAGE.ccTransactions, jsonValue);
       } catch (e) {
@@ -73,6 +85,7 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
   const payCC = React.useCallback(
     async (amount: number) => {
       try {
+        const date = new Date();
         const actualTransactions = [...ccTransactions];
         const newTransactions = actualTransactions
           .reverse()
@@ -107,6 +120,12 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
           .filter((t) => t.value !== "0");
         await addCCPayment(newDebits);
         setCcTransactions(newCredits);
+        addRegister(
+          `${LANGUAGES.addCCPayment[appLanguage]} ${makeCurrencyFormat(
+            amount
+          )}`,
+          date
+        );
         const jsonValue = JSON.stringify({ transactions: newCredits });
         await AsyncStorage.setItem(STORAGE.ccTransactions, jsonValue);
       } catch (e) {
@@ -119,6 +138,7 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
   const editCCTransaction = React.useCallback(
     async (editingTransaction: Transaction) => {
       try {
+        const date = new Date();
         const newTransactions = ccTransactions.map((t) => {
           if (t.id === editingTransaction.id) {
             return {
@@ -132,6 +152,10 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
           }
         });
         setCcTransactions(newTransactions);
+        addRegister(
+          `${LANGUAGES.editCCTransaction[appLanguage]} ${editingTransaction.name}`,
+          date
+        );
         const jsonValue = JSON.stringify({ transactions: newTransactions });
         await AsyncStorage.setItem(STORAGE.ccTransactions, jsonValue);
       } catch (e) {

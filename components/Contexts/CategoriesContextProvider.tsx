@@ -5,6 +5,10 @@ import uuid from "react-native-uuid";
 // Types
 import { CategoryType, TransactionType, UuId } from "../types";
 
+// Contexts
+import { HistoryContext } from "./HistoryContextProvider";
+import { PreferencesContext } from "./PreferencesContextProvider";
+
 // Statics
 import { INITIAL_CATEGORIES, LANGUAGES, STORAGE } from "../statics";
 
@@ -25,6 +29,8 @@ const CategoriesContext = React.createContext<CategoriesContextProps>({
 });
 
 const CategoriesContextProvider: React.FC = ({ children }) => {
+  const { addRegister } = React.useContext(HistoryContext);
+  const { appLanguage } = React.useContext(PreferencesContext);
   const [categories, setCategories] = React.useState<CategoryType[]>([]);
   const [hasFetchedCategories, setHasFetchedCategories] = React.useState(false);
 
@@ -48,6 +54,7 @@ const CategoriesContextProvider: React.FC = ({ children }) => {
   const addCategory = React.useCallback(
     async (categoryName: string, categoryType: TransactionType) => {
       try {
+        const date = new Date();
         const newCategories = [
           ...categories,
           {
@@ -57,6 +64,10 @@ const CategoriesContextProvider: React.FC = ({ children }) => {
           },
         ];
         setCategories(newCategories);
+        addRegister(
+          `${LANGUAGES.createCategory[appLanguage]} ${categoryName}`,
+          date
+        );
         const jsonValue = JSON.stringify({ categories: newCategories });
         await AsyncStorage.setItem(STORAGE.categories, jsonValue);
       } catch (e) {
@@ -69,6 +80,7 @@ const CategoriesContextProvider: React.FC = ({ children }) => {
   const editCategory = React.useCallback(
     async (categoryNewName: string, categoryId: UuId) => {
       try {
+        const date = new Date();
         const newCategories = categories.map((category) => {
           if (category.id === categoryId) {
             return { ...category, name: categoryNewName };
@@ -77,6 +89,10 @@ const CategoriesContextProvider: React.FC = ({ children }) => {
           }
         });
         setCategories(newCategories);
+        addRegister(
+          `${LANGUAGES.editCategory[appLanguage]} ${categoryNewName}`,
+          date
+        );
         const jsonValue = JSON.stringify({ categories: newCategories });
         await AsyncStorage.setItem(STORAGE.categories, jsonValue);
       } catch (e) {
@@ -89,10 +105,16 @@ const CategoriesContextProvider: React.FC = ({ children }) => {
   const deleteCategory = React.useCallback(
     async (categoryId: UuId) => {
       try {
+        const date = new Date();
+        const categoryName = categories.find((item) => item.id === categoryId);
         const newCategories = categories.filter(
           (category) => category.id !== categoryId
         );
         setCategories(newCategories);
+        addRegister(
+          `${LANGUAGES.deleteCategory[appLanguage]} ${categoryName}`,
+          date
+        );
         const jsonValue = JSON.stringify({ categories: newCategories });
         await AsyncStorage.setItem(STORAGE.categories, jsonValue);
       } catch (e) {

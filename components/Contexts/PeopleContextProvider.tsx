@@ -5,8 +5,12 @@ import uuid from "react-native-uuid";
 // Types
 import { Person, UuId } from "../types";
 
+// Context
+import { HistoryContext } from "./HistoryContextProvider";
+import { PreferencesContext } from "./PreferencesContextProvider";
+
 // Statics
-import { STORAGE } from "../statics";
+import { STORAGE, LANGUAGES } from "../statics";
 
 export interface PeopleContextProps {
   people: Person[];
@@ -26,6 +30,8 @@ const PeopleContext = React.createContext<PeopleContextProps>({
 
 const PeopleContextProvider: React.FC = ({ children }) => {
   const [people, setPeople] = React.useState<Person[]>([]);
+  const { addRegister } = React.useContext(HistoryContext);
+  const { appLanguage } = React.useContext(PreferencesContext);
   const [hasFetchedPeople, setHasFetchedPeople] = React.useState(false);
 
   const fetchPeople = React.useCallback(async () => {
@@ -64,6 +70,8 @@ const PeopleContextProvider: React.FC = ({ children }) => {
             value: "0",
           },
         ]);
+        const date = new Date();
+        addRegister(`${LANGUAGES.addPerson[appLanguage]} ${personName}`, date);
         const jsonValue = JSON.stringify({ people: newPeople });
         await AsyncStorage.setItem(STORAGE.people, jsonValue);
       } catch (e) {
@@ -84,6 +92,11 @@ const PeopleContextProvider: React.FC = ({ children }) => {
           }
         });
         setPeople(newPeople);
+        const date = new Date();
+        addRegister(
+          `${LANGUAGES.editPerson[appLanguage]} ${newPersonName}`,
+          date
+        );
         const jsonValue = JSON.stringify({ people: newPeople });
         await AsyncStorage.setItem(STORAGE.people, jsonValue);
       } catch (e) {
@@ -96,8 +109,14 @@ const PeopleContextProvider: React.FC = ({ children }) => {
   const deletePerson = React.useCallback(
     async (personId: UuId) => {
       try {
+        const personName = people.find((person) => person.id === personId);
         const newPeople = people.filter((person) => person.id !== personId);
         setPeople(newPeople);
+        const date = new Date();
+        addRegister(
+          `${LANGUAGES.deletePerson[appLanguage]} ${personName}`,
+          date
+        );
         const jsonValue = JSON.stringify({ people: newPeople });
         await AsyncStorage.setItem(STORAGE.people, jsonValue);
       } catch (e) {
@@ -110,6 +129,7 @@ const PeopleContextProvider: React.FC = ({ children }) => {
   const addTransaction = React.useCallback(
     async (personId: UuId, value: number, whoPays: string) => {
       try {
+        const personName = people.find((person) => person.id === personId);
         const newPeople = people.map((person) =>
           person.id === personId
             ? {
@@ -122,6 +142,11 @@ const PeopleContextProvider: React.FC = ({ children }) => {
             : person
         );
         setPeople(newPeople);
+        const date = new Date();
+        addRegister(
+          `${LANGUAGES.addPersonTransaction[appLanguage]} ${personName?.name}`,
+          date
+        );
         const jsonValue = JSON.stringify({ people: newPeople });
         await AsyncStorage.setItem(STORAGE.people, jsonValue);
       } catch (e) {

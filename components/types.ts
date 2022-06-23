@@ -53,6 +53,12 @@ export interface Transaction {
   hour: TransactionHour;
 }
 
+export interface HistoryRegister {
+  name: string;
+  day: TransactionDay;
+  hour: TransactionHour;
+}
+
 export interface monthIdentifier {
   name: string;
   index: number;

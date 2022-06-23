@@ -7,6 +7,7 @@ import Graphs from "./Graphs";
 
 // Contexts
 import { PreferencesContext } from "../Contexts";
+import History from "./History";
 
 // Types
 import { Tab } from "../types";
@@ -25,13 +26,13 @@ const Home: React.FC = () => {
   return (
     <TabsHeader
       tabs={tabs}
-      firstRoute={<Center flex={1}>3232 </Center>}
+      firstRoute={<Center flex={1}>3</Center>}
       secondRoute={
         <Center flex={1}>
           <Graphs />
         </Center>
       }
-      thirdRoute={<Center flex={1}>3</Center>}
+      thirdRoute={<History />}
     />
   );
 };

@@ -13,7 +13,11 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import { PreferencesContext, TransactionsContext } from "../../Contexts";
+import {
+  HistoryContext,
+  PreferencesContext,
+  TransactionsContext,
+} from "../../Contexts";
 
 // Types
 import { Person } from "../../types";
@@ -35,6 +39,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   person,
 }) => {
   const { appLanguage } = React.useContext(PreferencesContext);
+  const { history } = React.useContext(HistoryContext);
   const { addTransaction, totalBalance } =
     React.useContext(TransactionsContext);
 
@@ -79,7 +84,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
       resetModal();
       onClose();
     }
-  }, [whoPays, amount, person, isCash]);
+  }, [whoPays, amount, person, isCash, history]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

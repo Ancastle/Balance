@@ -5,6 +5,22 @@ export const LANGUAGES = {
     "Select a transaction type",
     "Selecciona el tipo de transacción",
   ],
+  history: ["History", "Historial"],
+  createCategory: ["Create category", "Crear categoría"],
+  editCategory: ["Edit category", "Editar categoría"],
+  deleteCategory: ["Delete category", "Eliminar categoría"],
+  addCCTransaction: ["Add CC expence", "Agregar egreso a TC"],
+  addCCPayment: ["Add CC payment", "Agregar pago de TC"],
+  editCCTransaction: ["Edit CC expence", "Editar egreso de TC"],
+  addPerson: ["Add person", "Agregar persona"],
+  editPerson: ["Edit person", "Editar persona"],
+  deletePerson: ["Delete person", "Eliminar persona"],
+  addPersonTransaction: [
+    "Add person transaction",
+    "Agregar transaccion a persona",
+  ],
+  addTransaction: ["Add transaction", "Agregar transacción"],
+  editTransaction: ["Edit transaction", "Editar transacción"],
   numbersByMonth: [
     (typeOfTransactions: string) => `Total of ${typeOfTransactions}s by month`,
     (typeOfTransactions: string) =>
@@ -248,6 +264,7 @@ export const STORAGE = {
   preferences: "FAppPreferences",
   ccTransactions: "FAppCCTransactions",
   people: "FAppPeople",
+  history: "FAHistory",
 };
 
 export const INITIAL_CATEGORIES: CategoryType[] = [
