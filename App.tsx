@@ -3,7 +3,7 @@ import React from "react";
 import { Box, NativeBaseProvider } from "native-base";
 
 // Components
-import AppRouter from "./components/ApplicationLayout";
+import AppRouter from "./src/components/ApplicationLayout";
 
 // Context Providers
 import {
@@ -13,7 +13,7 @@ import {
   CreditCardContextProvider,
   PeopleContextProvider,
   HistoryContextProvider,
-} from "./components/Contexts";
+} from "./src/components/Contexts";
 
 export default function App() {
   return (
