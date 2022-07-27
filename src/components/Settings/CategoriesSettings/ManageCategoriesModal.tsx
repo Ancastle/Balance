@@ -6,14 +6,23 @@ import CategoryInputModal from "./CategoryInputModal";
 import Category from "./Category";
 
 // Contexts
-import { CategoriesContext, PreferencesContext } from "../../Contexts";
+import { PreferencesContext } from "../../Contexts";
 
 // Types
-import { CategoryType, TransactionType } from "../../types";
+import { CategoryType, TransactionType, UuId } from "../../types";
 
 // Utils
 import { isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
+
+// Store
+import {
+  selectCategoriesData,
+  addCategory,
+  editCategory,
+  deleteCategory,
+} from "../../../app/categoriesSlice";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 
 interface ManageCategoriesModalProps {
   isOpen: boolean;
@@ -28,10 +37,26 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
   type,
   mode,
 }) => {
-  const { categories, addCategory, editCategory, deleteCategory } =
-    React.useContext(CategoriesContext);
   const { appLanguage } = React.useContext(PreferencesContext);
 
+  const dispatch = useAppDispatch();
+
+  const categories = useAppSelector(selectCategoriesData);
+
+  const onAdd = React.useCallback(
+    (categoryName: string, categoryType: TransactionType) =>
+      dispatch(addCategory(categoryName, categoryType)),
+    [dispatch, addCategory]
+  );
+  const onEdit = React.useCallback(
+    (categoryNewName: string, categoryId: UuId) =>
+      dispatch(editCategory(categoryNewName, categoryId)),
+    [dispatch, editCategory]
+  );
+  const onDelete = React.useCallback(
+    (categoryId: UuId) => dispatch(deleteCategory(categoryId)),
+    [dispatch, deleteCategory]
+  );
   const [editingCategory, setEditingCategory] = React.useState<CategoryType>();
   const [isAdding, setIsAdding] = React.useState(false);
 
@@ -53,9 +78,7 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
           {showingCategories.map((category, index) => {
             return (
               <Category
-                onDelete={(categoryId) => {
-                  deleteCategory(categoryId);
-                }}
+                onDelete={onDelete}
                 mode={mode}
                 color={isEven(index) ? "primary.500" : "primary.300"}
                 key={index}
@@ -70,16 +93,16 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
             isOpen={isAdding}
             onClose={() => setIsAdding(false)}
             onSave={(newCategoryName) => {
-              addCategory(newCategoryName, type);
+              onAdd(newCategoryName, type);
             }}
           />
           <CategoryInputModal
             isOpen={!!editingCategory}
             onClose={() => setEditingCategory(undefined)}
             category={editingCategory}
-            onSave={async (newCategoryName) => {
+            onSave={(newCategoryName) => {
               if (editingCategory) {
-                editCategory(newCategoryName, editingCategory.id);
+                onEdit(newCategoryName, editingCategory.id);
               }
             }}
           />

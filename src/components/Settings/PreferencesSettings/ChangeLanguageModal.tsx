@@ -2,10 +2,14 @@ import React from "react";
 import { Button, Modal, Box, Select, CheckIcon } from "native-base";
 
 // Contexts
-import { CategoriesContext, PreferencesContext } from "../../Contexts";
+import { PreferencesContext } from "../../Contexts";
 
 // Utils
 import { LANGUAGES } from "../../statics";
+
+// Store
+import { adjustCategoryNames } from "../../../app/categoriesSlice";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 
 interface ManageCategoriesModalProps {
   isOpen: boolean;
@@ -16,7 +20,15 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { adjustCategoryNames } = React.useContext(CategoriesContext);
+  const dispatch = useAppDispatch();
+
+  const onAdjustCategoryNames = React.useCallback(
+    (appLanguage: number, newLanguage: number) => {
+      dispatch(adjustCategoryNames(appLanguage, newLanguage));
+    },
+    [dispatch, adjustCategoryNames]
+  );
+
   const { appLanguage, languages, changeLanguage } =
     React.useContext(PreferencesContext);
 
@@ -77,7 +89,7 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
               </Button>
               <Button
                 onPress={() => {
-                  adjustCategoryNames(
+                  onAdjustCategoryNames(
                     appLanguage,
                     parseInt(selectedLanguage, 10)
                   );

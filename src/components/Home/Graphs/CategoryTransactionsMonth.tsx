@@ -4,7 +4,7 @@ import { Pressable } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 //Contexts
-import { CategoriesContext, PreferencesContext } from "../../Contexts";
+import { PreferencesContext } from "../../Contexts";
 
 //Types
 import {

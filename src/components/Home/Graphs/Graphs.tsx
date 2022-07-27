@@ -2,7 +2,7 @@ import * as React from "react";
 import { ScrollView, Center, Select, CheckIcon } from "native-base";
 
 // Contexts
-import { CategoriesContext, PreferencesContext } from "../../Contexts";
+import { PreferencesContext } from "../../Contexts";
 
 // Components
 import { CategoriesLineChart } from "./CategoriesLineChart";
@@ -16,13 +16,16 @@ import { MonthsNumbers } from "./MonthNumbers";
 import { CategoriesNumbers } from "./CategoriesNumbers";
 
 // Store
+import { selectCategoriesData } from "../../../app/categoriesSlice";
 import { selectTransactionsData } from "../../../app/transactionsSlice";
 import { useAppSelector } from "../../../app/hooks";
 
 const Graphs: React.FC = () => {
-  const transactions = useAppSelector(selectTransactionsData);
-  const { categories } = React.useContext(CategoriesContext);
   const { appLanguage } = React.useContext(PreferencesContext);
+
+  const categories = useAppSelector(selectCategoriesData);
+  const transactions = useAppSelector(selectTransactionsData);
+
   const [transactionType, setTransacctionType] = React.useState("");
   const [monthOrCategory, setMonthOrCategory] = React.useState("");
   const [categoryId, setCategoryId] = React.useState("");

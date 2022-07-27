@@ -20,11 +20,17 @@ import { useAppDispatch } from "../../app/hooks";
 const Expences: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const onAdd = (newTransactionInput: TransactionInput) =>
-    dispatch(addTransaction(newTransactionInput));
+  const onAdd = React.useCallback(
+    (newTransactionInput: TransactionInput) =>
+      dispatch(addTransaction(newTransactionInput)),
+    [dispatch, addTransaction]
+  );
 
-  const onEdit = (editingTransaction: Transaction) =>
-    dispatch(editTransaction(editingTransaction));
+  const onEdit = React.useCallback(
+    (editingTransaction: Transaction) =>
+      dispatch(editTransaction(editingTransaction)),
+    [dispatch, editTransaction]
+  );
 
   const { appLanguage } = React.useContext(PreferencesContext);
 

@@ -11,7 +11,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import { CategoriesContext, PreferencesContext } from "../Contexts";
+import { PreferencesContext } from "../Contexts";
 
 // Types
 import { TransactionInput, TransactionType } from "../types";

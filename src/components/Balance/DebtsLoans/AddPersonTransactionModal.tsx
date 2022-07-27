@@ -48,8 +48,11 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   const { appLanguage } = React.useContext(PreferencesContext);
   const { history } = React.useContext(HistoryContext);
 
-  const onAdd = (newTransactionInput: TransactionInput) =>
-    dispatch(addTransaction(newTransactionInput));
+  const onAdd = React.useCallback(
+    (newTransactionInput: TransactionInput) =>
+      dispatch(addTransaction(newTransactionInput)),
+    [dispatch, addTransaction]
+  );
 
   const [whoPays, setWhoPays] = React.useState("");
   const [amount, setAmount] = React.useState("");
