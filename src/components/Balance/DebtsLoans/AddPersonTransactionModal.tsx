@@ -13,17 +13,20 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import {
-  HistoryContext,
-  PreferencesContext,
-  TransactionsContext,
-} from "../../Contexts";
+import { HistoryContext, PreferencesContext } from "../../Contexts";
 
 // Types
-import { Person } from "../../types";
+import { Person, TransactionInput } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
+
+// Store
+import {
+  addTransaction,
+  selectTransactionsTotal,
+} from "../../../app/transactionsSlice";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 
 interface AddPersonTransactionModalProps {
   isOpen: boolean;
@@ -38,10 +41,15 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   onTransaction,
   person,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const totalBalance = useAppSelector(selectTransactionsTotal);
+
   const { appLanguage } = React.useContext(PreferencesContext);
   const { history } = React.useContext(HistoryContext);
-  const { addTransaction, totalBalance } =
-    React.useContext(TransactionsContext);
+
+  const onAdd = (newTransactionInput: TransactionInput) =>
+    dispatch(addTransaction(newTransactionInput));
 
   const [whoPays, setWhoPays] = React.useState("");
   const [amount, setAmount] = React.useState("");
@@ -66,14 +74,14 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
       onTransaction(person, amount, whoPays);
       if (!isCash) {
         if (whoPays === "me") {
-          addTransaction({
+          onAdd({
             name: `${LANGUAGES.balance.tabs.debtsLoans.youPayTo[appLanguage]} ${person.name}`,
             type: "expence",
             value: amount,
             categoryId: "expence0",
           });
         } else {
-          addTransaction({
+          onAdd({
             name: `${person.name} ${LANGUAGES.balance.tabs.debtsLoans.paysToYou[appLanguage]}`,
             type: "entry",
             value: amount,

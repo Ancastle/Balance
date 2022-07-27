@@ -2,11 +2,7 @@ import * as React from "react";
 import { ScrollView, Center, Select, CheckIcon } from "native-base";
 
 // Contexts
-import {
-  CategoriesContext,
-  PreferencesContext,
-  TransactionsContext,
-} from "../../Contexts";
+import { CategoriesContext, PreferencesContext } from "../../Contexts";
 
 // Components
 import { CategoriesLineChart } from "./CategoriesLineChart";
@@ -19,8 +15,12 @@ import { getLastMonths } from "../../utils";
 import { MonthsNumbers } from "./MonthNumbers";
 import { CategoriesNumbers } from "./CategoriesNumbers";
 
+// Store
+import { selectTransactionsData } from "../../../app/transactionsSlice";
+import { useAppSelector } from "../../../app/hooks";
+
 const Graphs: React.FC = () => {
-  const { transactions } = React.useContext(TransactionsContext);
+  const transactions = useAppSelector(selectTransactionsData);
   const { categories } = React.useContext(CategoriesContext);
   const { appLanguage } = React.useContext(PreferencesContext);
   const [transactionType, setTransacctionType] = React.useState("");

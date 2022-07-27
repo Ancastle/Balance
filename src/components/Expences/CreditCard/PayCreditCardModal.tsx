@@ -3,15 +3,15 @@ import { Button, Modal, FormControl, Input, Icon, Radio } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
 //Contexts
-import {
-  CreditCardContext,
-  PreferencesContext,
-  TransactionsContext,
-} from "../../Contexts";
+import { CreditCardContext, PreferencesContext } from "../../Contexts";
 
 // Utils
 import { LANGUAGES } from "../../statics";
 import { makeCurrencyFormat } from "../../utils";
+
+// Store
+import { selectTransactionsTotal } from "../../../app/transactionsSlice";
+import { useAppSelector } from "../../../app/hooks";
 
 interface ReviewTransactionModalProps {
   isOpen: boolean;
@@ -22,9 +22,9 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const totalBalance = useAppSelector(selectTransactionsTotal);
   const { appLanguage } = React.useContext(PreferencesContext);
   const { totalDebt, payCC } = React.useContext(CreditCardContext);
-  const { totalBalance } = React.useContext(TransactionsContext);
 
   const [value, setValue] = React.useState("");
   const [radio, setRadio] = React.useState("");

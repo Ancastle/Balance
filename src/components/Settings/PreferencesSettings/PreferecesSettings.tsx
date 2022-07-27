@@ -13,7 +13,7 @@ import {
 import ChangeLanguageModal from "./ChangeLanguageModal";
 
 // Contexts
-import { PreferencesContext, TransactionsContext } from "../../Contexts";
+import { PreferencesContext } from "../../Contexts";
 
 // Utils
 import { isEven } from "../../utils";
@@ -21,7 +21,6 @@ import { LANGUAGES, DEVONLYTestingRecords } from "../../statics";
 
 const PreferencesSettings: React.FC = () => {
   const { appLanguage } = React.useContext(PreferencesContext);
-  const { settTransactions } = React.useContext(TransactionsContext);
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
 
@@ -35,10 +34,6 @@ const PreferencesSettings: React.FC = () => {
               appLanguage
             ],
             set: () => setShowLanguageModal(true),
-          },
-          {
-            name: LANGUAGES.DEVONLYsetTestingRecords[0],
-            set: () => settTransactions(DEVONLYTestingRecords),
           },
         ],
       },

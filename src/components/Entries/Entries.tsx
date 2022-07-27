@@ -5,18 +5,27 @@ import { Center } from "native-base";
 import { TabsHeader, DebitTransactions } from "../Shared";
 
 // Contexts
-import { PreferencesContext, TransactionsContext } from "../Contexts";
+import { PreferencesContext } from "../Contexts";
 
 // Types
-import { Tab } from "../types";
+import { Tab, Transaction, TransactionInput } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
 
+// Store
+import { addTransaction, editTransaction } from "../../app/transactionsSlice";
+import { useAppDispatch } from "../../app/hooks";
+
 const Entries: React.FC = () => {
   const { appLanguage } = React.useContext(PreferencesContext);
-  const { addTransaction, editTransaction } =
-    React.useContext(TransactionsContext);
+  const dispatch = useAppDispatch();
+
+  const onAdd = (newTransactionInput: TransactionInput) =>
+    dispatch(addTransaction(newTransactionInput));
+
+  const onEdit = (editingTransaction: Transaction) =>
+    dispatch(editTransaction(editingTransaction));
 
   const tabs: Tab[] = React.useMemo(
     () => [{ key: "first", title: LANGUAGES.entry.tabs.debit[appLanguage] }],
@@ -27,11 +36,7 @@ const Entries: React.FC = () => {
     <TabsHeader
       tabs={tabs}
       firstRoute={
-        <DebitTransactions
-          type="entry"
-          onAdd={addTransaction}
-          onEdit={editTransaction}
-        />
+        <DebitTransactions type="entry" onAdd={onAdd} onEdit={onEdit} />
       }
     />
   );

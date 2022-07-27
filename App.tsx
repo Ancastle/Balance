@@ -1,38 +1,22 @@
 // Externals
 import React from "react";
 import { Box, NativeBaseProvider } from "native-base";
+import { Provider } from "react-redux";
 
 // Components
 import AppRouter from "./src/components/ApplicationLayout";
 
-// Context Providers
-import {
-  CategoriesContextProvider,
-  TransactionsContextProvider,
-  PreferencesContextProvider,
-  CreditCardContextProvider,
-  PeopleContextProvider,
-  HistoryContextProvider,
-} from "./src/components/Contexts";
+// Store
+import { store } from "./src/app/store";
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <HistoryContextProvider>
-        <TransactionsContextProvider>
-          <CategoriesContextProvider>
-            <PreferencesContextProvider>
-              <CreditCardContextProvider>
-                <PeopleContextProvider>
-                  <Box flex={1} bg="white">
-                    <AppRouter />
-                  </Box>
-                </PeopleContextProvider>
-              </CreditCardContextProvider>
-            </PreferencesContextProvider>
-          </CategoriesContextProvider>
-        </TransactionsContextProvider>
-      </HistoryContextProvider>
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <Box flex={1} bg="white">
+          <AppRouter />
+        </Box>
+      </NativeBaseProvider>
+    </Provider>
   );
 }

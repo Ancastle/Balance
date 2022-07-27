@@ -262,7 +262,7 @@ export const STORAGE = {
   transactions: "FAppTransactions",
   categories: "FAppCategories",
   preferences: "FAppPreferences",
-  ccTransactions: "FAppCCTransactions",
+  creditCard: "FAppCCTransactions",
   people: "FAppPeople",
   history: "FAHistory",
 };
@@ -461,4 +461,9 @@ export const pastMonths = [
   "10",
   "11",
   "12",
+];
+
+const LANGUAGES_ARRAY = [
+  { name: "English", id: 0 },
+  { name: "Español", id: 1 },
 ];

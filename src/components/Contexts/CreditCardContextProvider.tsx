@@ -42,7 +42,7 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
 
   const fetchTransactions = React.useCallback(async () => {
     try {
-      const value = await AsyncStorage.getItem(STORAGE.ccTransactions);
+      const value = await AsyncStorage.getItem(STORAGE.creditCard);
       if (value) {
         const parsed = JSON.parse(value);
         setCcTransactions(parsed.transactions);
@@ -74,7 +74,7 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
           date
         );
         const jsonValue = JSON.stringify({ transactions: newTransactions });
-        await AsyncStorage.setItem(STORAGE.ccTransactions, jsonValue);
+        await AsyncStorage.setItem(STORAGE.creditCard, jsonValue);
       } catch (e) {
         console.log("Error: Could not store to CC transactions data");
       }
@@ -127,7 +127,7 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
           date
         );
         const jsonValue = JSON.stringify({ transactions: newCredits });
-        await AsyncStorage.setItem(STORAGE.ccTransactions, jsonValue);
+        await AsyncStorage.setItem(STORAGE.creditCard, jsonValue);
       } catch (e) {
         console.log("Error: Could not store to CC transactions data");
       }
@@ -157,7 +157,7 @@ const CreditCardContextProvider: React.FC = ({ children }) => {
           date
         );
         const jsonValue = JSON.stringify({ transactions: newTransactions });
-        await AsyncStorage.setItem(STORAGE.ccTransactions, jsonValue);
+        await AsyncStorage.setItem(STORAGE.creditCard, jsonValue);
       } catch (e) {
         console.log("Error: Could not store to CC transactions data");
       }

@@ -21,6 +21,10 @@ import { Transaction, TransactionType } from "../types";
 import { LANGUAGES } from "../statics";
 import { makeDoubleDigit } from "../utils";
 
+// Store
+import { selectCategoriesData } from "../../app/categoriesSlice";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+
 interface EditTransactionModalProps {
   isOpen: boolean;
   transaction: Transaction;
@@ -36,7 +40,9 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
   transaction,
   onEdit,
 }) => {
-  const { categories } = React.useContext(CategoriesContext);
+  const dispatch = useAppDispatch();
+
+  const categories = useAppSelector(selectCategoriesData);
   const { appLanguage } = React.useContext(PreferencesContext);
 
   const [categoryId, setCategoryId] = React.useState("");
