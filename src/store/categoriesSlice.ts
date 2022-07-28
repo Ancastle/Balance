@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CategoryType, TransactionType, UuId } from "../components/types";
 import { RootState, AppThunk } from "./store";
 
-import { LANGUAGES, STORAGE } from "../components/statics";
+import { INITIAL_CATEGORIES, LANGUAGES, STORAGE } from "../components/statics";
 
 export interface CategoriesState {
   data: CategoryType[];
@@ -27,6 +27,10 @@ export const fetchCategoriesAsync = createAsyncThunk(
       if (value) {
         const parsed = JSON.parse(value).categories;
         return parsed;
+      } else {
+        const jsonValue = JSON.stringify({ categories: INITIAL_CATEGORIES });
+        await AsyncStorage.setItem(STORAGE.categories, jsonValue);
+        return INITIAL_CATEGORIES;
       }
     } catch (e) {
       console.log("Error: Could not fetch categories data");

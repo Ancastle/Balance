@@ -21,6 +21,8 @@ import {
   fetchCategoriesAsync,
   fetchPreferencesAsync,
   selectPreferencesLanguage,
+  fetchCreditCardAsync,
+  fetchPeopleAsync,
   useAppSelector,
   useAppDispatch,
 } from "../../store";
@@ -42,6 +44,8 @@ const Home: React.FC = () => {
       dispatch(fetchTransactionsAsync());
       dispatch(fetchCategoriesAsync());
       dispatch(fetchPreferencesAsync());
+      dispatch(fetchCreditCardAsync());
+      dispatch(fetchPeopleAsync());
     }
   }, []);
 

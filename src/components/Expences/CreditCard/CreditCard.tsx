@@ -6,20 +6,35 @@ import { AddTransactionModal } from "../../Shared";
 import CreditCardTransactionsList from "./CreditCardTransactionsList";
 import PayCreditCardModal from "./PayCreditCardModal";
 
-// Contexts
-import { CreditCardContext } from "../../Contexts";
+// Types
+import { TransactionInput } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
 
 // Store
-import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+import {
+  selectPreferencesLanguage,
+  selectCreditCardTotal,
+  addCreditCardTransaction,
+  useAppSelector,
+  useAppDispatch,
+} from "../../../store";
 
 interface DebitTransactionsProps {}
 
 const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
+  const dispatch = useAppDispatch();
+
+  const onAddCreditCardTransaction = React.useCallback(
+    (newTransactionInput: TransactionInput) => {
+      dispatch(addCreditCardTransaction(newTransactionInput));
+    },
+    [dispatch, addCreditCardTransaction]
+  );
+
+  const totalDebt = useAppSelector(selectCreditCardTotal);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
-  const { addCCTransaction, totalDebt } = React.useContext(CreditCardContext);
 
   const [showAddModal, setShowAddModal] = React.useState(false);
   const [showPayModal, setShowPayModal] = React.useState(false);
@@ -50,7 +65,7 @@ const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
         </Button>
       </Center>
       <AddTransactionModal
-        onAdd={addCCTransaction}
+        onAdd={onAddCreditCardTransaction}
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         type="expence"

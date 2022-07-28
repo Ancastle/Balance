@@ -9,14 +9,8 @@ import {
   Text,
 } from "native-base";
 
-// Components
-// import ReviewTransactionModal from "./EditTransactionModal";
-
-// Contexts
-import { CreditCardContext } from "../../Contexts";
-
 // Types
-import { Transaction, TransactionType } from "../../types";
+import { Transaction } from "../../types";
 
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../../utils";
@@ -24,21 +18,31 @@ import { LANGUAGES } from "../../statics";
 import EditTransactionModal from "../../Shared/EditTransactionModal";
 
 // Store
-import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+import {
+  selectPreferencesLanguage,
+  selectCreditCardData,
+  selectCreditCardTotal,
+  editCreditCardTransaction,
+  useAppSelector,
+  useAppDispatch,
+} from "../../../store";
 
 const CreditCardTransactionsList: React.FC = () => {
-  const { ccTransactions, totalDebt, editCCTransaction } =
-    React.useContext(CreditCardContext);
+  const dispatch = useAppDispatch();
+
+  const onEditCreditCardTransaction = React.useCallback(
+    (editingTransaction: Transaction) => {
+      dispatch(editCreditCardTransaction(editingTransaction));
+    },
+    [dispatch, editCreditCardTransaction]
+  );
+
+  const creditCardTransactions = useAppSelector(selectCreditCardData);
+  const totalDebt = useAppSelector(selectCreditCardTotal);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();
-
-  const showingTransactions = React.useMemo(
-    () =>
-      ccTransactions.filter((transaction) => transaction.type === "expence"),
-    [ccTransactions]
-  );
 
   const data = React.useMemo(
     () => [
@@ -46,10 +50,10 @@ const CreditCardTransactionsList: React.FC = () => {
         title: `${
           LANGUAGES.expence.tabs.creditCard.debt[appLanguage]
         }: ${makeCurrencyFormat(totalDebt)}`,
-        data: showingTransactions,
+        data: creditCardTransactions,
       },
     ],
-    [showingTransactions]
+    [creditCardTransactions]
   );
 
   return (
@@ -102,7 +106,7 @@ const CreditCardTransactionsList: React.FC = () => {
           onClose={() => setShowViewModal(false)}
           transaction={transaction}
           type="expence"
-          onEdit={editCCTransaction}
+          onEdit={onEditCreditCardTransaction}
         />
       )}
     </>

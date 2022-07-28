@@ -137,10 +137,8 @@ export const addCreditCardPayment =
 // Selectors
 export const selectTransactionsData = (state: RootState) =>
   state.transactions.data;
-
 export const selectTransactionsStatus = (state: RootState) =>
   state.transactions.status;
-
 export const selectTransactionsTotal = (state: RootState) =>
   state.transactions.total;
 

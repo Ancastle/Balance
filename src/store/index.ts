@@ -35,3 +35,13 @@ export {
   selectPeopleData,
   selectPeopleStatus,
 } from "./peopleSlice";
+
+export {
+  fetchCreditCardAsync,
+  addCreditCardTransaction,
+  payCreditCard,
+  editCreditCardTransaction,
+  selectCreditCardData,
+  selectCreditCardStatus,
+  selectCreditCardTotal,
+} from "./creditCardSlice";

@@ -2,9 +2,6 @@ import React from "react";
 import { Button, Modal, FormControl, Input, Icon, Radio } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
-//Contexts
-import { CreditCardContext } from "../../Contexts";
-
 // Utils
 import { LANGUAGES } from "../../statics";
 import { makeCurrencyFormat } from "../../utils";
@@ -13,7 +10,11 @@ import { makeCurrencyFormat } from "../../utils";
 import {
   selectTransactionsTotal,
   selectPreferencesLanguage,
+  selectCreditCardTotal,
+  payCreditCard,
+  useAppDispatch,
   useAppSelector,
+  addCreditCardPayment,
 } from "../../../store";
 
 interface ReviewTransactionModalProps {
@@ -25,19 +26,22 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const onPayCreditCard = React.useCallback(
+    (amount: number) => {
+      dispatch(addCreditCardPayment(dispatch(payCreditCard(amount))));
+      onClose();
+    },
+    [dispatch, [payCreditCard]]
+  );
+
+  const totalDebt = useAppSelector(selectCreditCardTotal);
   const totalBalance = useAppSelector(selectTransactionsTotal);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
-  const { totalDebt, payCC } = React.useContext(CreditCardContext);
 
   const [value, setValue] = React.useState("");
   const [radio, setRadio] = React.useState("");
-
-  const handleSubmit = React.useCallback(
-    (amount) => {
-      payCC(amount);
-    },
-    [payCC]
-  );
 
   const resetValues = React.useCallback(() => {
     setValue("");
@@ -122,7 +126,7 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
               {LANGUAGES.cancel[appLanguage]}
             </Button>
             <Button
-              onPress={() => handleSubmit(value)}
+              onPress={() => onPayCreditCard(parseInt(value, 10))}
               isDisabled={isSaveDisabled}
             >
               {LANGUAGES.save[appLanguage]}

@@ -2,23 +2,23 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import {
-  CategoryType,
-  Transaction,
-  TransactionInput,
-} from "../components/types";
+import { Transaction, TransactionInput } from "../components/types";
 import { RootState, AppThunk } from "./store";
+
+import { calculateTotal } from "../components/utils";
 
 import { STORAGE } from "../components/statics";
 
 export interface CreditCardState {
-  data: CategoryType[];
+  data: Transaction[];
   status: string;
+  total: number;
 }
 
 const initialState: CreditCardState = {
   data: [],
   status: "idle",
+  total: 0,
 };
 
 // Async
@@ -40,13 +40,16 @@ export const fetchCreditCardAsync = createAsyncThunk(
 
 export const storeCreditCardAsync = createAsyncThunk(
   "creditCard/storeCreditCardAsync",
-  async (newCreditCard: Transaction[]) => {
+  async (newCreditCardTransactions: Transaction[]) => {
     try {
-      const jsonValue = JSON.stringify({ creditCard: newCreditCard });
+      const jsonValue = JSON.stringify({
+        creditCard: newCreditCardTransactions,
+      });
       await AsyncStorage.setItem(STORAGE.creditCard, jsonValue);
     } catch (e) {
       console.log("Error: Could not store creditCard data");
     }
+    return newCreditCardTransactions;
   }
 );
 
@@ -64,20 +67,107 @@ export const creditCardSlice = createSlice({
       .addCase(fetchCreditCardAsync.fulfilled, (state, action) => {
         state.status = "fulfilled";
         state.data = action.payload;
+        state.total = calculateTotal(action.payload, "expence");
       })
       .addCase(fetchCreditCardAsync.rejected, (state) => {
+        state.status = "rejected";
+      })
+      .addCase(storeCreditCardAsync.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(storeCreditCardAsync.fulfilled, (state, action) => {
+        state.status = "fulfilled";
+        state.data = action.payload;
+        state.total = calculateTotal(action.payload, "expence");
+      })
+      .addCase(storeCreditCardAsync.rejected, (state) => {
         state.status = "rejected";
       });
   },
 });
 
 // Thunks
+export const addCreditCardTransaction =
+  (newTransactionInput: TransactionInput): AppThunk =>
+  (dispatch, getState) => {
+    const date = new Date();
+    const newTransaction: Transaction = {
+      ...newTransactionInput,
+      id: uuid.v4(),
+      day: {
+        day: date.getDate(),
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+      },
+      hour: { hour: date.getHours(), minutes: date.getMinutes() },
+    };
+    const currentTransactions = selectCreditCardData(getState());
+    const newTransactions = [newTransaction, ...currentTransactions];
+    dispatch(storeCreditCardAsync(newTransactions));
+  };
+
+export const payCreditCard =
+  (amount: number): AppThunk<Transaction[]> =>
+  (dispatch, getState) => {
+    const currentTransactions = [...selectCreditCardData(getState())];
+    const newTransactions = currentTransactions
+      .reverse()
+      .map((t) => {
+        const value = parseInt(t.value, 10);
+        if (amount > 0) {
+          if (amount >= value) {
+            amount -= value;
+            return { ...t, value: "0" };
+          } else {
+            const newValue = (value - amount).toString();
+            amount = 0;
+            return { ...t, value: newValue };
+          }
+        } else {
+          return t;
+        }
+      })
+      .reverse();
+    currentTransactions.reverse();
+    const newCredits = newTransactions.filter((t) => t.value !== "0");
+    const newDebits = newTransactions
+      .map((t, i) => {
+        return {
+          ...t,
+          value: (
+            parseInt(currentTransactions[i].value, 10) - parseInt(t.value, 10)
+          ).toString(),
+        };
+      })
+      .filter((t) => t.value !== "0");
+    dispatch(storeCreditCardAsync(newCredits));
+    return newDebits;
+  };
+
+export const editCreditCardTransaction =
+  (editingTransaction: Transaction): AppThunk =>
+  (dispatch, getState) => {
+    const currentTransactions = selectCreditCardData(getState());
+    const newTransactions = currentTransactions.map((t) => {
+      if (t.id === editingTransaction.id) {
+        return {
+          ...t,
+          name: editingTransaction.name,
+          value: editingTransaction.value,
+          categoryId: editingTransaction.categoryId,
+        };
+      } else {
+        return t;
+      }
+    });
+    dispatch(storeCreditCardAsync(newTransactions));
+  };
 
 // Selectors
-
 export const selectCreditCardData = (state: RootState) => state.creditCard.data;
-
 export const selectCreditCardStatus = (state: RootState) =>
   state.creditCard.status;
+export const selectCreditCardTotal = (state: RootState) =>
+  state.creditCard.total;
 
 export default creditCardSlice.reducer;
