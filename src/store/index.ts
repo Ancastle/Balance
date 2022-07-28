@@ -45,3 +45,10 @@ export {
   selectCreditCardStatus,
   selectCreditCardTotal,
 } from "./creditCardSlice";
+
+export {
+  fetchHistoryAsync,
+  addHistoryRegister,
+  selectHistoryData,
+  selectHistoryStatus,
+} from "./historySlice";

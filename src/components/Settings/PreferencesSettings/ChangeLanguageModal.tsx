@@ -11,6 +11,7 @@ import {
   useAppSelector,
   useAppDispatch,
   changeLanguage,
+  addHistoryRegister,
 } from "../../../store";
 
 interface ManageCategoriesModalProps {

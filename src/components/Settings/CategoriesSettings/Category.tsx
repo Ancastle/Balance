@@ -13,7 +13,7 @@ interface CategoryProps {
   color: string;
   category: CategoryType;
   onEdit: () => void;
-  onDelete: (categoryId: UuId) => void;
+  onDelete: (categoryId: UuId, categoryName: string) => void;
   mode: string;
 }
 
@@ -31,7 +31,7 @@ const Category: React.FC<CategoryProps> = ({
   const cancelRef = React.useRef(null);
 
   const handleDelete = React.useCallback(async () => {
-    onDelete(category.id);
+    onDelete(category.id, category.name);
     setIsConfirmOpen(false);
   }, [category]);
 

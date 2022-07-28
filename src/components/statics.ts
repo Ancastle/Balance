@@ -5,6 +5,7 @@ export const LANGUAGES = {
     "Select a transaction type",
     "Selecciona el tipo de transacción",
   ],
+  payCreditCard: ["Credit card payment for", "Pago tarjeta de crédito por"],
   history: ["History", "Historial"],
   createCategory: ["Create category", "Crear categoría"],
   editCategory: ["Edit category", "Editar categoría"],

@@ -53,7 +53,6 @@ const HistoryContextProvider: React.FC = ({ children }) => {
             minutes: newRegisterDate.getMinutes(),
           },
         };
-        console.log(newRegister);
         const newHistory = [newRegister, ...history];
         setHistory(newHistory);
         const jsonValue = JSON.stringify({ history: newHistory });

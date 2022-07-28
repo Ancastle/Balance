@@ -25,6 +25,7 @@ import {
   editCreditCardTransaction,
   useAppSelector,
   useAppDispatch,
+  addHistoryRegister,
 } from "../../../store";
 
 const CreditCardTransactionsList: React.FC = () => {
@@ -33,6 +34,12 @@ const CreditCardTransactionsList: React.FC = () => {
   const onEditCreditCardTransaction = React.useCallback(
     (editingTransaction: Transaction) => {
       dispatch(editCreditCardTransaction(editingTransaction));
+      dispatch(
+        addHistoryRegister(
+          LANGUAGES.editCCTransaction[appLanguage],
+          editingTransaction.name
+        )
+      );
     },
     [dispatch, editCreditCardTransaction]
   );

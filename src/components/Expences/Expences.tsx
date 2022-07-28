@@ -15,6 +15,7 @@ import {
   addTransaction,
   editTransaction,
   selectPreferencesLanguage,
+  addHistoryRegister,
   useAppSelector,
   useAppDispatch,
 } from "../../store";
@@ -25,14 +26,28 @@ const Expences: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const onAdd = React.useCallback(
-    (newTransactionInput: TransactionInput) =>
-      dispatch(addTransaction(newTransactionInput)),
+    (newTransactionInput: TransactionInput) => {
+      dispatch(addTransaction(newTransactionInput));
+      dispatch(
+        addHistoryRegister(
+          LANGUAGES.addTransaction[appLanguage],
+          newTransactionInput.name
+        )
+      );
+    },
     [dispatch, addTransaction]
   );
 
   const onEdit = React.useCallback(
-    (editingTransaction: Transaction) =>
+    (editingTransaction: Transaction) => {
       dispatch(editTransaction(editingTransaction)),
+        dispatch(
+          addHistoryRegister(
+            LANGUAGES.editTransaction[appLanguage],
+            editingTransaction.name
+          )
+        );
+    },
     [dispatch, editTransaction]
   );
 

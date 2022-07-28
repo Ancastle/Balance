@@ -12,9 +12,6 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
-// Contexts
-import { HistoryContext } from "../../Contexts";
-
 // Types
 import { Person, TransactionInput } from "../../types";
 
@@ -26,8 +23,10 @@ import {
   selectPreferencesLanguage,
   addTransaction,
   selectTransactionsTotal,
+  addHistoryRegister,
   useAppSelector,
   useAppDispatch,
+  addPersonTransaction,
 } from "../../../store";
 
 interface AddPersonTransactionModalProps {
@@ -48,11 +47,16 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   const totalBalance = useAppSelector(selectTransactionsTotal);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
-  const { history } = React.useContext(HistoryContext);
-
   const onAdd = React.useCallback(
-    (newTransactionInput: TransactionInput) =>
-      dispatch(addTransaction(newTransactionInput)),
+    (newTransactionInput: TransactionInput) => {
+      dispatch(addTransaction(newTransactionInput));
+      dispatch(
+        addHistoryRegister(
+          LANGUAGES.addPersonTransaction[appLanguage],
+          newTransactionInput.name
+        )
+      );
+    },
     [dispatch, addTransaction]
   );
 
@@ -74,7 +78,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
     [amount, whoPays, person]
   );
 
-  const handleSave = React.useCallback(() => {
+  const onAddPersonTransaction = React.useCallback(() => {
     if (person) {
       onTransaction(person, amount, whoPays);
       if (!isCash) {
@@ -97,7 +101,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
       resetModal();
       onClose();
     }
-  }, [whoPays, amount, person, isCash, history]);
+  }, [whoPays, amount, person, isCash]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -179,7 +183,10 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
             >
               {LANGUAGES.cancel[appLanguage]}
             </Button>
-            <Button onPress={handleSave} isDisabled={isSaveDisabled}>
+            <Button
+              onPress={onAddPersonTransaction}
+              isDisabled={isSaveDisabled}
+            >
               {LANGUAGES.save[appLanguage]}
             </Button>
           </Button.Group>

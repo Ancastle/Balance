@@ -31,6 +31,7 @@ import {
   addPersonTransaction,
   useAppSelector,
   useAppDispatch,
+  addHistoryRegister,
 } from "../../../store";
 
 const BalanceTransactionsList: React.FC = () => {
@@ -39,20 +40,32 @@ const BalanceTransactionsList: React.FC = () => {
   const onAddPerson = React.useCallback(
     (personName: string) => {
       dispatch(addPerson(personName));
+      dispatch(
+        addHistoryRegister(LANGUAGES.addPerson[appLanguage], personName)
+      );
     },
-    [dispatch, addPerson]
+    [dispatch, addPerson, addHistoryRegister]
   );
   const onDeletePerson = React.useCallback(
-    (personId: UuId) => {
+    (personId: UuId, personName: string) => {
       dispatch(deletePerson(personId));
+      dispatch(
+        addHistoryRegister(LANGUAGES.deletePerson[appLanguage], personName)
+      );
     },
-    [dispatch, deletePerson]
+    [dispatch, deletePerson, addHistoryRegister]
   );
   const onAddTransaction = React.useCallback(
-    (personId: UuId, value: number, whoPays: string) => {
+    (personId: UuId, personName: string, value: number, whoPays: string) => {
       dispatch(addPersonTransaction(personId, value, whoPays));
+      dispatch(
+        addHistoryRegister(
+          LANGUAGES.addPersonTransaction[appLanguage],
+          personName
+        )
+      );
     },
-    [dispatch, addPersonTransaction]
+    [dispatch, addPersonTransaction, addHistoryRegister]
   );
   const people = useAppSelector(selectPeopleData);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -79,7 +92,7 @@ const BalanceTransactionsList: React.FC = () => {
   const handleDelete = (personName: string) => {
     const person = people.find((person) => person.name === personName);
     if (person) {
-      onDeletePerson(person.id);
+      onDeletePerson(person.id, person.name);
     }
     setShowDeletePerson(false);
   };
@@ -90,7 +103,7 @@ const BalanceTransactionsList: React.FC = () => {
     whoPays: string
   ) => {
     if (person) {
-      onAddTransaction(person.id, parseInt(amount, 10), whoPays);
+      onAddTransaction(person.id, person.name, parseInt(amount, 10), whoPays);
     }
     setCurrentPerson(null);
   };

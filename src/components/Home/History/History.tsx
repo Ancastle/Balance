@@ -1,29 +1,23 @@
 import React from "react";
-import {
-  SectionList,
-  Heading,
-  Center,
-  Flex,
-  Box,
-  Text,
-  Pressable,
-} from "native-base";
-
-// Contexts
-import { HistoryContext } from "../../Contexts";
+import { SectionList, Heading, Center, Flex, Box, Text } from "native-base";
 
 // Utils
-import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../../utils";
+import { makeDoubleDigit, isEven } from "../../utils";
 
 // Statics
 import { LANGUAGES } from "../../statics";
 
 // Store
-import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+import {
+  selectPreferencesLanguage,
+  selectHistoryData,
+  useAppSelector,
+} from "../../../store";
 
 const History: React.FC = () => {
-  const { history } = React.useContext(HistoryContext);
+  const history = useAppSelector(selectHistoryData);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+
   const data = React.useMemo(
     () => [
       {

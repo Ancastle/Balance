@@ -15,6 +15,7 @@ import {
   useAppDispatch,
   useAppSelector,
   addCreditCardPayment,
+  addHistoryRegister,
 } from "../../../store";
 
 interface ReviewTransactionModalProps {
@@ -31,6 +32,12 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
   const onPayCreditCard = React.useCallback(
     (amount: number) => {
       dispatch(addCreditCardPayment(dispatch(payCreditCard(amount))));
+      dispatch(
+        addHistoryRegister(
+          LANGUAGES.payCreditCard[appLanguage],
+          amount.toString()
+        )
+      );
       onClose();
     },
     [dispatch, [payCreditCard]]

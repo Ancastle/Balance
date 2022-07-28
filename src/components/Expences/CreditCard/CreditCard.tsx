@@ -19,6 +19,7 @@ import {
   addCreditCardTransaction,
   useAppSelector,
   useAppDispatch,
+  addHistoryRegister,
 } from "../../../store";
 
 interface DebitTransactionsProps {}
@@ -29,6 +30,12 @@ const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
   const onAddCreditCardTransaction = React.useCallback(
     (newTransactionInput: TransactionInput) => {
       dispatch(addCreditCardTransaction(newTransactionInput));
+      dispatch(
+        addHistoryRegister(
+          LANGUAGES.addCCTransaction[appLanguage],
+          newTransactionInput.name
+        )
+      );
     },
     [dispatch, addCreditCardTransaction]
   );

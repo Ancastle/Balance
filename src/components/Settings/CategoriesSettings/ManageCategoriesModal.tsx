@@ -21,6 +21,7 @@ import {
   selectPreferencesLanguage,
   useAppSelector,
   useAppDispatch,
+  addHistoryRegister,
 } from "../../../store";
 
 interface ManageCategoriesModalProps {
@@ -43,17 +44,30 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
   const categories = useAppSelector(selectCategoriesData);
 
   const onAdd = React.useCallback(
-    (categoryName: string, categoryType: TransactionType) =>
-      dispatch(addCategory(categoryName, categoryType)),
-    [dispatch, addCategory]
+    (categoryName: string, categoryType: TransactionType) => {
+      dispatch(addCategory(categoryName, categoryType));
+      dispatch(
+        addHistoryRegister(LANGUAGES.createCategory[appLanguage], categoryName)
+      );
+    },
+    [dispatch, addCategory, addHistoryRegister]
   );
   const onEdit = React.useCallback(
-    (categoryNewName: string, categoryId: UuId) =>
-      dispatch(editCategory(categoryNewName, categoryId)),
+    (categoryNewName: string, categoryId: UuId) => {
+      dispatch(editCategory(categoryNewName, categoryId));
+      dispatch(
+        addHistoryRegister(LANGUAGES.editCategory[appLanguage], categoryNewName)
+      );
+    },
     [dispatch, editCategory]
   );
   const onDelete = React.useCallback(
-    (categoryId: UuId) => dispatch(deleteCategory(categoryId)),
+    (categoryId: UuId, categoryName: string) => {
+      dispatch(deleteCategory(categoryId));
+      dispatch(
+        addHistoryRegister(LANGUAGES.deleteCategory[appLanguage], categoryName)
+      );
+    },
     [dispatch, deleteCategory]
   );
   const [editingCategory, setEditingCategory] = React.useState<CategoryType>();

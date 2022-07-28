@@ -3,7 +3,7 @@ import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Transaction, TransactionInput } from "../components/types";
-import { RootState, AppThunk, store } from "./store";
+import { RootState, AppThunk } from "./store";
 
 import { STORAGE } from "../components/statics";
 import { calculateTotal } from "../components/utils";

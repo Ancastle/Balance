@@ -12,6 +12,7 @@ import { LANGUAGES } from "../statics";
 
 // Store
 import {
+  addHistoryRegister,
   addTransaction,
   editTransaction,
   selectPreferencesLanguage,
@@ -25,14 +26,28 @@ const Entries: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const onAdd = React.useCallback(
-    (newTransactionInput: TransactionInput) =>
+    (newTransactionInput: TransactionInput) => {
       dispatch(addTransaction(newTransactionInput)),
+        dispatch(
+          addHistoryRegister(
+            LANGUAGES.addTransaction[appLanguage],
+            newTransactionInput.name
+          )
+        );
+    },
     [dispatch, addTransaction]
   );
 
   const onEdit = React.useCallback(
-    (editingTransaction: Transaction) =>
-      dispatch(editTransaction(editingTransaction)),
+    (editingTransaction: Transaction) => {
+      dispatch(editTransaction(editingTransaction));
+      dispatch(
+        addHistoryRegister(
+          LANGUAGES.editTransaction[appLanguage],
+          editingTransaction.name
+        )
+      );
+    },
     [dispatch, editTransaction]
   );
 
