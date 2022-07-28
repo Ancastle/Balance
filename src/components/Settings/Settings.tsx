@@ -5,17 +5,17 @@ import { TabsHeader } from "../Shared";
 import PreferencesSettings from "./PreferencesSettings";
 import CategoriesSettings from "./CategoriesSettings";
 
-// Contexts
-import { PreferencesContext } from "../Contexts";
-
 // Types
 import { Tab } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../store";
+
 const Settings: React.FC = () => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const tabs: Tab[] = React.useMemo(
     () => [

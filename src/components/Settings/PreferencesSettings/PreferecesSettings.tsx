@@ -12,15 +12,15 @@ import {
 // Components
 import ChangeLanguageModal from "./ChangeLanguageModal";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Utils
 import { isEven } from "../../utils";
 import { LANGUAGES, DEVONLYTestingRecords } from "../../statics";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+
 const PreferencesSettings: React.FC = () => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
 

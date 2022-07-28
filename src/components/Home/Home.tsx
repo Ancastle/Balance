@@ -6,7 +6,6 @@ import { TabsHeader } from "../Shared";
 import Graphs from "./Graphs";
 
 // Contexts
-import { PreferencesContext } from "../Contexts";
 import History from "./History";
 
 // Types
@@ -19,29 +18,33 @@ import { LANGUAGES } from "../statics";
 import {
   fetchTransactionsAsync,
   selectTransactionsStatus,
-} from "../../app/transactionsSlice";
-import { fetchCategoriesAsync } from "../../app/categoriesSlice";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
+  fetchCategoriesAsync,
+  fetchPreferencesAsync,
+  selectPreferencesLanguage,
+  useAppSelector,
+  useAppDispatch,
+} from "../../store";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
 
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
   const transactionsStatus = useAppSelector(selectTransactionsStatus);
-
-  React.useEffect(() => {
-    if (transactionsStatus === "idle") {
-      dispatch(fetchTransactionsAsync());
-      dispatch(fetchCategoriesAsync());
-    }
-  }, []);
-
-  const { appLanguage } = React.useContext(PreferencesContext);
 
   const tabs: Tab[] = [
     { key: "first", title: LANGUAGES.home.tabs.home[appLanguage] },
     { key: "second", title: LANGUAGES.home.tabs.charts[appLanguage] },
     { key: "third", title: LANGUAGES.home.tabs.history[appLanguage] },
   ];
+
+  React.useEffect(() => {
+    if (transactionsStatus === "idle") {
+      dispatch(fetchTransactionsAsync());
+      dispatch(fetchCategoriesAsync());
+      dispatch(fetchPreferencesAsync());
+    }
+  }, []);
+
   return (
     <TabsHeader
       tabs={tabs}

@@ -3,9 +3,6 @@ import { Button, Modal, Text, Box, Flex, Center, VStack } from "native-base";
 import { Pressable } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-//Contexts
-import { PreferencesContext } from "../../Contexts";
-
 //Types
 import {
   categoryData,
@@ -18,6 +15,9 @@ import {
 // Utils
 import { LANGUAGES } from "../../statics";
 import { isEven, makeCurrencyFormat } from "../../utils";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface CategoryTransactionsMonthProps {
   isOpen: boolean;
@@ -32,7 +32,8 @@ const CategoryTransactionsMonth: React.FC<CategoryTransactionsMonthProps> = ({
   currentMonth,
   currentCategory,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
+
   const data = React.useMemo(
     () =>
       currentCategory.transactions.map((c) => ({

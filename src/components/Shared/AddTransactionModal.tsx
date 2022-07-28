@@ -10,9 +10,6 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
-// Contexts
-import { PreferencesContext } from "../Contexts";
-
 // Types
 import { TransactionInput, TransactionType } from "../types";
 
@@ -20,8 +17,11 @@ import { TransactionInput, TransactionType } from "../types";
 import { LANGUAGES } from "../statics";
 
 // Store
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectCategoriesData } from "../../app/categoriesSlice";
+import {
+  selectCategoriesData,
+  selectPreferencesLanguage,
+  useAppSelector,
+} from "../../store";
 
 interface AddTransactionModalProps {
   isOpen: boolean;
@@ -37,7 +37,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   onAdd,
 }) => {
   const categories = useAppSelector(selectCategoriesData);
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");

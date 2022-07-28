@@ -280,7 +280,7 @@ export const INITIAL_CATEGORIES: CategoryType[] = [
   },
 ];
 
-export const INITIAL_PREFERENCES: Preferences = {
+export const DEFAULT_PREFERENCES: Preferences = {
   appLanguage: 1,
 };
 
@@ -463,7 +463,7 @@ export const pastMonths = [
   "12",
 ];
 
-const LANGUAGES_ARRAY = [
+export const ALL_LANGUAGES = [
   { name: "English", id: 0 },
   { name: "Español", id: 1 },
 ];

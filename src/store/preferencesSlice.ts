@@ -1,24 +1,22 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Transaction, TransactionInput } from "../components/types";
+import { Preferences } from "../components/types";
 import { RootState, AppThunk } from "./store";
 
-import { STORAGE } from "../components/statics";
+import { DEFAULT_PREFERENCES, STORAGE } from "../components/statics";
 
 export interface PreferencesState {
-  data: Transaction[];
+  preferences: Preferences;
   status: string;
 }
 
 const initialState: PreferencesState = {
-  data: [],
+  preferences: { appLanguage: 0 },
   status: "idle",
 };
 
 // Async
-
 export const fetchPreferencesAsync = createAsyncThunk(
   "preferences/fetchPreferences",
   async () => {
@@ -27,6 +25,8 @@ export const fetchPreferencesAsync = createAsyncThunk(
       if (value) {
         const parsed = JSON.parse(value).preferences;
         return parsed;
+      } else {
+        return DEFAULT_PREFERENCES;
       }
     } catch (e) {
       console.log("Error: Could not fetch preferences data");
@@ -36,18 +36,18 @@ export const fetchPreferencesAsync = createAsyncThunk(
 
 export const storePreferencesAsync = createAsyncThunk(
   "preferences/storePreferencesAsync",
-  async (newPreferences: Transaction[]) => {
+  async (newPreferences: Preferences) => {
     try {
       const jsonValue = JSON.stringify({ preferences: newPreferences });
       await AsyncStorage.setItem(STORAGE.preferences, jsonValue);
     } catch (e) {
       console.log("Error: Could not store preferences data");
     }
+    return newPreferences;
   }
 );
 
 // Slice
-
 export const preferencesSlice = createSlice({
   name: "preferences",
   initialState,
@@ -57,22 +57,50 @@ export const preferencesSlice = createSlice({
       .addCase(fetchPreferencesAsync.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(fetchPreferencesAsync.fulfilled, (state, action) => {
-        state.status = "fulfilled";
-        state.data = action.payload;
-      })
+      .addCase(
+        fetchPreferencesAsync.fulfilled,
+        (state, action: PayloadAction<Preferences>) => {
+          state.status = "fulfilled";
+          state.preferences.appLanguage = action.payload.appLanguage;
+        }
+      )
       .addCase(fetchPreferencesAsync.rejected, (state) => {
+        state.status = "rejected";
+      })
+      .addCase(storePreferencesAsync.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(
+        storePreferencesAsync.fulfilled,
+        (state, action: PayloadAction<Preferences>) => {
+          state.status = "fulfilled";
+          state.preferences.appLanguage = action.payload.appLanguage;
+        }
+      )
+      .addCase(storePreferencesAsync.rejected, (state) => {
         state.status = "rejected";
       });
   },
 });
 
 // Thunks
+export const changeLanguage =
+  (newLanguageId: string): AppThunk =>
+  (dispatch, getState) => {
+    const currentePreferences = selectPreferences(getState());
+    const newPreferences = {
+      ...currentePreferences,
+      appLanguage: parseInt(newLanguageId, 10),
+    };
+    dispatch(storePreferencesAsync(newPreferences));
+  };
 
 // Selectors
+export const selectPreferences = (state: RootState) =>
+  state.preferences.preferences;
 
-export const selectPreferencesData = (state: RootState) =>
-  state.preferences.data;
+export const selectPreferencesLanguage = (state: RootState) =>
+  state.preferences.preferences.appLanguage;
 
 export const selectPreferencesStatus = (state: RootState) =>
   state.preferences.status;

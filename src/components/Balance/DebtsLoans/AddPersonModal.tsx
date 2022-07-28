@@ -2,14 +2,14 @@ import React from "react";
 import { Button, Modal, FormControl, Input, Icon, Text } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { Person } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface AddTransactionModalProps {
   isOpen: boolean;
@@ -24,7 +24,7 @@ const AddPersonModal: React.FC<AddTransactionModalProps> = ({
   onAdd,
   people,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [name, setName] = React.useState("");
 

@@ -16,7 +16,7 @@ import AddPersonModal from "./AddPersonModal";
 import DeletePersonModal from "./DeletePersonModal";
 
 // Contexts
-import { PreferencesContext, PeopleContext } from "../../Contexts";
+import { PeopleContext } from "../../Contexts";
 
 // Types
 import { Person } from "../../types";
@@ -25,10 +25,14 @@ import { Person } from "../../types";
 import { makeCurrencyFormat } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+
 const BalanceTransactionsList: React.FC = () => {
   const { people, addPerson, deletePerson, addTransaction } =
     React.useContext(PeopleContext);
-  const { appLanguage } = React.useContext(PreferencesContext);
+
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
   const [showAddPerson, setShowAddPerson] = React.useState(false);
   const [showDeletePerson, setShowDeletePerson] = React.useState(false);
   const [currentPerson, setCurrentPerson] = React.useState<Person | null>(null);

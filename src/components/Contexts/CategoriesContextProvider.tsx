@@ -12,6 +12,9 @@ import { PreferencesContext } from "./PreferencesContextProvider";
 // Statics
 import { INITIAL_CATEGORIES, LANGUAGES, STORAGE } from "../statics";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../../store";
+
 export interface CategoriesContextProps {
   categories: CategoryType[];
   addCategory: (categoryName: string, categoryType: TransactionType) => void;

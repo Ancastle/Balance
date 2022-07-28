@@ -18,9 +18,6 @@ import {
 import { Pressable } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-//Contexts
-import { PreferencesContext } from "../../Contexts";
-
 //Types
 import {
   categoryData,
@@ -35,6 +32,9 @@ import { LANGUAGES } from "../../statics";
 import { isEven, makeCurrencyFormat } from "../../utils";
 import CategoryTransactionsMonth from "./CategoryTransactionsMonth";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+
 interface MonthsNumbersModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -48,7 +48,7 @@ const MonthsNumbersModal: React.FC<MonthsNumbersModalProps> = ({
   currentMonth,
   selectedCategories,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
   const [showingTransactions, setShowingTransactions] = React.useState(false);
   const [currentCategory, setCurrentCategory] = React.useState<
     categoryData | undefined

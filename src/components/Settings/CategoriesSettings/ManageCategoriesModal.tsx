@@ -5,9 +5,6 @@ import { Button, Modal, Text, Box } from "native-base";
 import CategoryInputModal from "./CategoryInputModal";
 import Category from "./Category";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { CategoryType, TransactionType, UuId } from "../../types";
 
@@ -21,8 +18,10 @@ import {
   addCategory,
   editCategory,
   deleteCategory,
-} from "../../../app/categoriesSlice";
-import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+  selectPreferencesLanguage,
+  useAppSelector,
+  useAppDispatch,
+} from "../../../store";
 
 interface ManageCategoriesModalProps {
   isOpen: boolean;
@@ -37,7 +36,7 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
   type,
   mode,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const dispatch = useAppDispatch();
 

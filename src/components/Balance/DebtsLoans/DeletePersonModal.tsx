@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, Modal, Select, CheckIcon, Text } from "native-base";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { Person } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface DeletePersonModalProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ const DeletePersonModal: React.FC<DeletePersonModalProps> = ({
   onDelete,
   people,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [personName, setPersonName] = React.useState("");
   const [personValue, setPersonValue] = React.useState(0);

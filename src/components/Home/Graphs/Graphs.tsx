@@ -1,9 +1,6 @@
 import * as React from "react";
 import { ScrollView, Center, Select, CheckIcon } from "native-base";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Components
 import { CategoriesLineChart } from "./CategoriesLineChart";
 import { MonthsPieChart } from "./MonthsPieChart";
@@ -16,12 +13,15 @@ import { MonthsNumbers } from "./MonthNumbers";
 import { CategoriesNumbers } from "./CategoriesNumbers";
 
 // Store
-import { selectCategoriesData } from "../../../app/categoriesSlice";
-import { selectTransactionsData } from "../../../app/transactionsSlice";
-import { useAppSelector } from "../../../app/hooks";
+import {
+  selectCategoriesData,
+  selectTransactionsData,
+  selectPreferencesLanguage,
+  useAppSelector,
+} from "../../../store";
 
 const Graphs: React.FC = () => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const categories = useAppSelector(selectCategoriesData);
   const transactions = useAppSelector(selectTransactionsData);

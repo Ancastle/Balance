@@ -12,9 +12,6 @@ import {
 // Components
 import ManageCategoriesModal from "./ManageCategoriesModal";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { TransactionType } from "../../types";
 
@@ -22,8 +19,11 @@ import { TransactionType } from "../../types";
 import { isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+
 const CategoriesSettings: React.FC = () => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [type, setType] = React.useState<TransactionType>();
   const [mode, setMode] = React.useState("");

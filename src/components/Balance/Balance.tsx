@@ -5,17 +5,17 @@ import { TabsHeader } from "../Shared";
 import BalanceTransactionsList from "./BalanceTransactionsList";
 import DebtsLoans from "./DebtsLoans";
 
-// Contexts
-import { PreferencesContext } from "../Contexts";
-
 // Types
 import { Tab } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../store";
+
 const Balance: React.FC = () => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const tabs: Tab[] = React.useMemo(
     () => [

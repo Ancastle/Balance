@@ -2,12 +2,12 @@ import React from "react";
 import { Box, Pressable, Flex, Center, AlertDialog, Button } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { CategoryType, UuId } from "../../types";
 import { LANGUAGES } from "../../statics";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface CategoryProps {
   color: string;
@@ -24,7 +24,7 @@ const Category: React.FC<CategoryProps> = ({
   onDelete,
   mode,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
 

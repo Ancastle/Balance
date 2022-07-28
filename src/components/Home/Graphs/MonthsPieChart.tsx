@@ -3,15 +3,15 @@ import { Text } from "native-base";
 import { Dimensions } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { CategoryType, monthIdentifier, Transaction } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
 import { random_rgba } from "../../utils";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface MonthsPieChartProps {
   transactions: Transaction[];
@@ -26,7 +26,7 @@ export const MonthsPieChart: React.FC<MonthsPieChartProps> = ({
   transactionType,
   selectedMonth,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const data = React.useMemo(() => {
     return selectedCategories.map((item, i) => ({

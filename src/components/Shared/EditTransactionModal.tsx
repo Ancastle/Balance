@@ -11,9 +11,6 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
-//Contexts
-import { PreferencesContext } from "../Contexts";
-
 //Types
 import { Transaction, TransactionType } from "../types";
 
@@ -22,8 +19,11 @@ import { LANGUAGES } from "../statics";
 import { makeDoubleDigit } from "../utils";
 
 // Store
-import { selectCategoriesData } from "../../app/categoriesSlice";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import {
+  selectCategoriesData,
+  selectPreferencesLanguage,
+  useAppSelector,
+} from "../../store";
 
 interface EditTransactionModalProps {
   isOpen: boolean;
@@ -40,10 +40,8 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
   transaction,
   onEdit,
 }) => {
-  const dispatch = useAppDispatch();
-
   const categories = useAppSelector(selectCategoriesData);
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");

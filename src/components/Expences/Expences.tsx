@@ -4,9 +4,6 @@ import * as React from "react";
 import { TabsHeader, DebitTransactions } from "../Shared";
 import CreditCard from "./CreditCard";
 
-// Contexts
-import { PreferencesContext } from "../Contexts";
-
 // Types
 import { Tab, Transaction, TransactionInput } from "../types";
 
@@ -14,11 +11,18 @@ import { Tab, Transaction, TransactionInput } from "../types";
 import { LANGUAGES } from "../statics";
 
 // Store
-import { addTransaction, editTransaction } from "../../app/transactionsSlice";
-import { useAppDispatch } from "../../app/hooks";
+import {
+  addTransaction,
+  editTransaction,
+  selectPreferencesLanguage,
+  useAppSelector,
+  useAppDispatch,
+} from "../../store";
 
 const Expences: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const onAdd = React.useCallback(
     (newTransactionInput: TransactionInput) =>
@@ -31,8 +35,6 @@ const Expences: React.FC = () => {
       dispatch(editTransaction(editingTransaction)),
     [dispatch, editTransaction]
   );
-
-  const { appLanguage } = React.useContext(PreferencesContext);
 
   const tabs: Tab[] = [
     { key: "first", title: LANGUAGES.expence.tabs.debit[appLanguage] },

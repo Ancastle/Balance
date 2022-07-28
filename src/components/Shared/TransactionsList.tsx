@@ -12,9 +12,6 @@ import {
 // Components
 import EditTransactionModal from "./EditTransactionModal";
 
-// Contexts
-import { PreferencesContext } from "../Contexts";
-
 // Types
 import { Transaction, TransactionType } from "../types";
 
@@ -23,8 +20,11 @@ import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../utils";
 import { LANGUAGES } from "../statics";
 
 // Store
-import { selectTransactionsData } from "../../app/transactionsSlice";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import {
+  selectTransactionsData,
+  selectPreferencesLanguage,
+  useAppSelector,
+} from "../../store";
 
 interface TransactionsListProps {
   type: TransactionType;
@@ -35,11 +35,8 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
   type,
   onEdit,
 }) => {
-  const dispatch = useAppDispatch();
-
   const transactions = useAppSelector(selectTransactionsData);
-
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();

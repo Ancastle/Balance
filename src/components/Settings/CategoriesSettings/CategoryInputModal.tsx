@@ -2,16 +2,16 @@ import React from "react";
 import { Button, Modal, FormControl, Input, Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { CategoryType } from "../../types";
 import { LANGUAGES } from "../../statics";
 
 // Store
-import { selectCategoriesData } from "../../../app/categoriesSlice";
-import { useAppSelector } from "../../../app/hooks";
+import {
+  selectCategoriesData,
+  selectPreferencesLanguage,
+  useAppSelector,
+} from "../../../store";
 
 interface CategoryInputModalProps {
   isOpen: boolean;
@@ -26,7 +26,7 @@ const CategoryInputModal: React.FC<CategoryInputModalProps> = ({
   onSave,
   category,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const categories = useAppSelector(selectCategoriesData);
 

@@ -7,15 +7,18 @@ import CreditCardTransactionsList from "./CreditCardTransactionsList";
 import PayCreditCardModal from "./PayCreditCardModal";
 
 // Contexts
-import { PreferencesContext, CreditCardContext } from "../../Contexts";
+import { CreditCardContext } from "../../Contexts";
 
 // Utils
 import { LANGUAGES } from "../../statics";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+
 interface DebitTransactionsProps {}
 
 const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
   const { addCCTransaction, totalDebt } = React.useContext(CreditCardContext);
 
   const [showAddModal, setShowAddModal] = React.useState(false);

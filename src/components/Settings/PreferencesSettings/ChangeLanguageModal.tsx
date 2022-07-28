@@ -1,15 +1,17 @@
 import React from "react";
 import { Button, Modal, Box, Select, CheckIcon } from "native-base";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Utils
-import { LANGUAGES } from "../../statics";
+import { LANGUAGES, ALL_LANGUAGES } from "../../statics";
 
 // Store
-import { adjustCategoryNames } from "../../../app/categoriesSlice";
-import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import {
+  adjustCategoryNames,
+  selectPreferencesLanguage,
+  useAppSelector,
+  useAppDispatch,
+  changeLanguage,
+} from "../../../store";
 
 interface ManageCategoriesModalProps {
   isOpen: boolean;
@@ -29,8 +31,14 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
     [dispatch, adjustCategoryNames]
   );
 
-  const { appLanguage, languages, changeLanguage } =
-    React.useContext(PreferencesContext);
+  const onChangeLanguage = React.useCallback(
+    (newLanguageId: string) => {
+      dispatch(changeLanguage(newLanguageId));
+    },
+    [dispatch, changeLanguage]
+  );
+
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [selectedLanguage, setSelectedLanguage] = React.useState("");
 
@@ -66,7 +74,7 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
             mt={3}
             onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
           >
-            {languages.map((language, i) => (
+            {ALL_LANGUAGES.map((language, i) => (
               <Select.Item
                 key={i}
                 label={language.name}
@@ -93,7 +101,7 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
                     appLanguage,
                     parseInt(selectedLanguage, 10)
                   );
-                  changeLanguage(selectedLanguage);
+                  onChangeLanguage(selectedLanguage);
                   onClose();
                 }}
                 isDisabled={isSaveDisabled}

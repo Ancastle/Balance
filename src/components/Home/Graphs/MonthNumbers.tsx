@@ -3,9 +3,6 @@ import { Text, Box, Flex, Center, Heading } from "native-base";
 import { Dimensions, SectionList, Pressable } from "react-native";
 import { LineChart, StackedBarChart } from "react-native-chart-kit";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import {
   CategoryType,
@@ -19,8 +16,10 @@ import MonthNumbersModal from "./MonthsNumbersModal";
 
 // Utils
 import { LANGUAGES } from "../../statics";
-import { random_rgba, isEven, makeCurrencyFormat } from "../../utils";
-import { margin } from "styled-system";
+import { isEven, makeCurrencyFormat } from "../../utils";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface MonthsNumbersProps {
   transactions: Transaction[];
@@ -35,7 +34,7 @@ export const MonthsNumbers: React.FC<MonthsNumbersProps> = ({
   lastMonths,
   selectedCategories,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
   const [showCategories, setShowCategories] = React.useState(false);
   const [currentMonth, setCurrentMonth] = React.useState<
     monthData | undefined

@@ -4,9 +4,6 @@ import { Center } from "native-base";
 // Components
 import { TabsHeader, DebitTransactions } from "../Shared";
 
-// Contexts
-import { PreferencesContext } from "../Contexts";
-
 // Types
 import { Tab, Transaction, TransactionInput } from "../types";
 
@@ -14,12 +11,18 @@ import { Tab, Transaction, TransactionInput } from "../types";
 import { LANGUAGES } from "../statics";
 
 // Store
-import { addTransaction, editTransaction } from "../../app/transactionsSlice";
-import { useAppDispatch } from "../../app/hooks";
+import {
+  addTransaction,
+  editTransaction,
+  selectPreferencesLanguage,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store";
 
 const Entries: React.FC = () => {
-  const { appLanguage } = React.useContext(PreferencesContext);
   const dispatch = useAppDispatch();
+
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const onAdd = React.useCallback(
     (newTransactionInput: TransactionInput) =>

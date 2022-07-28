@@ -5,14 +5,14 @@ import { Button, Center } from "native-base";
 import TransactionsList from "./TransactionsList";
 import AddTransactionModal from "./AddTransactionModal";
 
-// Contexts
-import { PreferencesContext } from "../Contexts";
-
 // Types
 import { TransactionType, Transaction, TransactionInput } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../store";
 
 interface DebitTransactionsProps {
   type: TransactionType;
@@ -27,7 +27,7 @@ const DebitTransactions: React.FC<DebitTransactionsProps> = ({
 }) => {
   const [showAddModal, setShowAddModal] = React.useState(false);
 
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   return (
     <>

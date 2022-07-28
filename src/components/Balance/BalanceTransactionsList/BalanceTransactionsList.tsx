@@ -9,24 +9,22 @@ import {
   Text,
 } from "native-base";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
 // Store
 import {
+  selectPreferencesLanguage,
   selectTransactionsData,
   selectTransactionsTotal,
-} from "../../../app/transactionsSlice";
-import { useAppSelector } from "../../../app/hooks";
+  useAppSelector,
+} from "../../../store";
 
 const BalanceTransactionsList: React.FC = () => {
   const transactions = useAppSelector(selectTransactionsData);
   const totalBalance = useAppSelector(selectTransactionsTotal);
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const data = React.useMemo(
     () => [

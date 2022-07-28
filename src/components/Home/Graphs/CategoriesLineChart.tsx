@@ -3,15 +3,14 @@ import { Text } from "native-base";
 import { Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { monthIdentifier, Transaction } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
-import { getLastMonths } from "../../utils";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface CategoriesLineChartProps {
   transactions: Transaction[];
@@ -26,7 +25,7 @@ export const CategoriesLineChart: React.FC<CategoriesLineChartProps> = ({
   categoryId,
   lastMonths,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const data = React.useMemo(() => {
     return lastMonths.map((item) =>

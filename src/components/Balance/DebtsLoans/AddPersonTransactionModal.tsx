@@ -13,7 +13,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Contexts
-import { HistoryContext, PreferencesContext } from "../../Contexts";
+import { HistoryContext } from "../../Contexts";
 
 // Types
 import { Person, TransactionInput } from "../../types";
@@ -23,10 +23,12 @@ import { LANGUAGES } from "../../statics";
 
 // Store
 import {
+  selectPreferencesLanguage,
   addTransaction,
   selectTransactionsTotal,
-} from "../../../app/transactionsSlice";
-import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+  useAppSelector,
+  useAppDispatch,
+} from "../../../store";
 
 interface AddPersonTransactionModalProps {
   isOpen: boolean;
@@ -44,8 +46,8 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   const dispatch = useAppDispatch();
 
   const totalBalance = useAppSelector(selectTransactionsTotal);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
-  const { appLanguage } = React.useContext(PreferencesContext);
   const { history } = React.useContext(HistoryContext);
 
   const onAdd = React.useCallback(

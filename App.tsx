@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import AppRouter from "./src/components/ApplicationLayout";
 
 // Store
-import { store } from "./src/app/store";
+import { store } from "./src/store/store";
 
 export default function App() {
   return (

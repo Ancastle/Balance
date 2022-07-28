@@ -13,7 +13,7 @@ import {
 // import ReviewTransactionModal from "./EditTransactionModal";
 
 // Contexts
-import { CreditCardContext, PreferencesContext } from "../../Contexts";
+import { CreditCardContext } from "../../Contexts";
 
 // Types
 import { Transaction, TransactionType } from "../../types";
@@ -23,10 +23,13 @@ import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
 import EditTransactionModal from "../../Shared/EditTransactionModal";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+
 const CreditCardTransactionsList: React.FC = () => {
   const { ccTransactions, totalDebt, editCCTransaction } =
     React.useContext(CreditCardContext);
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();

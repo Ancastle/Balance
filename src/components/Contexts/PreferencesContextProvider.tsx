@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Language, Preferences } from "../types";
 
 // Statics
-import { INITIAL_PREFERENCES, STORAGE } from "../statics";
+import { DEFAULT_PREFERENCES, STORAGE } from "../statics";
 
 export interface PreferencesContextProps {
   languages: Language[];
@@ -32,8 +32,8 @@ const PreferencesContextProvider: React.FC = ({ children }) => {
     try {
       const value = await AsyncStorage.getItem(STORAGE.preferences);
       if (value === null) {
-        setPreferences(INITIAL_PREFERENCES);
-        const jsonValue = JSON.stringify({ preferences: INITIAL_PREFERENCES });
+        setPreferences(DEFAULT_PREFERENCES);
+        const jsonValue = JSON.stringify({ preferences: DEFAULT_PREFERENCES });
         await AsyncStorage.setItem(STORAGE.preferences, jsonValue);
       } else {
         const parsed = JSON.parse(value);

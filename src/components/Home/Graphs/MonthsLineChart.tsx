@@ -3,16 +3,15 @@ import { Text } from "native-base";
 import { Dimensions } from "react-native";
 import { LineChart, StackedBarChart } from "react-native-chart-kit";
 
-// Contexts
-import { PreferencesContext } from "../../Contexts";
-
 // Types
 import { CategoryType, monthIdentifier, Transaction } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
 import { random_rgba } from "../../utils";
-import { margin } from "styled-system";
+
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface MonthsLineChartProps {
   transactions: Transaction[];
@@ -27,7 +26,7 @@ export const MonthsLineChart: React.FC<MonthsLineChartProps> = ({
   selectedCategories,
   lastMonths,
 }) => {
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const data = React.useMemo(() => {
     return {

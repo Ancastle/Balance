@@ -10,7 +10,7 @@ import {
 } from "native-base";
 
 // Contexts
-import { HistoryContext, PreferencesContext } from "../../Contexts";
+import { HistoryContext } from "../../Contexts";
 
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../../utils";
@@ -18,9 +18,12 @@ import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../../utils";
 // Statics
 import { LANGUAGES } from "../../statics";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+
 const History: React.FC = () => {
   const { history } = React.useContext(HistoryContext);
-  const { appLanguage } = React.useContext(PreferencesContext);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
   const data = React.useMemo(
     () => [
       {
