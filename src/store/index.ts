@@ -26,3 +26,12 @@ export {
   selectPreferencesLanguage,
   selectPreferencesStatus,
 } from "./preferencesSlice";
+
+export {
+  fetchPeopleAsync,
+  addPerson,
+  deletePerson,
+  addPersonTransaction,
+  selectPeopleData,
+  selectPeopleStatus,
+} from "./peopleSlice";

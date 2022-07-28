@@ -15,24 +15,48 @@ import AddPersonTransactionModal from "./AddPersonTransactionModal";
 import AddPersonModal from "./AddPersonModal";
 import DeletePersonModal from "./DeletePersonModal";
 
-// Contexts
-import { PeopleContext } from "../../Contexts";
-
 // Types
-import { Person } from "../../types";
+import { Person, UuId } from "../../types";
 
 // Utils
 import { makeCurrencyFormat } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
 // Store
-import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+import {
+  selectPreferencesLanguage,
+  selectPeopleData,
+  addPerson,
+  deletePerson,
+  addPersonTransaction,
+  useAppSelector,
+  useAppDispatch,
+} from "../../../store";
 
 const BalanceTransactionsList: React.FC = () => {
-  const { people, addPerson, deletePerson, addTransaction } =
-    React.useContext(PeopleContext);
+  const dispatch = useAppDispatch();
 
+  const onAddPerson = React.useCallback(
+    (personName: string) => {
+      dispatch(addPerson(personName));
+    },
+    [dispatch, addPerson]
+  );
+  const onDeletePerson = React.useCallback(
+    (personId: UuId) => {
+      dispatch(deletePerson(personId));
+    },
+    [dispatch, deletePerson]
+  );
+  const onAddTransaction = React.useCallback(
+    (personId: UuId, value: number, whoPays: string) => {
+      dispatch(addPersonTransaction(personId, value, whoPays));
+    },
+    [dispatch, addPersonTransaction]
+  );
+  const people = useAppSelector(selectPeopleData);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+
   const [showAddPerson, setShowAddPerson] = React.useState(false);
   const [showDeletePerson, setShowDeletePerson] = React.useState(false);
   const [currentPerson, setCurrentPerson] = React.useState<Person | null>(null);
@@ -48,14 +72,14 @@ const BalanceTransactionsList: React.FC = () => {
   );
 
   const handleAdd = (personName: string) => {
-    addPerson(personName);
+    onAddPerson(personName);
     setShowAddPerson(false);
   };
 
   const handleDelete = (personName: string) => {
     const person = people.find((person) => person.name === personName);
     if (person) {
-      deletePerson(person.id);
+      onDeletePerson(person.id);
     }
     setShowDeletePerson(false);
   };
@@ -66,7 +90,7 @@ const BalanceTransactionsList: React.FC = () => {
     whoPays: string
   ) => {
     if (person) {
-      addTransaction(person.id, parseInt(amount, 10), whoPays);
+      onAddTransaction(person.id, parseInt(amount, 10), whoPays);
     }
     setCurrentPerson(null);
   };
