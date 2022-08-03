@@ -14,15 +14,25 @@ import ChangeLanguageModal from "./ChangeLanguageModal";
 
 // Utils
 import { isEven } from "../../utils";
-import { LANGUAGES, DEVONLYTestingRecords } from "../../statics";
+import { LANGUAGES } from "../../statics";
 
 // Store
 import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+
+//DEVONLY
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE } from "../../statics";
 
 const PreferencesSettings: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
+
+  //DEVONLY
+  const resetCategories = async () => {
+    const jsonValue = JSON.stringify({ categories: [] });
+    await AsyncStorage.setItem(STORAGE.categories, jsonValue);
+  };
 
   const data = React.useMemo(
     () => [
@@ -81,6 +91,18 @@ const PreferencesSettings: React.FC = () => {
         isOpen={showLanguageModal}
         onClose={() => setShowLanguageModal(false)}
       />
+      <Pressable
+        py={1.5}
+        onPress={() => {
+          resetCategories();
+        }}
+      >
+        <Flex direction="row" py={1.5}>
+          <Box ml={7} flex={1} justifyContent="flex-start">
+            <Text>Reset categories DEVONLY</Text>
+          </Box>
+        </Flex>
+      </Pressable>
     </>
   );
 };

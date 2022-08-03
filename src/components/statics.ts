@@ -132,6 +132,8 @@ export const LANGUAGES = {
   editingTransaction: ["Editing transaction", "Editando transacción"],
   otherExpences: ["Other expences", "Otros egresos"],
   otherEntries: ["Other entries", "Otros ingresos"],
+  loan: ["Loan", "Préstamo"],
+  payment: ["Payment", "Pago"],
   footer: {
     home: ["Home", "Inicio"],
     expences: ["Expences", "Egresos"],
@@ -277,6 +279,16 @@ export const INITIAL_CATEGORIES: CategoryType[] = [
   {
     id: "expence0",
     name: "Otros egresos",
+    type: "expence",
+  },
+  {
+    id: "entry1",
+    name: "Pago",
+    type: "entry",
+  },
+  {
+    id: "expence1",
+    name: "Préstamo",
     type: "expence",
   },
 ];

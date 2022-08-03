@@ -87,14 +87,14 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
             name: `${LANGUAGES.balance.tabs.debtsLoans.youPayTo[appLanguage]} ${person.name}`,
             type: "expence",
             value: amount,
-            categoryId: "expence0",
+            categoryId: "expence1",
           });
         } else {
           onAdd({
             name: `${person.name} ${LANGUAGES.balance.tabs.debtsLoans.paysToYou[appLanguage]}`,
             type: "entry",
             value: amount,
-            categoryId: "entry0",
+            categoryId: "entry1",
           });
         }
       }

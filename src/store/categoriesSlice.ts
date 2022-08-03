@@ -26,6 +26,9 @@ export const fetchCategoriesAsync = createAsyncThunk(
       const value = await AsyncStorage.getItem(STORAGE.categories);
       if (value) {
         const parsed = JSON.parse(value).categories;
+        if (!parsed.includes(INITIAL_CATEGORIES[0])) {
+          return [...INITIAL_CATEGORIES, ...parsed];
+        }
         return parsed;
       } else {
         const jsonValue = JSON.stringify({ categories: INITIAL_CATEGORIES });
@@ -130,11 +133,16 @@ export const adjustCategoryNames =
   (oldLanguage: number, newLanguage: number): AppThunk =>
   (dispatch, getState) => {
     const currentCategories = selectCategoriesData(getState());
+    // Needs to be changed to something simpler or moved from this file.
     const newCategories = currentCategories.map((category) =>
       category.name === LANGUAGES.otherEntries[oldLanguage]
         ? { ...category, name: LANGUAGES.otherEntries[newLanguage] }
         : category.name === LANGUAGES.otherExpences[oldLanguage]
         ? { ...category, name: LANGUAGES.otherExpences[newLanguage] }
+        : category.name === LANGUAGES.loan[oldLanguage]
+        ? { ...category, name: LANGUAGES.loan[newLanguage] }
+        : category.name === LANGUAGES.payment[oldLanguage]
+        ? { ...category, name: LANGUAGES.payment[newLanguage] }
         : category
     );
     dispatch(storeCategoriesAsync(newCategories));
