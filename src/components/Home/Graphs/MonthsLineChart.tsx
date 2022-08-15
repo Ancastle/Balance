@@ -28,32 +28,32 @@ export const MonthsLineChart: React.FC<MonthsLineChartProps> = ({
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
-  const data = React.useMemo(() => {
-    return {
-      labels: lastMonths.map((i) => i.name),
-      legend: selectedCategories.map((i) => i.name),
-      barColors: selectedCategories.map((i) => random_rgba()),
-      data: lastMonths.map((item) =>
-        selectedCategories.map((cat) =>
-          transactions
-            .filter(
-              (trans) =>
-                trans.categoryId === cat.id &&
-                trans.day.month === item.index &&
-                trans.day.year === item.year
-            )
-            .reduce((accumulator, object) => {
-              return accumulator + parseInt(object.value, 10);
-            }, 0)
-        )
-      ),
-    };
-  }, [lastMonths]);
+  // const data = React.useMemo(() => {
+  //   return {
+  //     labels: lastMonths.map((i) => i.name),
+  //     legend: selectedCategories.map((i) => i.name),
+  //     barColors: selectedCategories.map((i) => random_rgba()),
+  //     data: lastMonths.map((item) =>
+  //       selectedCategories.map((cat) =>
+  //         transactions
+  //           .filter(
+  //             (trans) =>
+  //               trans.categoryId === cat.id &&
+  //               trans.day.month === item.index &&
+  //               trans.day.year === item.year
+  //           )
+  //           .reduce((accumulator, object) => {
+  //             return accumulator + parseInt(object.value, 10);
+  //           }, 0)
+  //       )
+  //     ),
+  //   };
+  // }, [lastMonths]);
 
   return (
     <>
       <Text>{LANGUAGES.monthLineChartTitle[appLanguage](transactionType)}</Text>
-      <StackedBarChart
+      {/* <StackedBarChart
         data={data}
         width={Dimensions.get("window").width - 20} // from react-native
         height={380}
@@ -79,7 +79,7 @@ export const MonthsLineChart: React.FC<MonthsLineChartProps> = ({
           borderRadius: 2,
         }}
         hideLegend={false}
-      />
+      /> */}
     </>
   );
 };

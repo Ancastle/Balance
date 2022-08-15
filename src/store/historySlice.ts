@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import formatISO from "date-fns/formatISO";
 
 import { HistoryRegister } from "../components/types";
 import { RootState, AppThunk } from "./store";
@@ -82,18 +83,9 @@ export const addHistoryRegister =
   (idenfitierName: string, newRegisterName: string): AppThunk =>
   (dispatch, getState) => {
     const currentHistory = selectHistoryData(getState());
-    const date = new Date();
     const newRegister = {
       name: `${idenfitierName} ${newRegisterName}`,
-      day: {
-        day: date.getDate(),
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
-      },
-      hour: {
-        hour: date.getHours(),
-        minutes: date.getMinutes(),
-      },
+      date: formatISO(new Date()),
     };
     const newHistory = [newRegister, ...currentHistory];
     dispatch(storeHistoryAsync(newHistory));

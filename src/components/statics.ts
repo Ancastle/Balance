@@ -304,8 +304,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    day: { day: 1, month: 6, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 6, 1),
   },
   {
     id: "1",
@@ -313,8 +312,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "100000",
-    day: { day: 3, month: 6, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 6, 3),
   },
   {
     id: "2",
@@ -322,8 +320,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "100000",
-    day: { day: 6, month: 6, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 6, 6),
   },
   {
     id: "3",
@@ -331,8 +328,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    day: { day: 1, month: 5, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 5, 1),
   },
   {
     id: "4",
@@ -340,8 +336,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    day: { day: 3, month: 5, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 5, 3),
   },
   {
     id: "5",
@@ -349,8 +344,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    day: { day: 6, month: 5, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 5, 6),
   },
   {
     id: "6",
@@ -358,8 +352,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    day: { day: 1, month: 4, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 4, 1),
   },
   {
     id: "7",
@@ -367,8 +360,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    day: { day: 3, month: 4, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 4, 3),
   },
   {
     id: "8",
@@ -376,8 +368,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    day: { day: 6, month: 4, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 4, 6),
   },
   {
     id: "9",
@@ -385,8 +376,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    day: { day: 1, month: 3, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 3, 1),
   },
   {
     id: "10",
@@ -394,8 +384,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    day: { day: 3, month: 3, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 3, 3),
   },
   {
     id: "11",
@@ -403,8 +392,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    day: { day: 6, month: 3, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 3, 6),
   },
   {
     id: "12",
@@ -412,8 +400,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    day: { day: 1, month: 2, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 2, 1),
   },
   {
     id: "13",
@@ -421,8 +408,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    day: { day: 3, month: 2, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 2, 3),
   },
   {
     id: "14",
@@ -430,8 +416,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    day: { day: 6, month: 2, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 2, 6),
   },
   {
     id: "15",
@@ -439,8 +424,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    day: { day: 1, month: 1, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 1, 1),
   },
   {
     id: "16",
@@ -448,8 +432,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    day: { day: 3, month: 1, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 1, 3),
   },
   {
     id: "17",
@@ -457,8 +440,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    day: { day: 6, month: 1, year: 2022 },
-    hour: { hour: 5, minutes: 6 },
+    date: new Date(2022, 1, 6),
   },
 ];
 

@@ -39,68 +39,68 @@ export const CategoriesNumbers: React.FC<CategoriesNumbersProps> = ({
     monthData | undefined
   >();
 
-  const categoryTransactions = React.useMemo(
-    () =>
-      transactions.filter(
-        (trans) =>
-          trans.categoryId === category.id &&
-          trans.day.month === currentMonth?.index &&
-          trans.day.year === currentMonth.year
-      ),
-    [currentMonth, category]
-  );
+  // const categoryTransactions = React.useMemo(
+  //   () =>
+  //     transactions.filter(
+  //       (trans) =>
+  //         trans.categoryId === category.id &&
+  //         trans.day.month === currentMonth?.index &&
+  //         trans.day.year === currentMonth.year
+  //     ),
+  //   [currentMonth, category]
+  // );
 
-  const categoryValue = React.useMemo(
-    () =>
-      categoryTransactions.reduce((accumulator, object) => {
-        return accumulator + parseInt(object.value, 10);
-      }, 0),
-    [categoryTransactions]
-  );
+  // const categoryValue = React.useMemo(
+  //   () =>
+  //     categoryTransactions.reduce((accumulator, object) => {
+  //       return accumulator + parseInt(object.value, 10);
+  //     }, 0),
+  //   [categoryTransactions]
+  // );
 
-  const showingTotals = React.useMemo(
-    () =>
-      lastMonths.map((item) => ({
-        name: item.name,
-        year: item.year,
-        type: category.type,
-        index: item.index,
-        transactions: transactions.filter(
-          (trans) =>
-            trans.id === category.id &&
-            trans.day.month === item.index &&
-            trans.day.year === item.year
-        ),
-        value: transactions
-          .filter(
-            (trans) =>
-              trans.categoryId === category.id &&
-              trans.day.month === item.index &&
-              trans.day.year === item.year
-          )
-          .reduce((accumulator, object) => {
-            return accumulator + parseInt(object.value, 10);
-          }, 0),
-      })),
-    [lastMonths]
-  );
+  // const showingTotals = React.useMemo(
+  //   () =>
+  //     lastMonths.map((item) => ({
+  //       name: item.name,
+  //       year: item.year,
+  //       type: category.type,
+  //       index: item.index,
+  //       transactions: transactions.filter(
+  //         (trans) =>
+  //           trans.id === category.id &&
+  //           trans.day.month === item.index &&
+  //           trans.day.year === item.year
+  //       ),
+  //       value: transactions
+  //         .filter(
+  //           (trans) =>
+  //             trans.categoryId === category.id &&
+  //             trans.day.month === item.index &&
+  //             trans.day.year === item.year
+  //         )
+  //         .reduce((accumulator, object) => {
+  //           return accumulator + parseInt(object.value, 10);
+  //         }, 0),
+  //     })),
+  //   [lastMonths]
+  // );
 
-  const data = React.useMemo(
-    () => [
-      {
-        title: LANGUAGES.numbersByCategory[appLanguage](
-          category.type,
-          category.name
-        ),
-        data: showingTotals,
-      },
-    ],
-    [showingTotals]
-  );
+  // const data = React.useMemo(
+  //   () => [
+  //     {
+  //       title: LANGUAGES.numbersByCategory[appLanguage](
+  //         category.type,
+  //         category.name
+  //       ),
+  //       data: showingTotals,
+  //     },
+  //   ],
+  //   [showingTotals]
+  // );
 
   return (
     <>
-      <SectionList
+      {/* <SectionList
         sections={data}
         keyExtractor={(item, index) => item.name + index}
         renderItem={({ item, index }) => (
@@ -147,7 +147,7 @@ export const CategoriesNumbers: React.FC<CategoriesNumbersProps> = ({
             transactions: categoryTransactions,
           }}
         />
-      )}
+      )} */}
     </>
   );
 };

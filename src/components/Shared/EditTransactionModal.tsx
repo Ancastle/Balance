@@ -10,6 +10,7 @@ import {
   Text,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
+import parseISO from "date-fns/parseISO";
 
 //Types
 import { Transaction, TransactionType } from "../types";
@@ -140,12 +141,12 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
         </Modal.Body>
         <Text ml={5} mb={4}>
           {`${LANGUAGES.date[appLanguage]} (dd/mm): ${makeDoubleDigit(
-            transaction.day.day
-          )}/${makeDoubleDigit(transaction.day.month)} \n${
+            parseISO(transaction.date).getDate()
+          )}/${makeDoubleDigit(parseISO(transaction.date).getMonth() + 1)} \n${
             LANGUAGES.hour[appLanguage]
-          } : ${makeDoubleDigit(transaction.hour.hour)}:${makeDoubleDigit(
-            transaction.hour.minutes
-          )}`}
+          } : ${makeDoubleDigit(
+            parseISO(transaction.date).getHours()
+          )}:${makeDoubleDigit(parseISO(transaction.date).getMinutes())}`}
         </Text>
         <Modal.Footer>
           <Button.Group space={2}>

@@ -1,17 +1,22 @@
 import * as React from "react";
-import { Container, Heading, Text, View } from "native-base";
+import { Container, Heading, Text, View, Pressable } from "native-base";
 
 // Store
-import { selectTransactionsData, useAppSelector } from "../../../store";
+import {
+  selectTransactionsData,
+  useAppSelector,
+  useAppDispatch,
+} from "../../../store";
 
-// Types
-import { Month, MonthSummary } from "../../types";
+import { DEVONLYRESETTRANSACTIONS } from "../../../store/transactionsSlice";
 
 // Utils
 // import { getMonthSummary } from "../../utils";
 
 const HomeScreen: React.FC = () => {
   const transactions = useAppSelector(selectTransactionsData);
+
+  const dispatch = useAppDispatch();
 
   const date: Date = React.useMemo(() => new Date(), [transactions]);
 
@@ -44,6 +49,16 @@ const HomeScreen: React.FC = () => {
           NativeBase is a simple{"\n"}, modular and accessible{"\n"} component
           library that gives you
         </Text>
+        {/* DEVONLY*/}
+        <Pressable
+          fontWeight="medium"
+          onPress={() => {
+            console.log("happened");
+            dispatch(DEVONLYRESETTRANSACTIONS());
+          }}
+        >
+          <Text> RESET ALL REGISTERS</Text>
+        </Pressable>
         {/* <Heading fontSize={20}>Your last movement</Heading>
         <Text fontWeight="medium">
           NativeBase is a simple{"\n"}, modular and accessible{"\n"} component

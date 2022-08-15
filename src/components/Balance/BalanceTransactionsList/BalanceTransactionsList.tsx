@@ -8,6 +8,7 @@ import {
   Box,
   Text,
 } from "native-base";
+import parseISO from "date-fns/parseISO";
 
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat } from "../../utils";
@@ -53,9 +54,11 @@ const BalanceTransactionsList: React.FC = () => {
             {
               <Pressable>
                 <Flex direction="row" py={1.5}>
-                  <Box flex={1.5}>{` ${makeDoubleDigit(
-                    item.day.day
-                  )}/${makeDoubleDigit(item.day.month)}`}</Box>
+                  <Box flex={1.5}>
+                    {`${makeDoubleDigit(
+                      parseISO(item.date).getDate()
+                    )}/${makeDoubleDigit(parseISO(item.date).getMonth() + 1)}`}
+                  </Box>
                   <Box flex={6} justifyContent="flex-start">
                     <Text numberOfLines={1}> {item.name}</Text>
                   </Box>

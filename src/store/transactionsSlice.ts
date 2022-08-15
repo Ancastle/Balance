@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import formatISO from "date-fns/formatISO";
 
 import { Transaction, TransactionInput } from "../components/types";
 import { RootState, AppThunk } from "./store";
@@ -49,6 +50,23 @@ export const storeTransactionsAsync = createAsyncThunk(
   }
 );
 
+// DEVONLYRESETTRANSACTIONS
+export const resetTransactions = createAsyncThunk(
+  "transactions/storeTransactions",
+  async () => {
+    try {
+      console.log("3");
+      const jsonValue = JSON.stringify({ transactions: [] });
+      console.log("4");
+      await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
+      console.log("5");
+    } catch (e) {
+      console.log("Error: Could not store transactions data");
+    }
+    return [];
+  }
+);
+
 // Slice
 export const transactionsSlice = createSlice({
   name: "transactions",
@@ -92,16 +110,10 @@ export const addTransaction =
   (newTransaction: TransactionInput): AppThunk =>
   (dispatch, getState) => {
     const currentTransactions = selectTransactionsData(getState());
-    const date = new Date();
     const transaction: Transaction = {
       ...newTransaction,
       id: uuid.v4(),
-      day: {
-        day: date.getDate(),
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
-      },
-      hour: { hour: date.getHours(), minutes: date.getMinutes() },
+      date: formatISO(new Date()),
     };
     const newTransactions = [transaction, ...currentTransactions];
     dispatch(storeTransactionsAsync(newTransactions));
@@ -133,6 +145,11 @@ export const addCreditCardPayment =
     const newTransactions = [...creditCardTransactions, ...currentTransactions];
     dispatch(storeTransactionsAsync(newTransactions));
   };
+
+export const DEVONLYRESETTRANSACTIONS = (): AppThunk => (dispatch) => {
+  console.log("2");
+  dispatch(resetTransactions());
+};
 
 // Selectors
 export const selectTransactionsData = (state: RootState) =>
