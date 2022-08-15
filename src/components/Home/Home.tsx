@@ -4,9 +4,8 @@ import { Center } from "native-base";
 // Components
 import { TabsHeader } from "../Shared";
 import Graphs from "./Graphs";
-
-// Contexts
 import History from "./History";
+import HomeScreen from "./HomeScreen";
 
 // Types
 import { Tab } from "../types";
@@ -52,7 +51,7 @@ const Home: React.FC = () => {
   return (
     <TabsHeader
       tabs={tabs}
-      firstRoute={<Center flex={1}>3</Center>}
+      firstRoute={<HomeScreen />}
       secondRoute={
         <Center flex={1}>
           <Graphs />
