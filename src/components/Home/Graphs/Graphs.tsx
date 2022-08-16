@@ -7,8 +7,7 @@ import { MonthsPieChart } from "./MonthsPieChart";
 import { MonthsLineChart } from "./MonthsLineChart";
 
 // Utils
-import { LANGUAGES, pastMonths } from "../../statics";
-import { getLastMonths } from "../../utils";
+import { LANGUAGES } from "../../statics";
 import { MonthsNumbers } from "./MonthNumbers";
 import { CategoriesNumbers } from "./CategoriesNumbers";
 
@@ -57,18 +56,18 @@ const Graphs: React.FC = () => {
     return options;
   }, [monthOrCategory]);
 
-  const lastMonths = React.useMemo(() => {
-    const date = new Date();
-    return getLastMonths(
-      date.getMonth(),
-      appLanguage,
-      parseInt(periodRange, 10)
-    );
-  }, [periodRange]);
+  // const lastMonths = React.useMemo(() => {
+  //   const date = new Date();
+  //   return getLastMonths(
+  //     date.getMonth(),
+  //     appLanguage,
+  //     parseInt(periodRange, 10)
+  //   );
+  // }, [periodRange]);
 
-  const fullSelectedMonth = React.useMemo(() => {
-    return lastMonths.find((i) => i.name === selectedMonth);
-  }, [lastMonths, selectedMonth]);
+  // const fullSelectedMonth = React.useMemo(() => {
+  //   return lastMonths.find((i) => i.name === selectedMonth);
+  // }, [lastMonths, selectedMonth]);
 
   return (
     <Center>
@@ -160,13 +159,13 @@ const Graphs: React.FC = () => {
             mt={3}
             onValueChange={(itemValue) => setPeriodRange(itemValue)}
           >
-            {pastMonths.map((item, i) => (
+            {/* {pastMonths.map((item, i) => (
               <Select.Item
                 key={i}
                 label={LANGUAGES.lastMonths[appLanguage](item)}
                 value={item}
               />
-            ))}
+            ))} */}
           </Select>
         )}
         {!!periodRange && (
@@ -198,12 +197,12 @@ const Graphs: React.FC = () => {
             mt={3}
             onValueChange={(itemValue) => setSelectedMonth(itemValue)}
           >
-            {lastMonths.map((item, i) => (
+            {/* {lastMonths.map((item, i) => (
               <Select.Item key={i} label={item.name} value={item.name} />
-            ))}
+            ))} */}
           </Select>
         )}
-        {monthOrCategory === "byCategory" && typeOfAnalysis === "lineChart" && (
+        {/* {monthOrCategory === "byCategory" && typeOfAnalysis === "lineChart" && (
           <CategoriesLineChart
             transactions={transactions}
             transactionType={transactionType}
@@ -245,7 +244,7 @@ const Graphs: React.FC = () => {
               lastMonths={lastMonths}
               category={selectedCategory}
             />
-          )}
+          )} */}
       </ScrollView>
     </Center>
   );

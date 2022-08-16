@@ -28,29 +28,29 @@ export const MonthsPieChart: React.FC<MonthsPieChartProps> = ({
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
-  const data = React.useMemo(() => {
-    return selectedCategories.map((item, i) => ({
-      name: item.name,
-      color: random_rgba(),
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 10,
-      value: transactions
-        .filter(
-          (trans) =>
-            trans.categoryId === item.id &&
-            trans.day.month === selectedMonth?.index &&
-            trans.day.year === selectedMonth?.year
-        )
-        .reduce((accumulator, object) => {
-          return accumulator + parseInt(object.value, 10);
-        }, 0),
-    }));
-  }, [selectedMonth, selectedCategories]);
+  // const data = React.useMemo(() => {
+  //   return selectedCategories.map((item, i) => ({
+  //     name: item.name,
+  //     color: random_rgba(),
+  //     legendFontColor: "#7F7F7F",
+  //     legendFontSize: 10,
+  //     value: transactions
+  //       .filter(
+  //         (trans) =>
+  //           trans.categoryId === item.id &&
+  //           trans.day.month === selectedMonth?.index &&
+  //           trans.day.year === selectedMonth?.year
+  //       )
+  //       .reduce((accumulator, object) => {
+  //         return accumulator + parseInt(object.value, 10);
+  //       }, 0),
+  //   }));
+  // }, [selectedMonth, selectedCategories]);
 
   return (
     <>
       <Text>{LANGUAGES.pieChartTitle[appLanguage](transactionType)}</Text>
-      <PieChart
+      {/* <PieChart
         data={data}
         width={Dimensions.get("window").width - 15}
         height={320}
@@ -67,7 +67,7 @@ export const MonthsPieChart: React.FC<MonthsPieChartProps> = ({
         center={[20, 30]}
         paddingLeft={"0"}
         absolute
-      />
+      /> */}
     </>
   );
 };

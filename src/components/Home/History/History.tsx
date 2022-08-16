@@ -1,5 +1,6 @@
 import React from "react";
 import { SectionList, Heading, Center, Flex, Box, Text } from "native-base";
+import parseISO from "date-fns/parseISO";
 
 // Utils
 import { makeDoubleDigit, isEven } from "../../utils";
@@ -42,11 +43,11 @@ const History: React.FC = () => {
           >
             <Flex direction="row" py={1.5}>
               <Box flex={1}>{` ${makeDoubleDigit(
-                item.day.day
-              )}/${makeDoubleDigit(item.day.month)}`}</Box>
+                parseISO(item.date).getDate()
+              )}/${makeDoubleDigit(parseISO(item.date).getMonth())}`}</Box>
               <Box flex={1}>{` ${makeDoubleDigit(
-                item.hour.hour
-              )}:${makeDoubleDigit(item.hour.minutes)}`}</Box>
+                parseISO(item.date).getHours()
+              )}:${makeDoubleDigit(parseISO(item.date).getMinutes())}`}</Box>
               <Center flex={6}>
                 <Text numberOfLines={1}>{item.name}</Text>
               </Center>

@@ -8,6 +8,7 @@ import {
   Box,
   Text,
 } from "native-base";
+import parseISO from "date-fns/parseISO";
 
 // Types
 import { Transaction } from "../../types";
@@ -83,9 +84,11 @@ const CreditCardTransactionsList: React.FC = () => {
                 }}
               >
                 <Flex direction="row" py={1.5}>
-                  <Box flex={1.5}>{` ${makeDoubleDigit(
-                    item.day.day
-                  )}/${makeDoubleDigit(item.day.month)}`}</Box>
+                  <Box flex={1.5}>
+                    {` ${makeDoubleDigit(
+                      parseISO(item.date).getDate()
+                    )}/${makeDoubleDigit(parseISO(item.date).getMonth() + 1)}`}
+                  </Box>
                   <Box flex={6} justifyContent="flex-start">
                     <Text numberOfLines={1}> {item.name}</Text>
                   </Box>

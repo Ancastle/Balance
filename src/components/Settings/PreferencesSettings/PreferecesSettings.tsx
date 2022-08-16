@@ -17,14 +17,24 @@ import { isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
 // Store
-import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+import {
+  selectPreferencesLanguage,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../store";
 
 //DEVONLY
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { STORAGE } from "../../statics";
+import {
+  DEVONLYSETTESTINGTRANSACTIONS,
+  setTestingTransactions,
+} from "../../../store/transactionsSlice";
 
 const PreferencesSettings: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+
+  const dispatch = useAppDispatch();
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
 
@@ -100,6 +110,18 @@ const PreferencesSettings: React.FC = () => {
         <Flex direction="row" py={1.5}>
           <Box ml={7} flex={1} justifyContent="flex-start">
             <Text>Reset categories DEVONLY</Text>
+          </Box>
+        </Flex>
+      </Pressable>
+      <Pressable
+        py={1.5}
+        onPress={() => {
+          dispatch(DEVONLYSETTESTINGTRANSACTIONS());
+        }}
+      >
+        <Flex direction="row" py={1.5}>
+          <Box ml={7} flex={1} justifyContent="flex-start">
+            <Text>Set Testing Transactions DEVONLY</Text>
           </Box>
         </Flex>
       </Pressable>

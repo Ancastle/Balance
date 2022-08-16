@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import formatISO from "date-fns/formatISO";
 
 import { Transaction, TransactionInput } from "../components/types";
 import { RootState, AppThunk } from "./store";
 
-import { STORAGE } from "../components/statics";
+import { DEVONLYTestingRecords, STORAGE } from "../components/statics";
 import { calculateTotal } from "../components/utils";
 
 export interface TransactionsState {
@@ -46,6 +47,38 @@ export const storeTransactionsAsync = createAsyncThunk(
       console.log("Error: Could not store transactions data");
     }
     return newTransactions;
+  }
+);
+
+// DEVONLYRESETTRANSACTIONS
+export const resetTransactions = createAsyncThunk(
+  "transactions/storeTransactions",
+  async () => {
+    try {
+      console.log("3");
+      const jsonValue = JSON.stringify({ transactions: [] });
+      console.log("4");
+      await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
+      console.log("5");
+    } catch (e) {
+      console.log("Error: Could not store transactions data");
+    }
+    return [];
+  }
+);
+export const setTestingTransactions = createAsyncThunk(
+  "transactions/storeTransactions",
+  async () => {
+    try {
+      console.log("3");
+      const jsonValue = JSON.stringify({ transactions: DEVONLYTestingRecords });
+      console.log("4");
+      await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
+      console.log("5");
+    } catch (e) {
+      console.log("Error: Could not store transactions data");
+    }
+    return DEVONLYTestingRecords;
   }
 );
 
@@ -92,16 +125,10 @@ export const addTransaction =
   (newTransaction: TransactionInput): AppThunk =>
   (dispatch, getState) => {
     const currentTransactions = selectTransactionsData(getState());
-    const date = new Date();
     const transaction: Transaction = {
       ...newTransaction,
       id: uuid.v4(),
-      day: {
-        day: date.getDate(),
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
-      },
-      hour: { hour: date.getHours(), minutes: date.getMinutes() },
+      date: formatISO(new Date()),
     };
     const newTransactions = [transaction, ...currentTransactions];
     dispatch(storeTransactionsAsync(newTransactions));
@@ -133,6 +160,16 @@ export const addCreditCardPayment =
     const newTransactions = [...creditCardTransactions, ...currentTransactions];
     dispatch(storeTransactionsAsync(newTransactions));
   };
+
+export const DEVONLYRESETTRANSACTIONS = (): AppThunk => (dispatch) => {
+  console.log("2");
+  dispatch(resetTransactions());
+};
+
+export const DEVONLYSETTESTINGTRANSACTIONS = (): AppThunk => (dispatch) => {
+  console.log("2");
+  dispatch(setTestingTransactions());
+};
 
 // Selectors
 export const selectTransactionsData = (state: RootState) =>

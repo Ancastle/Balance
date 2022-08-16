@@ -40,45 +40,45 @@ export const MonthsNumbers: React.FC<MonthsNumbersProps> = ({
     monthData | undefined
   >();
 
-  const showingTotals = React.useMemo(
-    () =>
-      lastMonths.map((item, i) => ({
-        name: item.name,
-        year: item.year,
-        type: transactionType,
-        transactions: transactions.filter(
-          (trans) =>
-            trans.type === transactionType &&
-            trans.day.month === item.index &&
-            trans.day.year === item.year
-        ),
-        value: transactions
-          .filter(
-            (trans) =>
-              trans.type === transactionType &&
-              trans.day.month === item.index &&
-              trans.day.year === item.year
-          )
-          .reduce((accumulator, object) => {
-            return accumulator + parseInt(object.value, 10);
-          }, 0),
-      })),
-    [lastMonths]
-  );
+  // const showingTotals = React.useMemo(
+  //   () =>
+  //     lastMonths.map((item, i) => ({
+  //       name: item.name,
+  //       year: item.year,
+  //       type: transactionType,
+  //       transactions: transactions.filter(
+  //         (trans) =>
+  //           trans.type === transactionType &&
+  //           trans.day.month === item.index &&
+  //           trans.day.year === item.year
+  //       ),
+  //       value: transactions
+  //         .filter(
+  //           (trans) =>
+  //             trans.type === transactionType &&
+  //             trans.day.month === item.index &&
+  //             trans.day.year === item.year
+  //         )
+  //         .reduce((accumulator, object) => {
+  //           return accumulator + parseInt(object.value, 10);
+  //         }, 0),
+  //     })),
+  //   [lastMonths]
+  // );
 
-  const data = React.useMemo(
-    () => [
-      {
-        title: LANGUAGES.numbersByMonth[appLanguage](transactionType),
-        data: showingTotals,
-      },
-    ],
-    [showingTotals]
-  );
+  // const data = React.useMemo(
+  //   () => [
+  //     {
+  //       title: LANGUAGES.numbersByMonth[appLanguage](transactionType),
+  //       data: showingTotals,
+  //     },
+  //   ],
+  //   [showingTotals]
+  // );
 
   return (
     <>
-      <SectionList
+      {/* <SectionList
         sections={data}
         keyExtractor={(item, index) => item.name + index}
         renderItem={({ item, index }) => (
@@ -121,7 +121,7 @@ export const MonthsNumbers: React.FC<MonthsNumbersProps> = ({
           currentMonth={currentMonth}
           selectedCategories={selectedCategories}
         />
-      )}
+      )} */}
     </>
   );
 };

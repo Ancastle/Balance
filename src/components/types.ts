@@ -32,31 +32,18 @@ export interface TransactionInput {
   categoryId: string;
 }
 
-export interface TransactionDay {
-  day: number;
-  month: number;
-  year: number;
-}
-
-export interface TransactionHour {
-  hour: number;
-  minutes: number;
-}
-
 export interface Transaction {
   id: UuId;
   name: string;
   type: TransactionType;
   categoryId: string;
   value: string;
-  day: TransactionDay;
-  hour: TransactionHour;
+  date: string;
 }
 
 export interface HistoryRegister {
   name: string;
-  day: TransactionDay;
-  hour: TransactionHour;
+  date: string;
 }
 
 export interface monthIdentifier {

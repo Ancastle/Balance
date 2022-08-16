@@ -1,6 +1,5 @@
 /// Types
-import { monthIdentifier, Transaction } from "./types";
-import { LANGUAGES } from "./statics";
+import { Transaction } from "./types";
 
 export const makeDoubleDigit = (number: number) => {
   if (number.toString().length === 1) {
@@ -29,30 +28,17 @@ export const calculateTotal = (
   }, 0);
 };
 
-export const getLastMonths = (
-  actualMonth: number,
-  language: number,
-  numberOfMonths: number
-): monthIdentifier[] => {
-  const MONTHS = LANGUAGES.months;
-  const lastXMonths = [];
-  const date = new Date();
-  for (let index = actualMonth; lastXMonths.length < numberOfMonths; index--) {
-    if (index >= 0) {
-      lastXMonths.push({
-        name: MONTHS[language][index],
-        year: date.getFullYear(),
-        index: index + 1,
-      });
+export const calculateTypeTotal = (
+  transactions: Transaction[],
+  type: string
+) => {
+  return transactions.reduce((total: number, transaction) => {
+    if (transaction.type === type) {
+      return total + parseInt(transaction.value);
     } else {
-      lastXMonths.push({
-        name: MONTHS[language][12 + index],
-        year: date.getFullYear() - 1,
-        index: 13 + index,
-      });
+      return total;
     }
-  }
-  return lastXMonths.reverse();
+  }, 0);
 };
 
 export const random_rgba = () => {

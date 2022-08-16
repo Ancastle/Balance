@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import formatISO from "date-fns/formatISO";
 
 import { Transaction, TransactionInput } from "../components/types";
 import { RootState, AppThunk } from "./store";
@@ -64,22 +65,28 @@ export const creditCardSlice = createSlice({
       .addCase(fetchCreditCardAsync.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(fetchCreditCardAsync.fulfilled, (state, action) => {
-        state.status = "fulfilled";
-        state.data = action.payload;
-        state.total = calculateTotal(action.payload, "expence");
-      })
+      .addCase(
+        fetchCreditCardAsync.fulfilled,
+        (state, action: PayloadAction<Transaction[]>) => {
+          state.status = "fulfilled";
+          state.data = action.payload;
+          state.total = calculateTotal(action.payload, "expence");
+        }
+      )
       .addCase(fetchCreditCardAsync.rejected, (state) => {
         state.status = "rejected";
       })
       .addCase(storeCreditCardAsync.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(storeCreditCardAsync.fulfilled, (state, action) => {
-        state.status = "fulfilled";
-        state.data = action.payload;
-        state.total = calculateTotal(action.payload, "expence");
-      })
+      .addCase(
+        storeCreditCardAsync.fulfilled,
+        (state, action: PayloadAction<Transaction[]>) => {
+          state.status = "fulfilled";
+          state.data = action.payload;
+          state.total = calculateTotal(action.payload, "expence");
+        }
+      )
       .addCase(storeCreditCardAsync.rejected, (state) => {
         state.status = "rejected";
       });
@@ -90,16 +97,10 @@ export const creditCardSlice = createSlice({
 export const addCreditCardTransaction =
   (newTransactionInput: TransactionInput): AppThunk =>
   (dispatch, getState) => {
-    const date = new Date();
     const newTransaction: Transaction = {
       ...newTransactionInput,
       id: uuid.v4(),
-      day: {
-        day: date.getDate(),
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
-      },
-      hour: { hour: date.getHours(), minutes: date.getMinutes() },
+      date: formatISO(new Date()),
     };
     const currentTransactions = selectCreditCardData(getState());
     const newTransactions = [newTransaction, ...currentTransactions];
