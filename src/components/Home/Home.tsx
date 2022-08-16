@@ -24,6 +24,7 @@ import {
   fetchPeopleAsync,
   useAppSelector,
   useAppDispatch,
+  fetchHistoryAsync,
 } from "../../store";
 
 const Home: React.FC = () => {
@@ -45,6 +46,7 @@ const Home: React.FC = () => {
       dispatch(fetchPreferencesAsync());
       dispatch(fetchCreditCardAsync());
       dispatch(fetchPeopleAsync());
+      dispatch(fetchHistoryAsync());
     }
   }, []);
 

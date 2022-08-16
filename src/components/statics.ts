@@ -2,6 +2,10 @@ import { CategoryType, Preferences, Transaction } from "./types";
 import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  noLastAction: ["There's no last action", "No hay última acción"],
+  lastAction: ["Last action", "Última acción"],
+  timeOn: ["on", "el"],
+  timeAt: ["at", "a las"],
   entries: ["Entries", "Ingresos"],
   expences: ["Expences", "Egresos"],
   lastDays1: ["Last ", "Resumen de los últimos "],

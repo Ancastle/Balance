@@ -57,3 +57,11 @@ export const random_rgba = () => {
     ")"
   );
 };
+
+export const getDateDayMonth = (date: Date) => {
+  return `${date.getMonth() + 1}/${date.getDay()}`;
+};
+
+export const getDateHourMinutes = (date: Date) => {
+  return `${date.getHours() + 1}:${date.getMinutes()}`;
+};
