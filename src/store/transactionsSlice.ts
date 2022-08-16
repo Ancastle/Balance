@@ -6,7 +6,7 @@ import formatISO from "date-fns/formatISO";
 import { Transaction, TransactionInput } from "../components/types";
 import { RootState, AppThunk } from "./store";
 
-import { STORAGE } from "../components/statics";
+import { DEVONLYTestingRecords, STORAGE } from "../components/statics";
 import { calculateTotal } from "../components/utils";
 
 export interface TransactionsState {
@@ -64,6 +64,21 @@ export const resetTransactions = createAsyncThunk(
       console.log("Error: Could not store transactions data");
     }
     return [];
+  }
+);
+export const setTestingTransactions = createAsyncThunk(
+  "transactions/storeTransactions",
+  async () => {
+    try {
+      console.log("3");
+      const jsonValue = JSON.stringify({ transactions: DEVONLYTestingRecords });
+      console.log("4");
+      await AsyncStorage.setItem(STORAGE.transactions, jsonValue);
+      console.log("5");
+    } catch (e) {
+      console.log("Error: Could not store transactions data");
+    }
+    return DEVONLYTestingRecords;
   }
 );
 
@@ -149,6 +164,11 @@ export const addCreditCardPayment =
 export const DEVONLYRESETTRANSACTIONS = (): AppThunk => (dispatch) => {
   console.log("2");
   dispatch(resetTransactions());
+};
+
+export const DEVONLYSETTESTINGTRANSACTIONS = (): AppThunk => (dispatch) => {
+  console.log("2");
+  dispatch(setTestingTransactions());
 };
 
 // Selectors

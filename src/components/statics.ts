@@ -1,6 +1,14 @@
 import { CategoryType, Preferences, Transaction } from "./types";
+import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  entries: ["Entries", "Ingresos"],
+  expences: ["Expences", "Egresos"],
+  lastDays1: ["Last ", "Resumen de los últimos "],
+  lastDays2: ["days summary", "días"],
+  welcome: ["Welcome", "Bienvenido/a"],
+  lastMonthSummary: ["Last month summary", "Resumen del mes pasado"],
+  currentMonthSummary: ["Current month summary", "Resumen del mes presente"],
   selectTransactionType: [
     "Select a transaction type",
     "Selecciona el tipo de transacción",
@@ -304,7 +312,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    date: new Date(2022, 6, 1),
+    date: formatISO(sub(new Date(), { days: 3, months: 1 })),
   },
   {
     id: "1",
@@ -312,7 +320,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "100000",
-    date: new Date(2022, 6, 3),
+    date: formatISO(sub(new Date(), { days: 4, months: 1 })),
   },
   {
     id: "2",
@@ -320,7 +328,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "100000",
-    date: new Date(2022, 6, 6),
+    date: formatISO(sub(new Date(), { days: 5, months: 1 })),
   },
   {
     id: "3",
@@ -328,7 +336,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    date: new Date(2022, 5, 1),
+    date: formatISO(sub(new Date(), { days: 3, months: 2 })),
   },
   {
     id: "4",
@@ -336,7 +344,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    date: new Date(2022, 5, 3),
+    date: formatISO(sub(new Date(), { days: 4, months: 2 })),
   },
   {
     id: "5",
@@ -344,7 +352,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    date: new Date(2022, 5, 6),
+    date: formatISO(sub(new Date(), { days: 5, months: 2 })),
   },
   {
     id: "6",
@@ -352,7 +360,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    date: new Date(2022, 4, 1),
+    date: formatISO(sub(new Date(), { days: 6, months: 3 })),
   },
   {
     id: "7",
@@ -360,7 +368,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    date: new Date(2022, 4, 3),
+    date: formatISO(sub(new Date(), { days: 7, months: 3 })),
   },
   {
     id: "8",
@@ -368,7 +376,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    date: new Date(2022, 4, 6),
+    date: formatISO(sub(new Date(), { days: 8, months: 3 })),
   },
   {
     id: "9",
@@ -376,7 +384,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    date: new Date(2022, 3, 1),
+    date: formatISO(sub(new Date(), { days: 6, months: 4 })),
   },
   {
     id: "10",
@@ -384,7 +392,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    date: new Date(2022, 3, 3),
+    date: formatISO(sub(new Date(), { days: 6, months: 4 })),
   },
   {
     id: "11",
@@ -392,7 +400,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    date: new Date(2022, 3, 6),
+    date: formatISO(sub(new Date(), { days: 9, months: 4 })),
   },
   {
     id: "12",
@@ -400,7 +408,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    date: new Date(2022, 2, 1),
+    date: formatISO(sub(new Date(), { days: 6, months: 5 })),
   },
   {
     id: "13",
@@ -408,7 +416,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    date: new Date(2022, 2, 3),
+    date: formatISO(sub(new Date(), { days: 8, months: 5 })),
   },
   {
     id: "14",
@@ -416,7 +424,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    date: new Date(2022, 2, 6),
+    date: formatISO(sub(new Date(), { days: 9, months: 5 })),
   },
   {
     id: "15",
@@ -424,7 +432,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "entry",
     categoryId: "entry0",
     value: "1000000",
-    date: new Date(2022, 1, 1),
+    date: formatISO(sub(new Date(), { days: 6, months: 6 })),
   },
   {
     id: "16",
@@ -432,7 +440,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
-    date: new Date(2022, 1, 3),
+    date: formatISO(sub(new Date(), { days: 8, months: 6 })),
   },
   {
     id: "17",
@@ -440,22 +448,8 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
-    date: new Date(2022, 1, 6),
+    date: formatISO(sub(new Date(), { days: 10, months: 6 })),
   },
-];
-
-export const pastMonths = [
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
 ];
 
 export const ALL_LANGUAGES = [
