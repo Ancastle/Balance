@@ -13,11 +13,12 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Types
-import { TransactionInput, TransactionType } from "../../types";
+import { TransactionInput } from "../../types";
 
 // Utils
 import { LANGUAGES } from "../../statics";
 
+import { makeCurrencyFormat, makeFlatNumber } from "../../utils";
 // Store
 import {
   selectCategoriesData,
@@ -46,6 +47,7 @@ const AddCreditCardTransactionModal: React.FC<
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");
   const [amount, setAmount] = React.useState("");
+  const [displayAmount, setDisplayAmount] = React.useState("");
   const [isALoan, setIsALoan] = React.useState(false);
   const [personName, setPersonName] = React.useState("");
 
@@ -125,8 +127,13 @@ const AddCreditCardTransactionModal: React.FC<
                 />
               }
               placeholder={LANGUAGES.value[appLanguage]}
-              value={amount}
-              onChangeText={(text) => setAmount(text)}
+              value={displayAmount}
+              onChangeText={(text) => {
+                setDisplayAmount(
+                  makeCurrencyFormat(makeFlatNumber(text), true)
+                );
+                setAmount(makeFlatNumber(text).toString());
+              }}
             />
           </FormControl>
           <Checkbox

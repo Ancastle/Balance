@@ -18,6 +18,7 @@ import { Transaction, TransactionType } from "../types";
 // Utils
 import { LANGUAGES } from "../statics";
 import { makeDoubleDigit } from "../utils";
+import { makeCurrencyFormat, makeFlatNumber } from "../utils";
 
 // Store
 import {
@@ -47,6 +48,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");
   const [value, setValue] = React.useState("");
+  const [displayValue, setDisplayValue] = React.useState("");
 
   const handleSubmit = React.useCallback(() => {
     const editedTransaction = {
@@ -122,8 +124,11 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
                 />
               }
               placeholder={LANGUAGES.value[appLanguage]}
-              value={value}
-              onChangeText={(text) => setValue(text)}
+              value={displayValue}
+              onChangeText={(text) => {
+                setDisplayValue(makeCurrencyFormat(makeFlatNumber(text), true));
+                setValue(makeFlatNumber(text).toString());
+              }}
               isDisabled={isDebtLoan}
             />
           </FormControl>

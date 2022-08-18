@@ -16,6 +16,8 @@ import { TransactionInput, TransactionType } from "../types";
 // Utils
 import { LANGUAGES } from "../statics";
 
+import { makeCurrencyFormat, makeFlatNumber } from "../utils";
+
 // Store
 import {
   selectCategoriesData,
@@ -42,6 +44,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");
   const [amount, setAmount] = React.useState("");
+  const [displayAmount, setDisplayAmount] = React.useState("");
 
   const resetModal = React.useCallback(() => {
     setName("");
@@ -108,8 +111,13 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
                 />
               }
               placeholder={LANGUAGES.value[appLanguage]}
-              value={amount}
-              onChangeText={(text) => setAmount(text)}
+              value={displayAmount}
+              onChangeText={(text) => {
+                setDisplayAmount(
+                  makeCurrencyFormat(makeFlatNumber(text), true)
+                );
+                setAmount(makeFlatNumber(text).toString());
+              }}
             />
           </FormControl>
           <Select

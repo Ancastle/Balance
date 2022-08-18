@@ -9,8 +9,16 @@ export const makeDoubleDigit = (number: number) => {
   }
 };
 
-export const makeCurrencyFormat = (num: number): string => {
-  return "$ " + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+export const makeFlatNumber = (num: string): number => {
+  const match = num.match(/\d+/g);
+  const response = match?.join("");
+  return parseInt(response || "0");
+};
+
+export const makeCurrencyFormat = (num: number, skipDollar = false): string => {
+  let answer = num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+  if (!skipDollar) answer = "$ " + answer;
+  return answer;
 };
 
 export const isEven = (number: number) => number % 2 === 0;

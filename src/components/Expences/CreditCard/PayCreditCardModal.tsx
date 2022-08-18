@@ -15,7 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 // Utils
 import { LANGUAGES } from "../../statics";
-import { makeCurrencyFormat } from "../../utils";
+import { makeCurrencyFormat, makeFlatNumber } from "../../utils";
 
 import { Person } from "../../types";
 
@@ -80,6 +80,7 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
   const [isPersonPaying, setIsPersonPaying] = React.useState(false);
   const [personName, setPersonName] = React.useState("");
   const [person, setPerson] = React.useState<Person | undefined>();
+  const [displayValue, setDisplayValue] = React.useState("");
 
   const resetValues = React.useCallback(() => {
     setValue("");
@@ -185,8 +186,13 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
                 placeholder={
                   LANGUAGES.expence.tabs.creditCard.otherValue[appLanguage]
                 }
-                value={value}
-                onChangeText={setValue}
+                value={displayValue}
+                onChangeText={(text) => {
+                  setDisplayValue(
+                    makeCurrencyFormat(makeFlatNumber(text), true)
+                  );
+                  setValue(makeFlatNumber(text).toString());
+                }}
                 keyboardType="numeric"
               />
               <FormControl.ErrorMessage />

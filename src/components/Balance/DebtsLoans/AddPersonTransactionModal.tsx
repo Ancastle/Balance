@@ -18,6 +18,8 @@ import { Person, TransactionInput } from "../../types";
 // Utils
 import { LANGUAGES } from "../../statics";
 
+import { makeCurrencyFormat, makeFlatNumber } from "../../utils";
+
 // Store
 import {
   selectPreferencesLanguage,
@@ -62,6 +64,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   const [whoPays, setWhoPays] = React.useState("");
   const [amount, setAmount] = React.useState("");
   const [isCash, setIsCash] = React.useState(false);
+  const [displayAmount, setDisplayAmount] = React.useState("");
 
   const resetModal = React.useCallback(() => {
     setWhoPays("");
@@ -148,8 +151,13 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
                 />
               }
               placeholder={LANGUAGES.value[appLanguage]}
-              value={amount}
-              onChangeText={(text) => setAmount(text)}
+              value={displayAmount}
+              onChangeText={(text) => {
+                setDisplayAmount(
+                  makeCurrencyFormat(makeFlatNumber(text), true)
+                );
+                setAmount(makeFlatNumber(text).toString());
+              }}
               isDisabled={!person}
             />
           </FormControl>
