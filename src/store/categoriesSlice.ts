@@ -54,6 +54,19 @@ export const storeCategoriesAsync = createAsyncThunk(
   }
 );
 
+export const resetCategoriesDEVONLY = createAsyncThunk(
+  "categories/storeCategoriesAsync",
+  async () => {
+    try {
+      const jsonValue = JSON.stringify({ categories: [] });
+      await AsyncStorage.setItem(STORAGE.categories, jsonValue);
+    } catch (e) {
+      console.log("Error: Could not store categories data");
+    }
+    return [];
+  }
+);
+
 // Slice
 
 export const categoriesSlice = createSlice({
@@ -147,6 +160,10 @@ export const adjustCategoryNames =
     );
     dispatch(storeCategoriesAsync(newCategories));
   };
+
+export const DEVONLYRESETCATEGORIES = (): AppThunk => (dispatch) => {
+  dispatch(resetCategoriesDEVONLY());
+};
 
 // Selectors
 

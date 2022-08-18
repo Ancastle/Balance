@@ -30,6 +30,7 @@ import {
   DEVONLYSETTESTINGTRANSACTIONS,
   setTestingTransactions,
 } from "../../../store/transactionsSlice";
+import { DEVONLYRESETCATEGORIES } from "../../../store/categoriesSlice";
 
 const PreferencesSettings: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -37,12 +38,6 @@ const PreferencesSettings: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
-
-  //DEVONLY
-  const resetCategories = async () => {
-    const jsonValue = JSON.stringify({ categories: [] });
-    await AsyncStorage.setItem(STORAGE.categories, jsonValue);
-  };
 
   const data = React.useMemo(
     () => [
@@ -104,7 +99,7 @@ const PreferencesSettings: React.FC = () => {
       <Pressable
         py={1.5}
         onPress={() => {
-          resetCategories();
+          dispatch(DEVONLYRESETCATEGORIES());
         }}
       >
         <Flex direction="row" py={1.5}>

@@ -39,7 +39,6 @@ const HomeScreen: React.FC = () => {
         <Pressable
           fontWeight="medium"
           onPress={() => {
-            console.log("happened");
             dispatch(DEVONLYRESETTRANSACTIONS());
           }}
         >

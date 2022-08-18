@@ -21,6 +21,7 @@ import {
   useAppDispatch,
   addHistoryRegister,
 } from "../../../store";
+import AddCreditCardTransactionModal from "./AddCreditCardTransactionModal";
 
 interface DebitTransactionsProps {}
 
@@ -71,11 +72,10 @@ const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
           {LANGUAGES.pay[appLanguage]}
         </Button>
       </Center>
-      <AddTransactionModal
+      <AddCreditCardTransactionModal
         onAdd={onAddCreditCardTransaction}
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
-        type="expence"
       />
       <PayCreditCardModal
         onClose={() => setShowPayModal(false)}

@@ -7,91 +7,95 @@ import {
   Icon,
   Select,
   CheckIcon,
+  Checkbox,
   Text,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import parseISO from "date-fns/parseISO";
 
-//Types
-import { Transaction, TransactionType } from "../types";
+// Types
+import { TransactionInput, TransactionType } from "../../types";
 
 // Utils
-import { LANGUAGES } from "../statics";
-import { makeDoubleDigit } from "../utils";
+import { LANGUAGES } from "../../statics";
 
 // Store
 import {
   selectCategoriesData,
   selectPreferencesLanguage,
+  selectPeopleData,
+  addPersonTransaction,
   useAppSelector,
-} from "../../store";
+  useAppDispatch,
+} from "../../../store";
 
-interface EditTransactionModalProps {
+interface AddCreditCardTransactionModalProps {
   isOpen: boolean;
-  transaction: Transaction;
-  type: TransactionType;
   onClose: () => void;
-  onEdit: (editingTransaction: Transaction) => void;
+  onAdd: (newTransaction: TransactionInput) => void;
 }
 
-const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
-  isOpen,
-  onClose,
-  type,
-  transaction,
-  onEdit,
-}) => {
+const AddCreditCardTransactionModal: React.FC<
+  AddCreditCardTransactionModalProps
+> = ({ isOpen, onClose, onAdd }) => {
+  const dispatch = useAppDispatch();
+
   const categories = useAppSelector(selectCategoriesData);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const people = useAppSelector(selectPeopleData);
 
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");
-  const [value, setValue] = React.useState("");
+  const [amount, setAmount] = React.useState("");
+  const [isALoan, setIsALoan] = React.useState(false);
+  const [personName, setPersonName] = React.useState("");
 
-  const handleSubmit = React.useCallback(() => {
-    const editedTransaction = {
-      ...transaction,
-      name: name,
-      value: value,
-      categoryId: categoryId,
-    };
-    onEdit(editedTransaction);
-    onClose();
-  }, [transaction, name, value, categoryId]);
-
-  const isDebtLoan = React.useMemo(
-    () => ["expence1", "entry1"].includes(transaction.categoryId),
-    [transaction]
-  );
+  const resetModal = React.useCallback(() => {
+    setCategoryId("");
+    setName("");
+    setAmount("");
+    setIsALoan(false);
+    setPersonName("");
+  }, []);
 
   const isSaveDisabled = React.useMemo(
-    () =>
-      isDebtLoan ||
-      !name ||
-      !value ||
-      !categoryId ||
-      (name === transaction.name &&
-        value === transaction.value &&
-        categoryId === transaction.categoryId),
-    [name, value, categoryId, transaction]
+    () => !name || !amount || !categoryId || (isALoan && !personName),
+    [name, amount, categoryId, isALoan, personName]
   );
 
   const showingCategories = React.useMemo(
-    () => categories.filter((category) => category.type === type),
+    () => categories.filter((category) => category.type === "expence"),
     [categories]
   );
 
+  const handleSave = React.useCallback(() => {
+    onAdd({
+      name: name,
+      value: amount.toString(),
+      categoryId: categoryId,
+      type: "expence",
+    });
+    if (isALoan) {
+      const person = people.find((person) => person.name === personName);
+      if (person)
+        dispatch(addPersonTransaction(person.id, parseInt(amount, 10), "me"));
+    }
+    resetModal();
+    onClose();
+  }, [name, amount, categoryId, isALoan, personName]);
+
   React.useEffect(() => {
-    setCategoryId(transaction.categoryId);
-    setName(transaction.name);
-    setValue(transaction.value);
-  }, [transaction]);
+    if (isALoan) {
+      setCategoryId("expence1");
+    } else {
+      setCategoryId("");
+    }
+  }, [isALoan]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Content maxWidth="400px">
         <Modal.CloseButton />
-        <Modal.Header>{LANGUAGES.editingTransaction[appLanguage]}</Modal.Header>
+        <Modal.Header>{LANGUAGES.expence.adding[appLanguage]}</Modal.Header>
         <Modal.Body>
           <FormControl>
             <Input
@@ -106,7 +110,6 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
               placeholder={LANGUAGES.name[appLanguage]}
               value={name}
               onChangeText={(text) => setName(text)}
-              isDisabled={isDebtLoan}
             />
           </FormControl>
           <FormControl mt="3">
@@ -122,11 +125,36 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
                 />
               }
               placeholder={LANGUAGES.value[appLanguage]}
-              value={value}
-              onChangeText={(text) => setValue(text)}
-              isDisabled={isDebtLoan}
+              value={amount}
+              onChangeText={(text) => setAmount(text)}
             />
           </FormControl>
+          <Checkbox
+            value=""
+            isChecked={isALoan}
+            color="green.100"
+            onChange={() => setIsALoan((prevState) => !prevState)}
+            mt={3}
+          >
+            <Text ml={2}>{LANGUAGES.isThisALoan[appLanguage]}</Text>
+          </Checkbox>
+          {isALoan && (
+            <Select
+              selectedValue={personName}
+              minWidth="200"
+              placeholder={LANGUAGES.loanToPerson[appLanguage]}
+              _selectedItem={{
+                bg: "teal.600",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={3}
+              onValueChange={(itemValue) => setPersonName(itemValue)}
+            >
+              {people.map((person, i) => (
+                <Select.Item key={i} label={person.name} value={person.name} />
+              ))}
+            </Select>
+          )}
           <Select
             selectedValue={categoryId}
             minWidth="200"
@@ -137,7 +165,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
             }}
             mt={3}
             onValueChange={(itemValue) => setCategoryId(itemValue)}
-            isDisabled={isDebtLoan}
+            isDisabled={isALoan}
           >
             {showingCategories.map((category, i) => (
               <Select.Item
@@ -147,31 +175,20 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
               />
             ))}
           </Select>
-          {isDebtLoan && (
-            <Text>{LANGUAGES.cantEditDebtLoans[appLanguage]}</Text>
-          )}
         </Modal.Body>
-        <Text ml={5} mb={4}>
-          {`${LANGUAGES.date[appLanguage]} (dd/mm): ${makeDoubleDigit(
-            parseISO(transaction.date).getDate()
-          )}/${makeDoubleDigit(parseISO(transaction.date).getMonth() + 1)} \n${
-            LANGUAGES.hour[appLanguage]
-          } : ${makeDoubleDigit(
-            parseISO(transaction.date).getHours()
-          )}:${makeDoubleDigit(parseISO(transaction.date).getMinutes())}`}
-        </Text>
         <Modal.Footer>
           <Button.Group space={2}>
             <Button
               variant="ghost"
               colorScheme="blueGray"
               onPress={() => {
+                resetModal();
                 onClose();
               }}
             >
               {LANGUAGES.cancel[appLanguage]}
             </Button>
-            <Button onPress={handleSubmit} isDisabled={isSaveDisabled}>
+            <Button onPress={handleSave} isDisabled={isSaveDisabled}>
               {LANGUAGES.save[appLanguage]}
             </Button>
           </Button.Group>
@@ -181,4 +198,4 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
   );
 };
 
-export default EditTransactionModal;
+export default AddCreditCardTransactionModal;

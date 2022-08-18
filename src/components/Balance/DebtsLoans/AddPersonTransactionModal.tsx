@@ -26,7 +26,6 @@ import {
   addHistoryRegister,
   useAppSelector,
   useAppDispatch,
-  addPersonTransaction,
 } from "../../../store";
 
 interface AddPersonTransactionModalProps {

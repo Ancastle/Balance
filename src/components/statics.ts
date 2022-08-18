@@ -2,6 +2,22 @@ import { CategoryType, Preferences, Transaction } from "./types";
 import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  cantEditDebtLoans: [
+    "Note: Can not edit debt/loan transactions",
+    "Nota: No se pueden editar transacciones de prestamo o deuda",
+  ],
+  personPays: ["pays", "paga"],
+  createsADebt: [
+    "Note: this will create a debt with",
+    "Nota: Esto creará una deuda con",
+  ],
+  alreadyInDebt: [
+    "Note: this will incrase your debt with",
+    "Nota: Esto incrementará tu deuda con",
+  ],
+  isAnotherPerson: ["Is another person paying?", "Pagará otra persona?"],
+  isThisALoan: ["Is this a loan?", "Es un prestamo?"],
+  loanToPerson: ["Select to who", "Selecciona a quien"],
   noLastAction: ["There's no last action", "No hay última acción"],
   lastAction: ["Last action", "Última acción"],
   timeOn: ["on", "el"],

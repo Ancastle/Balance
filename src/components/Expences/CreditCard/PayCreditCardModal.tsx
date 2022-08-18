@@ -1,10 +1,23 @@
 import React from "react";
-import { Button, Modal, FormControl, Input, Icon, Radio } from "native-base";
+import {
+  Button,
+  Modal,
+  FormControl,
+  Input,
+  Icon,
+  Radio,
+  Select,
+  CheckIcon,
+  Checkbox,
+  Text,
+} from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Utils
 import { LANGUAGES } from "../../statics";
 import { makeCurrencyFormat } from "../../utils";
+
+import { Person } from "../../types";
 
 // Store
 import {
@@ -12,10 +25,12 @@ import {
   selectPreferencesLanguage,
   selectCreditCardTotal,
   payCreditCard,
-  useAppDispatch,
-  useAppSelector,
   addCreditCardPayment,
   addHistoryRegister,
+  selectPeopleData,
+  useAppDispatch,
+  useAppSelector,
+  addPersonTransaction,
 } from "../../../store";
 
 interface ReviewTransactionModalProps {
@@ -31,7 +46,20 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
 
   const onPayCreditCard = React.useCallback(
     (amount: number) => {
-      dispatch(addCreditCardPayment(dispatch(payCreditCard(amount))));
+      const payCreditCardTransactions = dispatch(payCreditCard(amount));
+      if (isPersonPaying && person) {
+        const personPayedCardTransactions = payCreditCardTransactions.map(
+          (tr) => ({
+            ...tr,
+            name: `${person.name} ${LANGUAGES.personPays[appLanguage]} ${tr.name} `,
+            value: "0",
+          })
+        );
+        dispatch(addCreditCardPayment(personPayedCardTransactions));
+        dispatch(addPersonTransaction(person.id, parseInt(value), "them"));
+      } else {
+        dispatch(addCreditCardPayment(payCreditCardTransactions));
+      }
       dispatch(
         addHistoryRegister(
           LANGUAGES.payCreditCard[appLanguage],
@@ -42,13 +70,16 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
     },
     [dispatch, [payCreditCard]]
   );
-
+  const people = useAppSelector(selectPeopleData);
   const totalDebt = useAppSelector(selectCreditCardTotal);
   const totalBalance = useAppSelector(selectTransactionsTotal);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const [value, setValue] = React.useState("");
   const [radio, setRadio] = React.useState("");
+  const [isPersonPaying, setIsPersonPaying] = React.useState(false);
+  const [personName, setPersonName] = React.useState("");
+  const [person, setPerson] = React.useState<Person | undefined>();
 
   const resetValues = React.useCallback(() => {
     setValue("");
@@ -68,6 +99,10 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
     radio === "one" ? setValue(totalDebt.toString()) : setValue("");
   }, [radio]);
 
+  React.useEffect(() => {
+    setPerson(people.find((p) => p.name === personName));
+  }, [personName]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Content maxWidth="400px">
@@ -76,6 +111,38 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
           {LANGUAGES.expence.tabs.creditCard.payingCard[appLanguage]}
         </Modal.Header>
         <Modal.Body>
+          <Checkbox
+            value=""
+            isChecked={isPersonPaying}
+            color="green.100"
+            onChange={() => setIsPersonPaying((prevState) => !prevState)}
+            mt={3}
+          >
+            <Text ml={2}>{LANGUAGES.isAnotherPerson[appLanguage]}</Text>
+          </Checkbox>
+          {isPersonPaying && (
+            <Select
+              selectedValue={personName}
+              minWidth="200"
+              placeholder={LANGUAGES.loanToPerson[appLanguage]}
+              _selectedItem={{
+                bg: "teal.600",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={3}
+              onValueChange={(itemValue) => setPersonName(itemValue)}
+            >
+              {people.map((person, i) => (
+                <Select.Item
+                  key={i}
+                  label={`${person.name} (${makeCurrencyFormat(
+                    parseInt(person.value)
+                  )})`}
+                  value={person.name}
+                />
+              ))}
+            </Select>
+          )}
           <Radio.Group
             name="myRadioGroup"
             accessibilityLabel="favorite number"
@@ -84,12 +151,18 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
               setRadio(nextValue);
             }}
           >
-            <Radio value="one" my={1} isDisabled={totalDebt > totalBalance}>
+            <Radio
+              value="one"
+              my={1}
+              isDisabled={
+                totalDebt > totalBalance || (isPersonPaying && !person)
+              }
+            >
               {`${
                 LANGUAGES.expence.tabs.creditCard.payTotal[appLanguage]
               } (${makeCurrencyFormat(totalDebt)})`}
             </Radio>
-            <Radio value="two" my={1}>
+            <Radio value="two" my={1} isDisabled={isPersonPaying && !person}>
               {`${LANGUAGES.expence.tabs.creditCard.otherValue[appLanguage]} ${
                 totalBalance < totalDebt
                   ? `(Max. ${makeCurrencyFormat(totalBalance)})`
@@ -119,6 +192,26 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
               <FormControl.ErrorMessage />
             </FormControl>
           )}
+          {person && parseInt(person?.value || "1") < 0 && (
+            <Text
+              color={"red.500"}
+            >{`${LANGUAGES.alreadyInDebt[appLanguage]} ${person?.name}`}</Text>
+          )}
+          {person &&
+            parseInt(person.value) > 0 &&
+            parseInt(person.value || "1") < totalDebt &&
+            radio === "one" && (
+              <Text
+                color={"red.500"}
+              >{`${LANGUAGES.createsADebt[appLanguage]} ${person?.name}`}</Text>
+            )}
+          {person &&
+            parseInt(person?.value || "1") < parseInt(value) &&
+            radio === "two" && (
+              <Text
+                color={"red.500"}
+              >{`${LANGUAGES.createsADebt[appLanguage]} ${person?.name}`}</Text>
+            )}
         </Modal.Body>
         <Modal.Footer>
           <Button.Group space={2}>
