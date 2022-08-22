@@ -8,6 +8,7 @@ import {
   Select,
   CheckIcon,
   Text,
+  Checkbox,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import parseISO from "date-fns/parseISO";
@@ -49,6 +50,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
   const [name, setName] = React.useState("");
   const [value, setValue] = React.useState("");
   const [displayValue, setDisplayValue] = React.useState("");
+  const [necesary, setNecesary] = React.useState(false);
 
   const handleSubmit = React.useCallback(() => {
     const editedTransaction = {
@@ -56,10 +58,11 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
       name: name,
       value: value,
       categoryId: categoryId,
+      isNecesary: necesary,
     };
     onEdit(editedTransaction);
     onClose();
-  }, [transaction, name, value, categoryId]);
+  }, [transaction, name, value, categoryId, necesary]);
 
   const isDebtLoan = React.useMemo(
     () => ["expence1", "entry1"].includes(transaction.categoryId),
@@ -74,8 +77,9 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
       !categoryId ||
       (name === transaction.name &&
         value === transaction.value &&
-        categoryId === transaction.categoryId),
-    [name, value, categoryId, transaction]
+        categoryId === transaction.categoryId &&
+        necesary === transaction.isNecesary),
+    [name, value, categoryId, transaction, necesary]
   );
 
   const showingCategories = React.useMemo(
@@ -87,6 +91,10 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
     setCategoryId(transaction.categoryId);
     setName(transaction.name);
     setValue(transaction.value);
+    setDisplayValue(
+      makeCurrencyFormat(makeFlatNumber(transaction.value), true)
+    );
+    setNecesary(transaction.isNecesary);
   }, [transaction]);
 
   return (
@@ -154,6 +162,17 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
           </Select>
           {isDebtLoan && (
             <Text>{LANGUAGES.cantEditDebtLoans[appLanguage]}</Text>
+          )}
+          {type === "expence" && (
+            <Checkbox
+              value=""
+              isChecked={necesary}
+              color="green.100"
+              onChange={() => setNecesary((prevState) => !prevState)}
+              mt={3}
+            >
+              <Text ml={2}>{LANGUAGES.isThisNecesary[appLanguage]}</Text>
+            </Checkbox>
           )}
         </Modal.Body>
         <Text ml={5} mb={4}>

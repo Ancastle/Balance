@@ -65,6 +65,17 @@ const LastMonthSummary: React.FC = () => {
     [lastMonthEntries, lastMonthExpences]
   );
 
+  const lastMonthNeededExpences = React.useMemo(
+    () =>
+      calculateTypeTotal(
+        transactions.filter(
+          (tr) => tr.type === "expence" && tr.isNecesary === true
+        ),
+        "expence"
+      ),
+    [transactions]
+  );
+
   return (
     <MonthSummary
       title={
@@ -72,6 +83,7 @@ const LastMonthSummary: React.FC = () => {
           {LANGUAGES.lastMonthSummary[appLanguage]}
         </Heading>
       }
+      neededExpences={lastMonthNeededExpences}
       expences={lastMonthExpences}
       entries={lastMonthEntries}
       balance={lastMonthBalance}

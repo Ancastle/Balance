@@ -7,6 +7,8 @@ import {
   Icon,
   Select,
   CheckIcon,
+  Checkbox,
+  Text,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -45,11 +47,14 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   const [name, setName] = React.useState("");
   const [amount, setAmount] = React.useState("");
   const [displayAmount, setDisplayAmount] = React.useState("");
+  const [necesary, setNecesary] = React.useState(false);
 
   const resetModal = React.useCallback(() => {
     setName("");
     setCategoryId("reset");
     setAmount("");
+    setDisplayAmount("");
+    setNecesary(false);
   }, []);
 
   const isSaveDisabled = React.useMemo(
@@ -68,10 +73,11 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
       value: amount.toString(),
       categoryId: categoryId,
       type: type,
+      isNecesary: necesary,
     });
     resetModal();
     onClose();
-  }, [name, amount, categoryId, type]);
+  }, [name, amount, categoryId, type, necesary]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -139,6 +145,17 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
               />
             ))}
           </Select>
+          {type === "expence" && (
+            <Checkbox
+              value=""
+              isChecked={necesary}
+              color="green.100"
+              onChange={() => setNecesary((prevState) => !prevState)}
+              mt={3}
+            >
+              <Text ml={2}>{LANGUAGES.isThisNecesary[appLanguage]}</Text>
+            </Checkbox>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button.Group space={2}>

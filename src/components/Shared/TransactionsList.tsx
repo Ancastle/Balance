@@ -103,7 +103,7 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
           </Center>
         )}
       />
-      {!!transaction && (
+      {showViewModal && !!transaction && (
         <EditTransactionModal
           isOpen={showViewModal}
           onClose={() => setShowViewModal(false)}

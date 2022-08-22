@@ -17,6 +17,7 @@ export const LANGUAGES = {
   ],
   isAnotherPerson: ["Is another person paying?", "Pagará otra persona?"],
   isThisALoan: ["Is this a loan?", "Es un prestamo?"],
+  isThisNecesary: ["Is this expence necesary?", "Es un egreso necesario?"],
   loanToPerson: ["Select to who", "Selecciona a quien"],
   noLastAction: ["There's no last action", "No hay última acción"],
   lastAction: ["Last action", "Última acción"],
@@ -333,6 +334,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "entry0",
     value: "1000000",
     date: formatISO(sub(new Date(), { days: 3, months: 1 })),
+    isNecesary: false,
   },
   {
     id: "1",
@@ -340,6 +342,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "100000",
+    isNecesary: false,
     date: formatISO(sub(new Date(), { days: 4, months: 1 })),
   },
   {
@@ -349,6 +352,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "expence0",
     value: "100000",
     date: formatISO(sub(new Date(), { days: 5, months: 1 })),
+    isNecesary: false,
   },
   {
     id: "3",
@@ -357,6 +361,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "entry0",
     value: "1000000",
     date: formatISO(sub(new Date(), { days: 3, months: 2 })),
+    isNecesary: false,
   },
   {
     id: "4",
@@ -365,6 +370,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "expence0",
     value: "10000",
     date: formatISO(sub(new Date(), { days: 4, months: 2 })),
+    isNecesary: false,
   },
   {
     id: "5",
@@ -373,6 +379,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "expence0",
     value: "1000",
     date: formatISO(sub(new Date(), { days: 5, months: 2 })),
+    isNecesary: false,
   },
   {
     id: "6",
@@ -381,6 +388,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "entry0",
     value: "1000000",
     date: formatISO(sub(new Date(), { days: 6, months: 3 })),
+    isNecesary: false,
   },
   {
     id: "7",
@@ -388,6 +396,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
+    isNecesary: false,
     date: formatISO(sub(new Date(), { days: 7, months: 3 })),
   },
   {
@@ -397,6 +406,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "expence0",
     value: "1000",
     date: formatISO(sub(new Date(), { days: 8, months: 3 })),
+    isNecesary: false,
   },
   {
     id: "9",
@@ -405,6 +415,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "entry0",
     value: "1000000",
     date: formatISO(sub(new Date(), { days: 6, months: 4 })),
+    isNecesary: false,
   },
   {
     id: "10",
@@ -413,6 +424,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "expence0",
     value: "10000",
     date: formatISO(sub(new Date(), { days: 6, months: 4 })),
+    isNecesary: false,
   },
   {
     id: "11",
@@ -420,6 +432,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
+    isNecesary: false,
     date: formatISO(sub(new Date(), { days: 9, months: 4 })),
   },
   {
@@ -429,6 +442,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     categoryId: "entry0",
     value: "1000000",
     date: formatISO(sub(new Date(), { days: 6, months: 5 })),
+    isNecesary: false,
   },
   {
     id: "13",
@@ -436,6 +450,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "10000",
+    isNecesary: false,
     date: formatISO(sub(new Date(), { days: 8, months: 5 })),
   },
   {
@@ -444,6 +459,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     type: "expence",
     categoryId: "expence0",
     value: "1000",
+    isNecesary: false,
     date: formatISO(sub(new Date(), { days: 9, months: 5 })),
   },
   {
@@ -451,6 +467,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     name: "ingreso1abr",
     type: "entry",
     categoryId: "entry0",
+    isNecesary: false,
     value: "1000000",
     date: formatISO(sub(new Date(), { days: 6, months: 6 })),
   },
@@ -459,6 +476,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     name: "egreso1abr",
     type: "expence",
     categoryId: "expence0",
+    isNecesary: false,
     value: "10000",
     date: formatISO(sub(new Date(), { days: 8, months: 6 })),
   },
@@ -466,6 +484,7 @@ export const DEVONLYTestingRecords: Transaction[] = [
     id: "17",
     name: "egreso2abr",
     type: "expence",
+    isNecesary: false,
     categoryId: "expence0",
     value: "1000",
     date: formatISO(sub(new Date(), { days: 10, months: 6 })),

@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Heading, Text } from "native-base";
+import { Text, Icon, Container } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 
 // Store
 import { useAppSelector, selectPreferencesLanguage } from "../../../store";
@@ -13,6 +14,7 @@ interface MonthSummaryProps {
   expences: number;
   entries: number;
   balance: number;
+  neededExpences: number;
 }
 
 const MonthSummary: React.FC<MonthSummaryProps> = ({
@@ -20,6 +22,7 @@ const MonthSummary: React.FC<MonthSummaryProps> = ({
   expences,
   entries,
   balance,
+  neededExpences,
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
   return (
@@ -28,12 +31,34 @@ const MonthSummary: React.FC<MonthSummaryProps> = ({
       <Text fontWeight="medium" color={"green.500"}>{`${
         LANGUAGES.entries[appLanguage]
       }: ${makeCurrencyFormat(entries)}`}</Text>
-      <Text fontWeight="medium" color={"red.500"}>{`${
-        LANGUAGES.expences[appLanguage]
-      }: ${makeCurrencyFormat(expences)}`}</Text>
+      <Container display="flex" flexDirection="row">
+        <Text fontWeight="medium" color="red.500">
+          {`${LANGUAGES.expences[appLanguage]}: ${makeCurrencyFormat(
+            expences
+          )}  (`}
+        </Text>
+        <Icon
+          as={<MaterialIcons name="check" />}
+          size={3}
+          mt={1.5}
+          color="red.500"
+        />
+        <Text fontWeight="medium" color="red.500">
+          {`${makeCurrencyFormat(neededExpences)} `}
+        </Text>
+        <Icon
+          as={<MaterialIcons name="clear" />}
+          size={3}
+          mt={1.5}
+          color="red.500"
+        />
+        <Text fontWeight="medium" color={"red.500"}>
+          {`${makeCurrencyFormat(expences - neededExpences)})`}
+        </Text>
+      </Container>
       <Text
         fontWeight="medium"
-        color={"green.500"}
+        color={balance > 0 ? "green.500" : "red.500"}
       >{`Balance: ${makeCurrencyFormat(balance)}`}</Text>
     </>
   );

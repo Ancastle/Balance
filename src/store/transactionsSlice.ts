@@ -145,6 +145,7 @@ export const editTransaction =
           name: editingTransaction.name,
           value: editingTransaction.value,
           categoryId: editingTransaction.categoryId,
+          isNecesary: editingTransaction.isNecesary,
         };
       } else {
         return t;

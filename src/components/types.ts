@@ -30,6 +30,7 @@ export interface TransactionInput {
   type: TransactionType;
   value: string;
   categoryId: string;
+  isNecesary: boolean;
 }
 
 export interface Transaction {
@@ -39,6 +40,7 @@ export interface Transaction {
   categoryId: string;
   value: string;
   date: string;
+  isNecesary: boolean;
 }
 
 export interface HistoryRegister {

@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Center } from "native-base";
 
 // Components
-import { AddTransactionModal } from "../../Shared";
 import CreditCardTransactionsList from "./CreditCardTransactionsList";
 import PayCreditCardModal from "./PayCreditCardModal";
 
@@ -72,15 +71,20 @@ const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
           {LANGUAGES.pay[appLanguage]}
         </Button>
       </Center>
-      <AddCreditCardTransactionModal
-        onAdd={onAddCreditCardTransaction}
-        isOpen={showAddModal}
-        onClose={() => setShowAddModal(false)}
-      />
-      <PayCreditCardModal
-        onClose={() => setShowPayModal(false)}
-        isOpen={showPayModal}
-      />
+      {showAddModal && (
+        <AddCreditCardTransactionModal
+          onAdd={onAddCreditCardTransaction}
+          isOpen={showAddModal}
+          onClose={() => setShowAddModal(false)}
+        />
+      )}
+
+      {showPayModal && (
+        <PayCreditCardModal
+          onClose={() => setShowPayModal(false)}
+          isOpen={showPayModal}
+        />
+      )}
     </>
   );
 };

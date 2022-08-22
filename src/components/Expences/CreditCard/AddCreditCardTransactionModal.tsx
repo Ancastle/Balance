@@ -50,6 +50,7 @@ const AddCreditCardTransactionModal: React.FC<
   const [displayAmount, setDisplayAmount] = React.useState("");
   const [isALoan, setIsALoan] = React.useState(false);
   const [personName, setPersonName] = React.useState("");
+  const [necesary, setNecesary] = React.useState(false);
 
   const resetModal = React.useCallback(() => {
     setCategoryId("");
@@ -75,6 +76,7 @@ const AddCreditCardTransactionModal: React.FC<
       value: amount.toString(),
       categoryId: categoryId,
       type: "expence",
+      isNecesary: necesary,
     });
     if (isALoan) {
       const person = people.find((person) => person.name === personName);
@@ -182,6 +184,15 @@ const AddCreditCardTransactionModal: React.FC<
               />
             ))}
           </Select>
+          <Checkbox
+            value=""
+            isChecked={necesary}
+            color="green.100"
+            onChange={() => setNecesary((prevState) => !prevState)}
+            mt={3}
+          >
+            <Text ml={2}>{LANGUAGES.isThisNecesary[appLanguage]}</Text>
+          </Checkbox>
         </Modal.Body>
         <Modal.Footer>
           <Button.Group space={2}>

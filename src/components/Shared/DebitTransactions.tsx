@@ -43,12 +43,14 @@ const DebitTransactions: React.FC<DebitTransactionsProps> = ({
           {LANGUAGES.add[appLanguage]}
         </Button>
       </Center>
-      <AddTransactionModal
-        onAdd={onAdd}
-        isOpen={showAddModal}
-        onClose={() => setShowAddModal(false)}
-        type={type}
-      />
+      {showAddModal && (
+        <AddTransactionModal
+          onAdd={onAdd}
+          isOpen={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          type={type}
+        />
+      )}
     </>
   );
 };
