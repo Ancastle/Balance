@@ -2,10 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Person, UuId } from "../components/types";
+import {
+  Person,
+  Transaction,
+  TransactionType,
+  UuId,
+} from "../components/types";
 import { RootState, AppThunk } from "./store";
 
 import { STORAGE } from "../components/statics";
+import { formatISO } from "date-fns";
 
 export interface PeopleState {
   data: Person[];
@@ -88,6 +94,7 @@ export const addPerson =
         name: personName,
         id: uuid.v4(),
         value: "0",
+        transactions: [],
       },
       ...currentPeople,
     ];
@@ -118,20 +125,44 @@ export const deletePerson =
   };
 
 export const addPersonTransaction =
-  (personId: UuId, value: number, whoPays: string): AppThunk =>
+  (personId: UuId, value: number, whoPays: string, reason: string): AppThunk =>
   (dispatch, getState) => {
     const currentPeople = selectPeopleData(getState());
-    const newPeople = currentPeople.map((person) =>
-      person.id === personId
+    const transType: TransactionType = whoPays === "me" ? "expence" : "entry";
+    const newPeople = currentPeople.map((person) => {
+      let newValue = "0";
+      let newTransactions: Transaction[] = [];
+      if (person.id === personId) {
+        newValue =
+          whoPays === "me"
+            ? (parseInt(person.value, 10) + value).toString()
+            : (parseInt(person.value, 10) - value).toString();
+        newTransactions = [
+          {
+            id: uuid.v4(),
+            type: transType,
+            name: reason,
+            categoryId: whoPays === "me" ? "expence1" : "entry1",
+            value:
+              whoPays === "me" ? value.toString() : (value * -1).toString(),
+            date: formatISO(new Date()),
+            isNecesary: false,
+          },
+          ...(person.transactions || []),
+        ];
+        if (newTransactions.length > 20) {
+          newTransactions = newTransactions.slice(0, 19);
+        }
+      }
+
+      return person.id === personId
         ? {
             ...person,
-            value:
-              whoPays === "me"
-                ? (parseInt(person.value, 10) + value).toString()
-                : (parseInt(person.value, 10) - value).toString(),
+            transactions: newTransactions,
+            value: newValue,
           }
-        : person
-    );
+        : person;
+    });
     dispatch(storePeopleAsync(newPeople));
   };
 

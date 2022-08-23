@@ -11,6 +11,7 @@ export const LANGUAGES = {
     "Note: this will create a debt with",
     "Nota: Esto creará una deuda con",
   ],
+  unnamed: ["No reason", "Sin razon"],
   alreadyInDebt: [
     "Note: this will incrase your debt with",
     "Nota: Esto incrementará tu deuda con",
@@ -36,6 +37,7 @@ export const LANGUAGES = {
   ],
   payCreditCard: ["Credit card payment for", "Pago tarjeta de crédito por"],
   history: ["History", "Historial"],
+  historyWith: ["History with", "Historial con"],
   createCategory: ["Create category", "Crear categoría"],
   editCategory: ["Edit category", "Editar categoría"],
   deleteCategory: ["Delete category", "Eliminar categoría"],
@@ -155,6 +157,7 @@ export const LANGUAGES = {
   save: ["Save", "Guardar"],
   name: ["Name", "Nombre"],
   value: ["Value", "Valor"],
+  reason: ["Optional reason", "Razón opcional"],
   edit: ["Edit", "Editar"],
   pay: ["Pay", "Pagar"],
   selectCategory: ["Select a category", "Selecciona una categoria"],

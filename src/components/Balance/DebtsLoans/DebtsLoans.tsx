@@ -56,8 +56,21 @@ const BalanceTransactionsList: React.FC = () => {
     [dispatch, deletePerson, addHistoryRegister]
   );
   const onAddTransaction = React.useCallback(
-    (personId: UuId, personName: string, value: number, whoPays: string) => {
-      dispatch(addPersonTransaction(personId, value, whoPays));
+    (
+      personId: UuId,
+      personName: string,
+      value: number,
+      whoPays: string,
+      reason: string
+    ) => {
+      dispatch(
+        addPersonTransaction(
+          personId,
+          value,
+          whoPays,
+          reason || LANGUAGES.unnamed[appLanguage]
+        )
+      );
       dispatch(
         addHistoryRegister(
           LANGUAGES.addPersonTransaction[appLanguage],
@@ -100,10 +113,17 @@ const BalanceTransactionsList: React.FC = () => {
   const handleTransaction = (
     person: Person,
     amount: string,
-    whoPays: string
+    whoPays: string,
+    reason: string
   ) => {
     if (person) {
-      onAddTransaction(person.id, person.name, parseInt(amount, 10), whoPays);
+      onAddTransaction(
+        person.id,
+        person.name,
+        parseInt(amount, 10),
+        whoPays,
+        reason
+      );
     }
     setCurrentPerson(null);
   };

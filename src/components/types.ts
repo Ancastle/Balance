@@ -23,6 +23,7 @@ export interface Person {
   id: UuId;
   name: string;
   value: string;
+  transactions: Transaction[];
 }
 
 export interface TransactionInput {

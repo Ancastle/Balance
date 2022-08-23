@@ -29,12 +29,18 @@ import {
   useAppSelector,
   useAppDispatch,
 } from "../../../store";
+import PersonHistoryList from "./PersonHistoryList";
 
 interface AddPersonTransactionModalProps {
   isOpen: boolean;
-  person: Person | null;
+  person: Person;
   onClose: () => void;
-  onTransaction: (person: Person, amount: string, whoPays: string) => void;
+  onTransaction: (
+    person: Person,
+    amount: string,
+    whoPays: string,
+    reason: string
+  ) => void;
 }
 
 const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
@@ -65,6 +71,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
   const [amount, setAmount] = React.useState("");
   const [isCash, setIsCash] = React.useState(false);
   const [displayAmount, setDisplayAmount] = React.useState("");
+  const [reason, setReason] = React.useState("");
 
   const resetModal = React.useCallback(() => {
     setWhoPays("");
@@ -82,7 +89,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
 
   const onAddPersonTransaction = React.useCallback(() => {
     if (person) {
-      onTransaction(person, amount, whoPays);
+      onTransaction(person, amount, whoPays, reason);
       if (!isCash) {
         if (whoPays === "me") {
           onAdd({
@@ -90,6 +97,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
             type: "expence",
             value: amount,
             categoryId: "expence1",
+            isNecesary: false,
           });
         } else {
           onAdd({
@@ -97,13 +105,14 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
             type: "entry",
             value: amount,
             categoryId: "entry1",
+            isNecesary: false,
           });
         }
       }
       resetModal();
       onClose();
     }
-  }, [whoPays, amount, person, isCash]);
+  }, [whoPays, amount, person, isCash, reason]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -114,6 +123,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
           <Text>{person?.name}</Text>
         </Modal.Header>
         <Modal.Body>
+          <PersonHistoryList person={person} />
           {!!person && (
             <Select
               selectedValue={whoPays}
@@ -166,6 +176,23 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
               {LANGUAGES.balance.tabs.debtsLoans.moneyExceeded[appLanguage]}
             </Text>
           )}
+          <FormControl mt="3">
+            <Input
+              InputLeftElement={
+                <Icon
+                  as={<MaterialIcons name="description" />}
+                  size={5}
+                  ml="2"
+                  color="muted.400"
+                />
+              }
+              placeholder={LANGUAGES.reason[appLanguage]}
+              value={reason}
+              onChangeText={(text) => {
+                setReason(text);
+              }}
+            />
+          </FormControl>
           <Checkbox
             value=""
             isChecked={isCash}
