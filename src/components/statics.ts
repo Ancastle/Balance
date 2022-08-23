@@ -2,6 +2,7 @@ import { CategoryType, Preferences, Transaction } from "./types";
 import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  payedCreditCard: ["payed your CC", "pagó su TC"],
   cantEditDebtLoans: [
     "Note: Can not edit debt/loan transactions",
     "Nota: No se pueden editar transacciones de prestamo o deuda",

@@ -56,7 +56,14 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
           })
         );
         dispatch(addCreditCardPayment(personPayedCardTransactions));
-        dispatch(addPersonTransaction(person.id, parseInt(value), "them"));
+        dispatch(
+          addPersonTransaction(
+            person.id,
+            parseInt(value),
+            "them",
+            `${person.name} ${LANGUAGES.payedCreditCard[appLanguage]}`
+          )
+        );
       } else {
         dispatch(addCreditCardPayment(payCreditCardTransactions));
       }

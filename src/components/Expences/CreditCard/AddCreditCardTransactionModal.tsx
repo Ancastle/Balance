@@ -81,7 +81,9 @@ const AddCreditCardTransactionModal: React.FC<
     if (isALoan) {
       const person = people.find((person) => person.name === personName);
       if (person)
-        dispatch(addPersonTransaction(person.id, parseInt(amount, 10), "me"));
+        dispatch(
+          addPersonTransaction(person.id, parseInt(amount, 10), "me", name)
+        );
     }
     resetModal();
     onClose();
