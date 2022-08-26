@@ -44,7 +44,7 @@ const History: React.FC = () => {
             <Flex direction="row" py={1.5}>
               <Box flex={1}>{` ${makeDoubleDigit(
                 parseISO(item.date).getDate()
-              )}/${makeDoubleDigit(parseISO(item.date).getMonth())}`}</Box>
+              )}/${makeDoubleDigit(parseISO(item.date).getMonth() + 1)}`}</Box>
               <Box flex={1}>{` ${makeDoubleDigit(
                 parseISO(item.date).getHours()
               )}:${makeDoubleDigit(parseISO(item.date).getMinutes())}`}</Box>

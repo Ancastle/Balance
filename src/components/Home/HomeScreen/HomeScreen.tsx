@@ -26,9 +26,6 @@ import { DEVONLYRESETTRANSACTIONS } from "../../../store/transactionsSlice";
 
 import { LANGUAGES } from "../../statics";
 
-// Utils
-// import { getMonthSummary } from "../../utils";
-
 const HomeScreen: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
