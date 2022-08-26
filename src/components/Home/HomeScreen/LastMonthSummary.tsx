@@ -14,6 +14,7 @@ import MonthSummary from "./MonthSummary";
 // Store
 import {
   selectTransactionsData,
+  selectCreditCardData,
   useAppSelector,
   selectPreferencesLanguage,
 } from "../../../store";
@@ -23,6 +24,7 @@ import { calculateTypeTotal, makeCurrencyFormat } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
 const LastMonthSummary: React.FC = () => {
+  const creditCardTransactions = useAppSelector(selectCreditCardData);
   const transactions = useAppSelector(selectTransactionsData);
 
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -76,6 +78,33 @@ const LastMonthSummary: React.FC = () => {
     [transactions]
   );
 
+  const lastMonthCCTransactions = React.useMemo(
+    () =>
+      creditCardTransactions.filter((transaction) => {
+        return (
+          isAfter(parseISO(transaction.date), lastMonthFirstDay) &&
+          isBefore(parseISO(transaction.date), lastMonthLastDay)
+        );
+      }),
+    [lastMonthFirstDay, lastMonthLastDay, creditCardTransactions]
+  );
+
+  const lastMonthCCExpences = React.useMemo(
+    () => calculateTypeTotal(lastMonthCCTransactions, "expence"),
+    [lastMonthCCTransactions]
+  );
+
+  const lastMonthCCNeededExpences = React.useMemo(
+    () =>
+      calculateTypeTotal(
+        lastMonthCCTransactions.filter(
+          (tr) => tr.type === "expence" && tr.isNecesary === true
+        ),
+        "expence"
+      ),
+    [lastMonthCCTransactions]
+  );
+
   return (
     <MonthSummary
       title={
@@ -83,8 +112,8 @@ const LastMonthSummary: React.FC = () => {
           {LANGUAGES.lastMonthSummary[appLanguage]}
         </Heading>
       }
-      neededExpences={lastMonthNeededExpences}
-      expences={lastMonthExpences}
+      neededExpences={lastMonthNeededExpences + lastMonthCCNeededExpences}
+      expences={lastMonthExpences + lastMonthCCExpences}
       entries={lastMonthEntries}
       balance={lastMonthBalance}
     />

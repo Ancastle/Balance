@@ -12,9 +12,10 @@ import MonthSummary from "./MonthSummary";
 
 // Store
 import {
+  selectPreferencesLanguage,
+  selectCreditCardData,
   selectTransactionsData,
   useAppSelector,
-  selectPreferencesLanguage,
 } from "../../../store";
 
 import { calculateTypeTotal } from "../../utils";
@@ -22,8 +23,8 @@ import { calculateTypeTotal } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
 const CurrentMonthSummary: React.FC = () => {
+  const creditCardTransactions = useAppSelector(selectCreditCardData);
   const transactions = useAppSelector(selectTransactionsData);
-
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const date: Date = React.useMemo(() => new Date(), [transactions]);
@@ -40,7 +41,7 @@ const CurrentMonthSummary: React.FC = () => {
           isBefore(parseISO(transaction.date), currentMonthLastDay)
         );
       }),
-    [currentMonthFirstDay, currentMonthLastDay]
+    [currentMonthFirstDay, currentMonthLastDay, transactions]
   );
 
   const currentMonthExpences = React.useMemo(
@@ -69,6 +70,33 @@ const CurrentMonthSummary: React.FC = () => {
     [transactions]
   );
 
+  const currentMonthCCTransactions = React.useMemo(
+    () =>
+      creditCardTransactions.filter((transaction) => {
+        return (
+          isAfter(parseISO(transaction.date), currentMonthFirstDay) &&
+          isBefore(parseISO(transaction.date), currentMonthLastDay)
+        );
+      }),
+    [currentMonthFirstDay, currentMonthLastDay, creditCardTransactions]
+  );
+
+  const currentMonthCCExpences = React.useMemo(
+    () => calculateTypeTotal(currentMonthCCTransactions, "expence"),
+    [currentMonthCCTransactions]
+  );
+
+  const currentMonthCCNeededExpences = React.useMemo(
+    () =>
+      calculateTypeTotal(
+        currentMonthCCTransactions.filter(
+          (tr) => tr.type === "expence" && tr.isNecesary === true
+        ),
+        "expence"
+      ),
+    [currentMonthCCTransactions]
+  );
+
   return (
     <MonthSummary
       title={
@@ -76,8 +104,8 @@ const CurrentMonthSummary: React.FC = () => {
           {LANGUAGES.currentMonthSummary[appLanguage]}
         </Heading>
       }
-      neededExpences={currentMonthNeededExpences}
-      expences={currentMonthExpences}
+      neededExpences={currentMonthNeededExpences + currentMonthCCNeededExpences}
+      expences={currentMonthExpences + currentMonthCCExpences}
       entries={currentMonthEntries}
       balance={currentMonthBalance}
     />
