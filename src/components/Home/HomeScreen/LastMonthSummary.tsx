@@ -7,6 +7,7 @@ import {
   parseISO,
   isAfter,
   isBefore,
+  format,
 } from "date-fns";
 
 import MonthSummary from "./MonthSummary";
@@ -39,6 +40,16 @@ const LastMonthSummary: React.FC = () => {
   const lastMonthLastDay = React.useMemo(
     () => endOfMonth(subMonths(date, 1)),
     [date]
+  );
+
+  const startingDate = React.useMemo(
+    () => format(lastMonthFirstDay, "dd/MM/yyyy"),
+    [lastMonthFirstDay]
+  );
+
+  const endingDate = React.useMemo(
+    () => format(lastMonthLastDay, "dd/MM/yyyy"),
+    [lastMonthLastDay]
   );
 
   const lastMonthTransactions = React.useMemo(
@@ -108,8 +119,8 @@ const LastMonthSummary: React.FC = () => {
   return (
     <MonthSummary
       title={
-        <Heading fontSize={20}>
-          {LANGUAGES.lastMonthSummary[appLanguage]}
+        <Heading fontSize={16}>
+          {`${LANGUAGES.lastMonthSummary[appLanguage]} \n(${startingDate} - ${endingDate})`}
         </Heading>
       }
       neededExpences={lastMonthNeededExpences + lastMonthCCNeededExpences}

@@ -6,6 +6,7 @@ import {
   parseISO,
   isAfter,
   isBefore,
+  format,
 } from "date-fns";
 
 import MonthSummary from "./MonthSummary";
@@ -59,6 +60,16 @@ const CurrentMonthSummary: React.FC = () => {
     [currentMonthEntries, currentMonthExpences]
   );
 
+  const startingDate = React.useMemo(
+    () => format(currentMonthFirstDay, "dd/MM/yyyy"),
+    [currentMonthFirstDay]
+  );
+
+  const endingDate = React.useMemo(
+    () => format(currentMonthLastDay, "dd/MM/yyyy"),
+    [currentMonthLastDay]
+  );
+
   const currentMonthNeededExpences = React.useMemo(
     () =>
       calculateTypeTotal(
@@ -100,8 +111,8 @@ const CurrentMonthSummary: React.FC = () => {
   return (
     <MonthSummary
       title={
-        <Heading fontSize={20}>
-          {LANGUAGES.currentMonthSummary[appLanguage]}
+        <Heading fontSize={16}>
+          {`${LANGUAGES.currentMonthSummary[appLanguage]} \n(${startingDate} - ${endingDate})`}
         </Heading>
       }
       neededExpences={currentMonthNeededExpences + currentMonthCCNeededExpences}

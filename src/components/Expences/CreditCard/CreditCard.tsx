@@ -78,7 +78,6 @@ const CreditCard: React.FC<DebitTransactionsProps> = ({}) => {
           onClose={() => setShowAddModal(false)}
         />
       )}
-
       {showPayModal && (
         <PayCreditCardModal
           onClose={() => setShowPayModal(false)}

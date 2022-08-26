@@ -40,7 +40,7 @@ const HomeScreen: React.FC = () => {
     <>
       <View flex={1}>{/*TBD INSERT LOGO */}</View>
 
-      <Container flex={1.3} my={15}>
+      <Container flex={1.8} my={15}>
         <Container flexDirection={"row"}>
           <Heading>{`${LANGUAGES.welcome[appLanguage]}!`}</Heading>
           <Icon
@@ -61,8 +61,8 @@ const HomeScreen: React.FC = () => {
 
         <LastAction />
         <LastDaysSummary />
-        <LastMonthSummary />
         <CurrentMonthSummary />
+        <LastMonthSummary />
 
         {/* DEVONLY*/}
         <Pressable

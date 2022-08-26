@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Heading, Box } from "native-base";
 import { TextInput } from "react-native";
-import { sub, startOfMonth, parseISO, isAfter } from "date-fns";
+import { sub, startOfMonth, parseISO, isAfter, format } from "date-fns";
 
 import MonthSummary from "./MonthSummary";
 
@@ -55,6 +55,13 @@ const LastDaysSummary: React.FC = () => {
     [lastDaysExpences, lastDaysEntries]
   );
 
+  const startingDate = React.useMemo(
+    () => format(periodFirstDay, "dd/MM/yyyy"),
+    [[periodFirstDay]]
+  );
+
+  const endingDate = React.useMemo(() => format(new Date(), "dd/MM/yyyy"), []);
+
   const lastDaysNeededExpences = React.useMemo(
     () =>
       calculateTypeTotal(
@@ -93,7 +100,7 @@ const LastDaysSummary: React.FC = () => {
   return (
     <MonthSummary
       title={
-        <Heading fontSize={20}>
+        <Heading fontSize={16}>
           {LANGUAGES.lastDays1[appLanguage]}
           <Box alignItems="center">
             <TextInput
@@ -104,7 +111,7 @@ const LastDaysSummary: React.FC = () => {
               style={{
                 marginBottom: -5,
                 marginLeft: 50,
-                fontSize: 20,
+                fontSize: 16,
                 left: -20,
                 width: 45,
                 fontWeight: "600",
@@ -113,6 +120,7 @@ const LastDaysSummary: React.FC = () => {
             />
           </Box>
           {LANGUAGES.lastDays2[appLanguage]}
+          {`\n(${startingDate} - ${endingDate})`}
         </Heading>
       }
       neededExpences={lastDaysNeededExpences + lastDaysCCNeededExpences}
