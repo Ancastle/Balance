@@ -1,5 +1,14 @@
 import * as React from "react";
-import { Container, Heading, Text, View, Pressable } from "native-base";
+import {
+  Container,
+  Heading,
+  Text,
+  View,
+  Pressable,
+  useToast,
+  Icon,
+} from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import LastMonthSummary from "./LastMonthSummary";
 import CurrentMonthSummary from "./CurrentMonthSummary";
@@ -25,11 +34,31 @@ const HomeScreen: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
+  const toast = useToast();
+
   return (
     <>
       <View flex={1}>{/*TBD INSERT LOGO */}</View>
+
       <Container flex={1.3} my={15}>
-        <Heading>{`${LANGUAGES.welcome[appLanguage]}!`}</Heading>
+        <Container flexDirection={"row"}>
+          <Heading>{`${LANGUAGES.welcome[appLanguage]}!`}</Heading>
+          <Icon
+            ml={3}
+            onPress={() =>
+              toast.show({
+                description: LANGUAGES.helpers.homeScreen[appLanguage],
+                placement: "top",
+                duration: 5000,
+              })
+            }
+            as={<MaterialIcons name="help" />}
+            size={5}
+            mt={1.5}
+            color="primary.500"
+          />
+        </Container>
+
         <LastAction />
         <LastDaysSummary />
         <LastMonthSummary />

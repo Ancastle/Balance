@@ -2,6 +2,12 @@ import { CategoryType, Preferences, Transaction } from "./types";
 import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  helpers: {
+    homeScreen: [
+      "Expences are shown as Total (necessary, unnecessary)\nCredit card expences are included even before you pay them",
+      "Los egresos se muestran como Total (necesarios, innecesarios)\nLos gastos de tarjeta de crédito estan incluidos, incluso antes de pagarlos",
+    ],
+  },
   payedCreditCard: ["payed your CC", "pagó su TC"],
   cantEditDebtLoans: [
     "Note: Can not edit debt/loan transactions",
