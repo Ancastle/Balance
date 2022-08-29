@@ -35,7 +35,8 @@ const Home: React.FC = () => {
 
   const tabs: Tab[] = [
     { key: "first", title: LANGUAGES.home.tabs.home[appLanguage] },
-    { key: "second", title: LANGUAGES.home.tabs.history[appLanguage] },
+    { key: "second", title: LANGUAGES.home.tabs.charts[appLanguage] },
+    { key: "third", title: LANGUAGES.home.tabs.history[appLanguage] },
   ];
 
   React.useEffect(() => {
@@ -53,7 +54,8 @@ const Home: React.FC = () => {
     <TabsHeader
       tabs={tabs}
       firstRoute={<HomeScreen />}
-      secondRoute={<History />}
+      secondRoute={<Graphs />}
+      thirdRoute={<History />}
     />
   );
 };

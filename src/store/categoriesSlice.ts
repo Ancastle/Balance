@@ -26,10 +26,11 @@ export const fetchCategoriesAsync = createAsyncThunk(
       const value = await AsyncStorage.getItem(STORAGE.categories);
       if (value) {
         const parsed = JSON.parse(value).categories;
-        if (!parsed.includes(INITIAL_CATEGORIES[0])) {
+        if (parsed.some((cat: CategoryType) => cat.id === "expence0")) {
+          return parsed;
+        } else {
           return [...INITIAL_CATEGORIES, ...parsed];
         }
-        return parsed;
       } else {
         const jsonValue = JSON.stringify({ categories: INITIAL_CATEGORIES });
         await AsyncStorage.setItem(STORAGE.categories, jsonValue);
@@ -58,7 +59,7 @@ export const resetCategoriesDEVONLY = createAsyncThunk(
   "categories/storeCategoriesAsync",
   async () => {
     try {
-      const jsonValue = JSON.stringify({ categories: [] });
+      const jsonValue = JSON.stringify({ categories: INITIAL_CATEGORIES });
       await AsyncStorage.setItem(STORAGE.categories, jsonValue);
     } catch (e) {
       console.log("Error: Could not store categories data");

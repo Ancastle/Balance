@@ -2,6 +2,33 @@ import { CategoryType, Preferences, Transaction } from "./types";
 import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  analysis: {
+    monthSelect: {
+      singleMonthTitle: ["Select a month", "Selecciona un mes"],
+      monthFromTitle: ["Select a month from", "Selecciona un mes desde"],
+      monthToTitle: ["Select a month to", "Selecciona un mes hasta"],
+    },
+    analysisType: {
+      title: ["Select an analysis type", "Selecciona un tipo de análisis"],
+      monthly: ["By month", "Por mes"],
+      fromTo: ["From/To", "Desde/Hasta"],
+      compare: ["Compare", "Comparar"],
+    },
+    categorySelect: {
+      title: ["Select a category", "Selecciona una categoría"],
+      allCategories: ["All categories", "Todas las categorías"],
+    },
+    sortingType: {
+      title: ["Sort by", "Organizar por"],
+      necessary: ["Necessary/Unnecessary", "Necesario/Innecesario"],
+      byCategory: ["By category", "Por categoría"],
+    },
+    transactionType: {
+      title: ["Select a transaction type", "Selecciona un tipo de transacción"],
+      expences: ["Expences", "Egresos"],
+      entries: ["Entries", "Ingresos"],
+    },
+  },
   helpers: {
     homeScreen: [
       "Expences are shown as Total (necessary, unnecessary)\nCredit card expences are included even before you pay them",

@@ -36,7 +36,9 @@ const Category: React.FC<CategoryProps> = ({
   }, [category]);
 
   const isMain = React.useMemo(
-    () => category.id === "expence0" || category.id === "entry0",
+    () =>
+      ["expence0", "expence1"].includes(category.id.toString()) ||
+      ["entry0", "entry1"].includes(category.id.toString()),
     [category]
   );
 
