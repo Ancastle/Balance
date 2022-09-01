@@ -10,6 +10,8 @@ import {
   format,
 } from "date-fns";
 
+import { title2Styles } from "../../styles";
+
 import MonthSummary from "./MonthSummary";
 
 // Store
@@ -119,7 +121,11 @@ const LastMonthSummary: React.FC = () => {
   return (
     <MonthSummary
       title={
-        <Heading fontSize={16}>
+        <Heading
+          w="380"
+          fontSize={title2Styles.fontSize}
+          fontWeight={title2Styles.fontWeight}
+        >
           {`${LANGUAGES.lastMonthSummary[appLanguage]} \n(${startingDate} - ${endingDate})`}
         </Heading>
       }

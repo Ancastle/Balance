@@ -2,6 +2,8 @@ import React from "react";
 import { SectionList, Heading, Center, Flex, Box, Text } from "native-base";
 import parseISO from "date-fns/parseISO";
 
+import { titleStyles } from "../../styles";
+
 // Utils
 import { makeDoubleDigit, isEven } from "../../utils";
 
@@ -56,7 +58,12 @@ const History: React.FC = () => {
         )}
         renderSectionHeader={({ section: { title } }) => (
           <Center>
-            <Heading fontSize="xl" mt="3" pb="4">
+            <Heading
+              fontSize={titleStyles.fontSize}
+              fontWeight={titleStyles.fontWeight}
+              mt="3"
+              pb="4"
+            >
               {title}
             </Heading>
           </Center>

@@ -1,5 +1,7 @@
 import { Text, Radio, Container } from "native-base";
 
+import { subtitlesStyles, title2Styles } from "../../../styles";
+
 import { selectPreferencesLanguage, useAppSelector } from "../../../../store";
 
 import { LANGUAGES } from "../../../statics";
@@ -15,7 +17,11 @@ const AnalysisTypeFilter: React.FC<AnalysisTypeFilterProps> = ({
   const appLanguage = useAppSelector(selectPreferencesLanguage);
   return (
     <>
-      <Text fontSize={18} mt={-2}>
+      <Text
+        fontSize={title2Styles.fontSize}
+        fontWeight={title2Styles.fontWeight}
+        mt={-2}
+      >
         {LANGUAGES.analysis.analysisType.title[appLanguage]}
       </Text>
       <Radio.Group
@@ -29,13 +35,31 @@ const AnalysisTypeFilter: React.FC<AnalysisTypeFilterProps> = ({
       >
         <Container display="flex" flexDirection="row">
           <Radio value="monthly" my={1}>
-            {LANGUAGES.analysis.analysisType.monthly[appLanguage]}
+            <Text
+              ml={2}
+              fontSize={subtitlesStyles.fontSize}
+              fontWeight={subtitlesStyles.fontWeight}
+            >
+              {LANGUAGES.analysis.analysisType.monthly[appLanguage]}
+            </Text>
           </Radio>
           <Radio value="fromTo" ml={2} my={1}>
-            {LANGUAGES.analysis.analysisType.fromTo[appLanguage]}
+            <Text
+              ml={2}
+              fontSize={subtitlesStyles.fontSize}
+              fontWeight={subtitlesStyles.fontWeight}
+            >
+              {LANGUAGES.analysis.analysisType.fromTo[appLanguage]}
+            </Text>
           </Radio>
           <Radio value="compare" ml={2} my={1}>
-            {LANGUAGES.analysis.analysisType.compare[appLanguage]}
+            <Text
+              ml={2}
+              fontSize={subtitlesStyles.fontSize}
+              fontWeight={subtitlesStyles.fontWeight}
+            >
+              {LANGUAGES.analysis.analysisType.compare[appLanguage]}
+            </Text>
           </Radio>
         </Container>
       </Radio.Group>

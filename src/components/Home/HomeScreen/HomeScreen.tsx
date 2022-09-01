@@ -10,6 +10,8 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { titleStyles } from "../../styles";
+
 import LastMonthSummary from "./LastMonthSummary";
 import CurrentMonthSummary from "./CurrentMonthSummary";
 import LastDaysSummary from "./LastDaysSummary";
@@ -34,12 +36,15 @@ const HomeScreen: React.FC = () => {
   const toast = useToast();
 
   return (
-    <>
+    <Container flex={1} ml="2">
       <View flex={1}>{/*TBD INSERT LOGO */}</View>
 
-      <Container flex={1.8} my={15}>
+      <Container flex={1.8} my={15} w="380">
         <Container flexDirection={"row"}>
-          <Heading>{`${LANGUAGES.welcome[appLanguage]}!`}</Heading>
+          <Heading
+            fontSize={titleStyles.fontSize}
+            fontWeight={titleStyles.fontWeight}
+          >{`${LANGUAGES.welcome[appLanguage]}!`}</Heading>
           <Icon
             ml={3}
             onPress={() =>
@@ -51,7 +56,7 @@ const HomeScreen: React.FC = () => {
             }
             as={<MaterialIcons name="help" />}
             size={5}
-            mt={1.5}
+            mt={0.5}
             color="primary.500"
           />
         </Container>
@@ -71,7 +76,7 @@ const HomeScreen: React.FC = () => {
           <Text> RESET ALL REGISTERS</Text>
         </Pressable>
       </Container>
-    </>
+    </Container>
   );
 };
 export default HomeScreen;

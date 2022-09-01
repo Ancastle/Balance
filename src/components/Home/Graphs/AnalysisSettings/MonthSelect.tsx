@@ -2,6 +2,8 @@ import { Text, Select, CheckIcon } from "native-base";
 import format from "date-fns/format";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
+import { title2Styles } from "../../../styles";
+
 import { selectPreferencesLanguage, useAppSelector } from "../../../../store";
 
 import { LANGUAGES } from "../../../statics";
@@ -23,7 +25,11 @@ const MonthSelect: React.FC<MonthSelectProps> = ({
   const appLanguage = useAppSelector(selectPreferencesLanguage);
   return (
     <>
-      <Text mt={-2} fontSize={18}>
+      <Text
+        fontSize={title2Styles.fontSize}
+        fontWeight={title2Styles.fontWeight}
+        mt={-2}
+      >
         {title}
       </Text>
       <Select

@@ -2,6 +2,8 @@ import * as React from "react";
 import { Heading } from "native-base";
 import { parseISO } from "date-fns";
 
+import { subtitlesStyles, title2Styles } from "../../styles";
+
 // Store
 import {
   useAppSelector,
@@ -17,7 +19,7 @@ const LastAction: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
   const history = useAppSelector(selectHistoryData);
 
-  const lastAction = React.useMemo(() => history[0], []);
+  const lastAction = React.useMemo(() => history[0], [history]);
 
   const lastActionDate = React.useMemo(
     () => lastAction && parseISO(lastAction.date),
@@ -26,8 +28,17 @@ const LastAction: React.FC = () => {
 
   return (
     <>
-      <Heading fontSize={20}>{LANGUAGES.lastAction[appLanguage]}</Heading>
-      <Heading fontSize={15}>
+      <Heading
+        fontWeight={title2Styles.fontWeight}
+        fontSize={title2Styles.fontSize}
+      >
+        {LANGUAGES.lastAction[appLanguage]}
+      </Heading>
+      <Heading
+        fontWeight={subtitlesStyles.fontWeight}
+        fontSize={subtitlesStyles.fontSize}
+        w="380"
+      >
         {lastAction
           ? `${lastAction.name} ${
               LANGUAGES.timeOn[appLanguage]

@@ -2,6 +2,8 @@ import * as React from "react";
 import { Text, Icon, Container } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { subtitlesStyles } from "../../styles";
+
 // Store
 import { useAppSelector, selectPreferencesLanguage } from "../../../store";
 

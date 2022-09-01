@@ -12,6 +12,8 @@ import {
 // Utils
 import { isEven, makeCurrencyFormat } from "../../utils";
 
+import { titleStyles } from "../../styles";
+
 interface DisplayDataProps {
   data: any;
   field3?: boolean;
@@ -77,7 +79,12 @@ export const DisplayData: React.FC<DisplayDataProps> = ({
       )}
       renderSectionHeader={({ section: { title } }) => (
         <Center>
-          <Heading fontSize="xl" mt="3" pb="4">
+          <Heading
+            fontSize={titleStyles.fontSize}
+            fontWeight={titleStyles.fontWeight}
+            mt="3"
+            pb="4"
+          >
             {title}
           </Heading>
         </Center>
