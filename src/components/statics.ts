@@ -5,8 +5,10 @@ export const LANGUAGES = {
   analysis: {
     monthSelect: {
       singleMonthTitle: ["Select a month", "Selecciona un mes"],
-      monthFromTitle: ["Select a month from", "Selecciona un mes desde"],
-      monthToTitle: ["Select a month to", "Selecciona un mes hasta"],
+      monthFromTitle: ["From", "Desde"],
+      compare: ["Month to compare 1", "Mes a comparar 1"],
+      withThis: ["Month to compare 2", "Mes a comparar 2"],
+      monthToTitle: ["To", "Hasta"],
     },
     analysisType: {
       title: ["Select an analysis type", "Selecciona un tipo de análisis"],
@@ -33,6 +35,10 @@ export const LANGUAGES = {
     homeScreen: [
       "Expences are shown as Total (necessary, unnecessary)\nCredit card expences are included even before you pay them",
       "Los egresos se muestran como Total (necesarios, innecesarios)\nLos gastos de tarjeta de crédito estan incluidos, incluso antes de pagarlos",
+    ],
+    analysisFromTo: [
+      "The month To must be after the month From.\nMonth From must not be the current month.",
+      "El mes Hasta debe ser despues del mes Desde.\nLa mes Desde debe ser diferente al mes en curso.",
     ],
   },
   payedCreditCard: ["payed your CC", "pagó su TC"],

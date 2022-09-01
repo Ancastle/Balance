@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, Center } from "native-base";
+import { ScrollView, Center, useToast } from "native-base";
 import { sub } from "date-fns";
 
 // Components
@@ -7,18 +7,17 @@ import {
   TransactionTypeFilter,
   AnalysisTypeFilter,
   SortingTypeFilter,
-  CategorySelect,
   MonthSelect,
 } from "./AnalysisSettings";
+import { FromToTotals } from "./FromToTotals";
+import { CompareTotals } from "./CompareTotals";
 
 // Utils
 import { LANGUAGES } from "../../statics";
-import { MonthsNumbers } from "./MonthNumbers";
-import { CategoriesNumbers } from "./CategoriesNumbers";
+import { MonthTotals } from "./MonthTotals";
 
 // Store
 import {
-  selectCategoriesData,
   selectTransactionsData,
   selectPreferencesLanguage,
   useAppSelector,
@@ -26,13 +25,13 @@ import {
 
 const Graphs: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
-  const categories = useAppSelector(selectCategoriesData);
   const transactions = useAppSelector(selectTransactionsData);
+
+  const toast = useToast();
 
   const [type, setType] = React.useState("expence");
   const [analysisType, setAnalysisType] = React.useState("monthly");
   const [sorting, setSorting] = React.useState("necessary");
-  const [selectedCategory, setSelectedCategory] = React.useState("allCats");
   const [selectedMonth, setSelectedMonth] = React.useState("currentMonth");
   const [monthFrom, setMonthFrom] = React.useState("5");
   const [monthTo, setMonthTo] = React.useState("currentMonth");
@@ -57,10 +56,29 @@ const Graphs: React.FC = () => {
     }
   }, [analysisType]);
 
+  React.useEffect(() => {
+    const compareMonthFrom = monthFrom === "currentMonth" ? "-1" : monthFrom;
+    const compareMonthTo = monthTo === "currentMonth" ? "-1" : monthTo;
+    if (
+      analysisType === "fromTo" &&
+      (compareMonthFrom === compareMonthTo ||
+        compareMonthFrom === "-1" ||
+        compareMonthFrom < compareMonthTo)
+    ) {
+      setMonthTo("currentMonth");
+      setMonthFrom("5");
+      toast.show({
+        description: LANGUAGES.helpers.analysisFromTo[appLanguage],
+        placement: "top",
+        duration: 4000,
+      });
+    }
+  }, [monthFrom, monthTo, analysisType]);
+
   return (
     <Center>
       <ScrollView
-        h="400"
+        h="610"
         _contentContainerStyle={{
           mb: "4",
           minW: "72",
@@ -84,16 +102,6 @@ const Graphs: React.FC = () => {
           setSortingType={(nextSortingType) => setSorting(nextSortingType)}
           isDisabled={type === "entry"}
         />
-        {sorting === "byCategory" && (
-          <CategorySelect
-            categories={categories}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={(nextCategory) =>
-              setSelectedCategory(nextCategory)
-            }
-            type={type}
-          />
-        )}
         {analysisType === "monthly" && (
           <MonthSelect
             title={LANGUAGES.analysis.monthSelect.singleMonthTitle[appLanguage]}
@@ -105,7 +113,11 @@ const Graphs: React.FC = () => {
         )}
         {["fromTo", "compare"].includes(analysisType) && (
           <MonthSelect
-            title={LANGUAGES.analysis.monthSelect.monthFromTitle[appLanguage]}
+            title={
+              analysisType === "compare"
+                ? LANGUAGES.analysis.monthSelect.compare[appLanguage]
+                : LANGUAGES.analysis.monthSelect.monthFromTitle[appLanguage]
+            }
             month={monthFrom}
             setMonth={(nextMonthFrom) => setMonthFrom(nextMonthFrom)}
             currentDate={currentDate}
@@ -114,11 +126,41 @@ const Graphs: React.FC = () => {
         )}
         {["fromTo", "compare"].includes(analysisType) && (
           <MonthSelect
-            title={LANGUAGES.analysis.monthSelect.monthToTitle[appLanguage]}
+            title={
+              analysisType === "compare"
+                ? LANGUAGES.analysis.monthSelect.withThis[appLanguage]
+                : LANGUAGES.analysis.monthSelect.monthToTitle[appLanguage]
+            }
             month={monthTo}
             setMonth={(nextMonthTo) => setMonthTo(nextMonthTo)}
             currentDate={currentDate}
             lastSixMonths={lastSixMonths}
+          />
+        )}
+        {analysisType === "monthly" && (
+          <MonthTotals
+            transactions={transactions}
+            transactionType={type}
+            lastSixMonths={lastSixMonths}
+            selectedMonth={selectedMonth}
+          />
+        )}
+        {analysisType === "fromTo" && (
+          <FromToTotals
+            transactions={transactions}
+            transactionType={type}
+            lastSixMonths={lastSixMonths}
+            monthFrom={monthFrom}
+            monthTo={monthTo}
+          />
+        )}
+        {analysisType === "compare" && (
+          <CompareTotals
+            transactions={transactions}
+            transactionType={type}
+            lastSixMonths={lastSixMonths}
+            month1={monthFrom}
+            month2={monthTo}
           />
         )}
       </ScrollView>
