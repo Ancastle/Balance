@@ -73,12 +73,12 @@ const CurrentMonthSummary: React.FC = () => {
   const currentMonthNeededExpences = React.useMemo(
     () =>
       calculateTypeTotal(
-        transactions.filter(
+        currentMonthTransactions.filter(
           (tr) => tr.type === "expence" && tr.isNecesary === true
         ),
         "expence"
       ),
-    [transactions]
+    [currentMonthTransactions]
   );
 
   const currentMonthCCTransactions = React.useMemo(

@@ -28,7 +28,7 @@ const LastDaysSummary: React.FC = () => {
   const today: Date = React.useMemo(() => new Date(), [transactions]);
 
   const periodFirstDay = React.useMemo(
-    () => startOfMonth(sub(today, { days: parseInt(days) })),
+    () => sub(today, { days: parseInt(days) }),
     [today, days]
   );
 
