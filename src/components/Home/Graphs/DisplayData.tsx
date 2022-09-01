@@ -1,6 +1,13 @@
 import * as React from "react";
-import { Text, Box, Flex, Center, Heading } from "native-base";
-import { SectionList, Pressable } from "react-native";
+import {
+  Text,
+  Box,
+  Flex,
+  Center,
+  Heading,
+  SectionList,
+  Pressable,
+} from "native-base";
 
 // Utils
 import { isEven, makeCurrencyFormat } from "../../utils";
@@ -18,6 +25,7 @@ export const DisplayData: React.FC<DisplayDataProps> = ({
 }) => {
   return (
     <SectionList
+      minW={380}
       sections={data}
       keyExtractor={(item, index) => item.name + index}
       renderItem={({ item, index }) => (

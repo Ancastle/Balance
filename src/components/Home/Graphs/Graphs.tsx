@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, Center, useToast } from "native-base";
+import { Container, Center, useToast, Box } from "native-base";
 import { sub } from "date-fns";
 
 // Components
@@ -71,95 +71,86 @@ const Graphs: React.FC = () => {
   }, [monthFrom, monthTo, analysisType]);
 
   return (
-    <Center>
-      <ScrollView
-        h="610"
-        _contentContainerStyle={{
-          mb: "4",
-          minW: "72",
-          minH: 100,
+    <Container h="610" mb="4" ml={"2"}>
+      <TransactionTypeFilter
+        type={type}
+        setType={(nextType) => {
+          setType(nextType);
         }}
-      >
-        <TransactionTypeFilter
-          type={type}
-          setType={(nextType) => {
-            setType(nextType);
-          }}
+      />
+      <AnalysisTypeFilter
+        analysisType={analysisType}
+        setAnalysisType={(nextAnalysisType) => {
+          setAnalysisType(nextAnalysisType);
+        }}
+      />
+      <SortingTypeFilter
+        sortingType={sorting}
+        setSortingType={(nextSortingType) => setSorting(nextSortingType)}
+        isDisabled={type === "entry"}
+      />
+      {analysisType === "monthly" && (
+        <MonthSelect
+          title={LANGUAGES.analysis.monthSelect.singleMonthTitle[appLanguage]}
+          month={selectedMonth}
+          setMonth={(nextMonth) => setSelectedMonth(nextMonth)}
+          currentDate={currentDate}
+          lastSixMonths={lastSixMonths}
         />
-        <AnalysisTypeFilter
-          analysisType={analysisType}
-          setAnalysisType={(nextAnalysisType) => {
-            setAnalysisType(nextAnalysisType);
-          }}
+      )}
+      {["fromTo", "compare"].includes(analysisType) && (
+        <MonthSelect
+          title={
+            analysisType === "compare"
+              ? LANGUAGES.analysis.monthSelect.compare[appLanguage]
+              : LANGUAGES.analysis.monthSelect.monthFromTitle[appLanguage]
+          }
+          month={monthFrom}
+          setMonth={(nextMonthFrom) => setMonthFrom(nextMonthFrom)}
+          currentDate={currentDate}
+          lastSixMonths={lastSixMonths}
         />
-        <SortingTypeFilter
-          sortingType={sorting}
-          setSortingType={(nextSortingType) => setSorting(nextSortingType)}
-          isDisabled={type === "entry"}
+      )}
+      {["fromTo", "compare"].includes(analysisType) && (
+        <MonthSelect
+          title={
+            analysisType === "compare"
+              ? LANGUAGES.analysis.monthSelect.withThis[appLanguage]
+              : LANGUAGES.analysis.monthSelect.monthToTitle[appLanguage]
+          }
+          month={monthTo}
+          setMonth={(nextMonthTo) => setMonthTo(nextMonthTo)}
+          currentDate={currentDate}
+          lastSixMonths={lastSixMonths}
         />
-        {analysisType === "monthly" && (
-          <MonthSelect
-            title={LANGUAGES.analysis.monthSelect.singleMonthTitle[appLanguage]}
-            month={selectedMonth}
-            setMonth={(nextMonth) => setSelectedMonth(nextMonth)}
-            currentDate={currentDate}
-            lastSixMonths={lastSixMonths}
-          />
-        )}
-        {["fromTo", "compare"].includes(analysisType) && (
-          <MonthSelect
-            title={
-              analysisType === "compare"
-                ? LANGUAGES.analysis.monthSelect.compare[appLanguage]
-                : LANGUAGES.analysis.monthSelect.monthFromTitle[appLanguage]
-            }
-            month={monthFrom}
-            setMonth={(nextMonthFrom) => setMonthFrom(nextMonthFrom)}
-            currentDate={currentDate}
-            lastSixMonths={lastSixMonths}
-          />
-        )}
-        {["fromTo", "compare"].includes(analysisType) && (
-          <MonthSelect
-            title={
-              analysisType === "compare"
-                ? LANGUAGES.analysis.monthSelect.withThis[appLanguage]
-                : LANGUAGES.analysis.monthSelect.monthToTitle[appLanguage]
-            }
-            month={monthTo}
-            setMonth={(nextMonthTo) => setMonthTo(nextMonthTo)}
-            currentDate={currentDate}
-            lastSixMonths={lastSixMonths}
-          />
-        )}
-        {analysisType === "monthly" && (
-          <MonthTotals
-            transactionType={type}
-            lastSixMonths={lastSixMonths}
-            selectedMonth={selectedMonth}
-            sorting={sorting}
-          />
-        )}
-        {analysisType === "fromTo" && (
-          <FromToTotals
-            transactionType={type}
-            lastSixMonths={lastSixMonths}
-            monthFrom={monthFrom}
-            monthTo={monthTo}
-            sorting={sorting}
-          />
-        )}
-        {analysisType === "compare" && (
-          <CompareTotals
-            transactionType={type}
-            lastSixMonths={lastSixMonths}
-            month1={monthFrom}
-            month2={monthTo}
-            sorting={sorting}
-          />
-        )}
-      </ScrollView>
-    </Center>
+      )}
+      {analysisType === "monthly" && (
+        <MonthTotals
+          transactionType={type}
+          lastSixMonths={lastSixMonths}
+          selectedMonth={selectedMonth}
+          sorting={sorting}
+        />
+      )}
+      {analysisType === "fromTo" && (
+        <FromToTotals
+          transactionType={type}
+          lastSixMonths={lastSixMonths}
+          monthFrom={monthFrom}
+          monthTo={monthTo}
+          sorting={sorting}
+        />
+      )}
+      {analysisType === "compare" && (
+        <CompareTotals
+          transactionType={type}
+          lastSixMonths={lastSixMonths}
+          month1={monthFrom}
+          month2={monthTo}
+          sorting={sorting}
+        />
+      )}
+    </Container>
   );
 };
 
