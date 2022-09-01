@@ -1,5 +1,5 @@
 import * as React from "react";
-import { isSameMonth, parseISO } from "date-fns";
+import { isSameMonth, parseISO, format } from "date-fns";
 
 // Types
 import { Transaction } from "../../types";
@@ -50,6 +50,10 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
       let onlyNecessaryExpences = onlyExpences.filter((tr) => tr.isNecesary);
       let onlyUnnecessaryExpences = onlyExpences.filter((tr) => !tr.isNecesary);
       return [
+        {
+          name: "Type",
+          data1: `${format(currentMonthInDate, "MM/yyyy")}`,
+        },
         {
           name: "Necessary",
           data1: calculateTotal(onlyNecessaryExpences, "expence"),

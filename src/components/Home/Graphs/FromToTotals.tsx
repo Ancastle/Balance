@@ -6,6 +6,7 @@ import {
   isAfter,
   endOfMonth,
   startOfMonth,
+  format,
 } from "date-fns";
 
 // Types
@@ -71,6 +72,13 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
       let onlyNecessaryExpences = onlyExpences.filter((tr) => tr.isNecesary);
       let onlyUnnecessaryExpences = onlyExpences.filter((tr) => !tr.isNecesary);
       return [
+        {
+          name: "Type",
+          data1: `From ${format(currentMonthFromInDate, "MM/yyyy")} to ${format(
+            currentMonthToInDate,
+            "MM/yyyy"
+          )}`,
+        },
         {
           name: "Necessary",
           data1: calculateTotal(onlyNecessaryExpences, "expence"),
