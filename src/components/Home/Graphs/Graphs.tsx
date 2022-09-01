@@ -17,15 +17,10 @@ import { LANGUAGES } from "../../statics";
 import { MonthTotals } from "./MonthTotals";
 
 // Store
-import {
-  selectTransactionsData,
-  selectPreferencesLanguage,
-  useAppSelector,
-} from "../../../store";
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 const Graphs: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
-  const transactions = useAppSelector(selectTransactionsData);
 
   const toast = useToast();
 
@@ -36,7 +31,7 @@ const Graphs: React.FC = () => {
   const [monthFrom, setMonthFrom] = React.useState("5");
   const [monthTo, setMonthTo] = React.useState("currentMonth");
 
-  const currentDate: Date = React.useMemo(() => new Date(), [transactions]);
+  const currentDate: Date = React.useMemo(() => new Date(), []);
 
   const lastSixMonths = React.useMemo(
     () => [...Array(6)].map((item, i) => sub(currentDate, { months: i + 1 })),
@@ -51,8 +46,8 @@ const Graphs: React.FC = () => {
 
   React.useEffect(() => {
     if (analysisType === "compare") {
-      setMonthFrom("currentMonth");
-      setMonthTo("0");
+      setMonthFrom("5");
+      setMonthTo("currentMonth");
     }
   }, [analysisType]);
 
@@ -139,28 +134,28 @@ const Graphs: React.FC = () => {
         )}
         {analysisType === "monthly" && (
           <MonthTotals
-            transactions={transactions}
             transactionType={type}
             lastSixMonths={lastSixMonths}
             selectedMonth={selectedMonth}
+            sorting={sorting}
           />
         )}
         {analysisType === "fromTo" && (
           <FromToTotals
-            transactions={transactions}
             transactionType={type}
             lastSixMonths={lastSixMonths}
             monthFrom={monthFrom}
             monthTo={monthTo}
+            sorting={sorting}
           />
         )}
         {analysisType === "compare" && (
           <CompareTotals
-            transactions={transactions}
             transactionType={type}
             lastSixMonths={lastSixMonths}
             month1={monthFrom}
             month2={monthTo}
+            sorting={sorting}
           />
         )}
       </ScrollView>

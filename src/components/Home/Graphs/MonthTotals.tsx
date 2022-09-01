@@ -1,30 +1,36 @@
 import * as React from "react";
 import { isSameMonth, parseISO, format } from "date-fns";
 
-// Types
-import { Transaction } from "../../types";
+// Components
+import { DisplayData } from "./DisplayData";
 
 // Utils
 import { calculateTotal } from "../../utils";
 
 // Store
-import { selectPreferencesLanguage, useAppSelector } from "../../../store";
-import { DisplayData } from "./DisplayData";
+import {
+  selectCategoriesData,
+  selectPreferencesLanguage,
+  selectTransactionsData,
+  useAppSelector,
+} from "../../../store";
 
 interface MonthTotalsProps {
-  transactions: Transaction[];
   transactionType: string;
   selectedMonth: string;
   lastSixMonths: Date[];
+  sorting: string;
 }
 
 export const MonthTotals: React.FC<MonthTotalsProps> = ({
-  transactions,
   transactionType,
   selectedMonth,
   lastSixMonths,
+  sorting,
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const categories = useAppSelector(selectCategoriesData);
+  const transactions = useAppSelector(selectTransactionsData);
 
   const currentMonthInDate = React.useMemo(
     () =>
@@ -42,13 +48,33 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
     [transactions, currentMonthInDate]
   );
 
+  const currentMonthData = React.useMemo(() => {
+    const onlyExpences = transactionsCurrentMonth.filter(
+      (tr) => tr.type === "expence"
+    );
+    const onlyNecessaryExpences = onlyExpences.filter((tr) => tr.isNecesary);
+    const onlyUnnecessaryExpences = onlyExpences.filter((tr) => !tr.isNecesary);
+
+    const typeCategoriesOnly = categories.filter(
+      (cat) => cat.type === transactionType
+    );
+    const transactionsByCategory = typeCategoriesOnly.map((cat) => ({
+      name: cat.name,
+      data1: calculateTotal(
+        transactionsCurrentMonth.filter((tr) => tr.categoryId === cat.id),
+        transactionType
+      ),
+    }));
+    return {
+      onlyExpences,
+      onlyNecessaryExpences,
+      onlyUnnecessaryExpences,
+      transactionsByCategory,
+    };
+  }, [transactionsCurrentMonth, transactionType]);
+
   const dataToShow = React.useMemo(() => {
-    if (transactionType === "expence") {
-      let onlyExpences = transactionsCurrentMonth.filter(
-        (tr) => tr.type === "expence"
-      );
-      let onlyNecessaryExpences = onlyExpences.filter((tr) => tr.isNecesary);
-      let onlyUnnecessaryExpences = onlyExpences.filter((tr) => !tr.isNecesary);
+    if (transactionType === "expence" && sorting === "necessary") {
       return [
         {
           name: "Type",
@@ -56,17 +82,40 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
         },
         {
           name: "Necessary",
-          data1: calculateTotal(onlyNecessaryExpences, "expence"),
+          data1: calculateTotal(
+            currentMonthData.onlyNecessaryExpences,
+            "expence"
+          ),
         },
         {
           name: "Unnecessary",
-          data1: calculateTotal(onlyUnnecessaryExpences, "expence"),
+          data1: calculateTotal(
+            currentMonthData.onlyUnnecessaryExpences,
+            "expence"
+          ),
+        },
+        {
+          name: "Total",
+          data1: calculateTotal(currentMonthData.onlyExpences, "expence"),
         },
       ];
     } else {
-      return [];
+      return [
+        {
+          name: "Category",
+          data1: `${format(currentMonthInDate, "MM/yyyy")}`,
+        },
+        ...currentMonthData.transactionsByCategory,
+        {
+          name: "Total",
+          data1: currentMonthData.transactionsByCategory.reduce(
+            (acc, cat) => acc + cat.data1,
+            0
+          ),
+        },
+      ];
     }
-  }, [transactionsCurrentMonth]);
+  }, [transactionsCurrentMonth, sorting, transactionType]);
 
   const data = React.useMemo(
     () => [{ title: "Necessary/Unnecessary", data: dataToShow }],
