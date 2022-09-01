@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Modal, Box, Select, CheckIcon } from "native-base";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Utils
 import { LANGUAGES, ALL_LANGUAGES } from "../../statics";
@@ -61,6 +62,9 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
         </Modal.Header>
         <Modal.Body>
           <Select
+            dropdownIcon={
+              <MaterialCommunityIcons name="chevron-down" size={20} />
+            }
             selectedValue={selectedLanguage}
             minWidth="200"
             placeholder={

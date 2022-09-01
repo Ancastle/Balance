@@ -11,7 +11,7 @@ import {
   Checkbox,
   Text,
 } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Utils
 import { LANGUAGES } from "../../statics";
@@ -130,6 +130,9 @@ const PayCreditCardModal: React.FC<ReviewTransactionModalProps> = ({
           </Checkbox>
           {isPersonPaying && (
             <Select
+              dropdownIcon={
+                <MaterialCommunityIcons name="chevron-down" size={20} />
+              }
               selectedValue={personName}
               minWidth="200"
               placeholder={LANGUAGES.loanToPerson[appLanguage]}

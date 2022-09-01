@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Modal, Select, CheckIcon, Text } from "native-base";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Types
 import { Person } from "../../types";
@@ -58,6 +59,9 @@ const DeletePersonModal: React.FC<DeletePersonModalProps> = ({
         </Modal.Header>
         <Modal.Body>
           <Select
+            dropdownIcon={
+              <MaterialCommunityIcons name="chevron-down" size={20} />
+            }
             selectedValue={personName}
             minWidth="200"
             placeholder={

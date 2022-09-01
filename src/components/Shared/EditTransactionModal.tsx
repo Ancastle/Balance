@@ -10,7 +10,7 @@ import {
   Text,
   Checkbox,
 } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import parseISO from "date-fns/parseISO";
 
 //Types
@@ -18,8 +18,7 @@ import { Transaction, TransactionType } from "../types";
 
 // Utils
 import { LANGUAGES } from "../statics";
-import { makeDoubleDigit } from "../utils";
-import { makeCurrencyFormat, makeFlatNumber } from "../utils";
+import { makeCurrencyFormat, makeFlatNumber, makeDoubleDigit } from "../utils";
 
 // Store
 import {
@@ -141,6 +140,9 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
             />
           </FormControl>
           <Select
+            dropdownIcon={
+              <MaterialCommunityIcons name="chevron-down" size={20} />
+            }
             selectedValue={categoryId}
             minWidth="200"
             placeholder={LANGUAGES.selectCategory[appLanguage]}

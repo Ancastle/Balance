@@ -10,7 +10,7 @@ import {
   Checkbox,
   Text,
 } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Types
 import { TransactionInput } from "../../types";
@@ -151,6 +151,9 @@ const AddCreditCardTransactionModal: React.FC<
           </Checkbox>
           {isALoan && (
             <Select
+              dropdownIcon={
+                <MaterialCommunityIcons name="chevron-down" size={20} />
+              }
               selectedValue={personName}
               minWidth="200"
               placeholder={LANGUAGES.loanToPerson[appLanguage]}
@@ -167,6 +170,9 @@ const AddCreditCardTransactionModal: React.FC<
             </Select>
           )}
           <Select
+            dropdownIcon={
+              <MaterialCommunityIcons name="chevron-down" size={20} />
+            }
             selectedValue={categoryId}
             minWidth="200"
             placeholder={LANGUAGES.selectCategory[appLanguage]}

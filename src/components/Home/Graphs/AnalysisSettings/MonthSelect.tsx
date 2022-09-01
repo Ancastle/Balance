@@ -1,5 +1,6 @@
 import { Text, Select, CheckIcon } from "native-base";
 import format from "date-fns/format";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { selectPreferencesLanguage, useAppSelector } from "../../../../store";
 
@@ -26,6 +27,7 @@ const MonthSelect: React.FC<MonthSelectProps> = ({
         {title}
       </Text>
       <Select
+        dropdownIcon={<MaterialCommunityIcons name="chevron-down" size={20} />}
         top={-2}
         selectedValue={month}
         minWidth="380"

@@ -10,7 +10,7 @@ import {
   Text,
   Checkbox,
 } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Types
 import { Person, TransactionInput } from "../../types";
@@ -126,6 +126,9 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
           <PersonHistoryList person={person} />
           {!!person && (
             <Select
+              dropdownIcon={
+                <MaterialCommunityIcons name="chevron-down" size={20} />
+              }
               selectedValue={whoPays}
               minWidth="200"
               placeholder={

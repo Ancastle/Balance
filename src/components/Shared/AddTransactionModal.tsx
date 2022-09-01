@@ -10,7 +10,7 @@ import {
   Checkbox,
   Text,
 } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Types
 import { TransactionInput, TransactionType } from "../types";
@@ -127,6 +127,9 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
             />
           </FormControl>
           <Select
+            dropdownIcon={
+              <MaterialCommunityIcons name="chevron-down" size={20} />
+            }
             selectedValue={categoryId}
             minWidth="200"
             placeholder={LANGUAGES.selectCategory[appLanguage]}
