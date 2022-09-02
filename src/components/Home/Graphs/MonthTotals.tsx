@@ -14,6 +14,7 @@ import {
   selectTransactionsData,
   useAppSelector,
 } from "../../../store";
+import TransactionsDisplayModal from "./TransactionsDisplayModal";
 
 interface MonthTotalsProps {
   transactionType: string;
@@ -31,6 +32,8 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
   const appLanguage = useAppSelector(selectPreferencesLanguage);
   const categories = useAppSelector(selectCategoriesData);
   const transactions = useAppSelector(selectTransactionsData);
+
+  const [selectedMonthOrCat, setSelectedMonthOrCat] = React.useState<any>("");
 
   const currentMonthInDate = React.useMemo(
     () =>
@@ -58,13 +61,16 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
     const typeCategoriesOnly = categories.filter(
       (cat) => cat.type === transactionType
     );
-    const transactionsByCategory = typeCategoriesOnly.map((cat) => ({
-      name: cat.name,
-      data1: calculateTotal(
-        transactionsCurrentMonth.filter((tr) => tr.categoryId === cat.id),
-        transactionType
-      ),
-    }));
+    const transactionsByCategory = typeCategoriesOnly.map((cat) => {
+      const currentCategoryTransactions = transactionsCurrentMonth.filter(
+        (tr) => tr.categoryId === cat.id && tr.type === transactionType
+      );
+      return {
+        name: cat.name,
+        data1: calculateTotal(currentCategoryTransactions, transactionType),
+        transactions: currentCategoryTransactions,
+      };
+    });
     return {
       onlyExpences,
       onlyNecessaryExpences,
@@ -79,6 +85,7 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
         {
           name: "Type",
           data1: `${format(currentMonthInDate, "MM/yyyy")}`,
+          transactions: null,
         },
         {
           name: "Necessary",
@@ -86,6 +93,7 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
             currentMonthData.onlyNecessaryExpences,
             "expence"
           ),
+          transactions: currentMonthData.onlyNecessaryExpences,
         },
         {
           name: "Unnecessary",
@@ -93,10 +101,12 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
             currentMonthData.onlyUnnecessaryExpences,
             "expence"
           ),
+          transactions: currentMonthData.onlyUnnecessaryExpences,
         },
         {
           name: "Total",
           data1: calculateTotal(currentMonthData.onlyExpences, "expence"),
+          transactions: currentMonthData.onlyExpences,
         },
       ];
     } else {
@@ -104,6 +114,7 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
         {
           name: "Category",
           data1: `${format(currentMonthInDate, "MM/yyyy")}`,
+          transactions: null,
         },
         ...currentMonthData.transactionsByCategory,
         {
@@ -111,6 +122,9 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
           data1: currentMonthData.transactionsByCategory.reduce(
             (acc, cat) => acc + cat.data1,
             0
+          ),
+          transactions: transactionsCurrentMonth.filter(
+            (tr) => tr.type === transactionType
           ),
         },
       ];
@@ -122,5 +136,20 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
     [dataToShow]
   );
 
-  return <DisplayData data={data} />;
+  return (
+    <>
+      <DisplayData
+        data={data}
+        onPressItem={(item: any) => setSelectedMonthOrCat(item)}
+      />
+      {!!selectedMonthOrCat && (
+        <TransactionsDisplayModal
+          data={selectedMonthOrCat.transactions}
+          isOpen={!!selectedMonthOrCat}
+          title="TODO"
+          onClose={() => setSelectedMonthOrCat(null)}
+        />
+      )}
+    </>
+  );
 };

@@ -18,12 +18,14 @@ interface DisplayDataProps {
   data: any;
   field3?: boolean;
   field4?: boolean;
+  onPressItem: (item: any) => void;
 }
 
 export const DisplayData: React.FC<DisplayDataProps> = ({
   data,
   field3 = false,
   field4 = false,
+  onPressItem,
 }) => {
   return (
     <SectionList
@@ -39,8 +41,9 @@ export const DisplayData: React.FC<DisplayDataProps> = ({
           {
             <Pressable
               onPress={() => {
-                // setCurrentMonth(item);
-                // setShowCategories(true);
+                if (item.transactions) {
+                  onPressItem(item);
+                }
               }}
             >
               <Flex direction="row" py={1.5}>

@@ -2,6 +2,7 @@ import { CategoryType, Preferences, Transaction } from "./types";
 import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  ok: ["Ok", "Ok"],
   analysis: {
     monthSelect: {
       singleMonthTitle: ["Select a month", "Selecciona un mes"],
