@@ -7,6 +7,7 @@ import {
   Flex,
   Box,
   Text,
+  ScrollView,
 } from "native-base";
 import parseISO from "date-fns/parseISO";
 
@@ -27,24 +28,15 @@ const PersonHistoryList: React.FC<BalanceTransactionsListProps> = ({
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
-  const data = React.useMemo(
-    () => [
-      {
-        title: `${LANGUAGES.historyWith[appLanguage]}: ${person.name}`,
-        data: person.transactions,
-      },
-    ],
-    [appLanguage, person]
-  );
-
   return (
     <>
-      <SectionList
-        mb="4"
-        sections={data}
-        maxHeight={200}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item, index }) => (
+      <Center>
+        <Heading fontSize="xl" mt="3" pb="4">
+          {`${LANGUAGES.historyWith[appLanguage]}: ${person.name}`}
+        </Heading>
+      </Center>
+      <ScrollView w={["270", "200"]} h="150">
+        {person.transactions.map((item, index) => (
           <Box
             key={index}
             minW="64"
@@ -70,15 +62,8 @@ const PersonHistoryList: React.FC<BalanceTransactionsListProps> = ({
               </Pressable>
             }
           </Box>
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <Center>
-            <Heading fontSize="xl" mt="3" pb="4">
-              {title}
-            </Heading>
-          </Center>
-        )}
-      />
+        ))}
+      </ScrollView>
     </>
   );
 };
