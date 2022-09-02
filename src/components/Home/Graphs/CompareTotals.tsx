@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { parseISO, isSameMonth, format } from "date-fns";
 
 // Components
@@ -7,6 +6,7 @@ import { DisplayData } from "./DisplayData";
 
 // Utils
 import { calculateTotal } from "../../utils";
+import { LANGUAGES } from "../../statics";
 
 // Store
 import {
@@ -138,13 +138,13 @@ export const CompareTotals: React.FC<CompareTotalsProps> = ({
     if (transactionType === "expence" && sorting === "necessary") {
       return [
         {
-          name: "Type",
+          name: LANGUAGES.type[appLanguage],
           data1: format(currentMonth1InDate, "MM/yyyy"),
           data2: format(currentMonth2InDate, "MM/yyyy"),
-          data3: "Difference",
+          data3: LANGUAGES.difference[appLanguage],
         },
         {
-          name: "Necessary",
+          name: LANGUAGES.necessaary[appLanguage],
           data1: calculateTotal(month1Data.onlyNecessaryExpences1, "expence"),
           data2: calculateTotal(month2Data.onlyNecessaryExpences2, "expence"),
           data3:
@@ -152,7 +152,7 @@ export const CompareTotals: React.FC<CompareTotalsProps> = ({
             calculateTotal(month2Data.onlyNecessaryExpences2, "expence"),
         },
         {
-          name: "Unnecessary",
+          name: LANGUAGES.unnecessaary[appLanguage],
           data1: calculateTotal(month1Data.onlyUnnecessaryExpences1, "expence"),
           data2: calculateTotal(month2Data.onlyUnnecessaryExpences2, "expence"),
           data3:
@@ -160,7 +160,7 @@ export const CompareTotals: React.FC<CompareTotalsProps> = ({
             calculateTotal(month2Data.onlyUnnecessaryExpences2, "expence"),
         },
         {
-          name: "Total",
+          name: LANGUAGES.total[appLanguage],
           data1: calculateTotal(month1Data.onlyExpencesMonth1, "expence"),
           data2: calculateTotal(month2Data.onlyExpencesMonth2, "expence"),
           data3:
@@ -171,14 +171,14 @@ export const CompareTotals: React.FC<CompareTotalsProps> = ({
     } else {
       return [
         {
-          name: "Type",
+          name: LANGUAGES.category[appLanguage],
           data1: format(currentMonth1InDate, "MM/yyyy"),
           data2: format(currentMonth2InDate, "MM/yyyy"),
-          data3: "Difference",
+          data3: LANGUAGES.difference[appLanguage],
         },
         ...categoriesNormalizedData,
         {
-          name: "Total",
+          name: LANGUAGES.total[appLanguage],
           data1: categoriesNormalizedData.reduce(
             (acc, cat) => acc + cat.data1,
             0
@@ -195,10 +195,27 @@ export const CompareTotals: React.FC<CompareTotalsProps> = ({
     }
   }, [transactionsMonth1, transactionsMonth2, sorting, transactionType]);
 
+  const title = React.useMemo(
+    () =>
+      sorting === "necessary"
+        ? `${LANGUAGES.necessaary[appLanguage]}/${LANGUAGES.unnecessaary[appLanguage]}`
+        : LANGUAGES.byCategories[appLanguage],
+    [dataToShow, sorting]
+  );
+
   const data = React.useMemo(
-    () => [{ title: "Necessary/Unnecessary compare", data: dataToShow }],
+    () => [{ title: title, data: dataToShow }],
     [dataToShow]
   );
 
-  return <DisplayData data={data} field3 field4 />;
+  return (
+    <DisplayData
+      data={data}
+      field3
+      field4
+      onPressItem={() => {
+        /* no Op*/
+      }}
+    />
+  );
 };

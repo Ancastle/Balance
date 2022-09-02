@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import {
   parseISO,
   isBefore,
@@ -15,6 +14,7 @@ import TransactionsDisplayModal from "./TransactionsDisplayModal";
 
 // Utils
 import { calculateTotal } from "../../utils";
+import { LANGUAGES } from "../../statics";
 
 // Store
 import {
@@ -105,15 +105,15 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
     if (transactionType === "expence" && sorting === "necessary") {
       return [
         {
-          name: "Type",
-          data1: `From ${format(currentMonthFromInDate, "MM/yyyy")} to ${format(
+          name: LANGUAGES.type[appLanguage],
+          data1: `${format(currentMonthFromInDate, "MM/yyyy")} - ${format(
             currentMonthToInDate,
             "MM/yyyy"
           )}`,
           transactions: null,
         },
         {
-          name: "Necessary",
+          name: LANGUAGES.necessaary[appLanguage],
           data1: calculateTotal(
             currentPeriodData.onlyNecessaryExpences,
             "expence"
@@ -121,7 +121,7 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
           transactions: currentPeriodData.onlyNecessaryExpences,
         },
         {
-          name: "Unnecessary",
+          name: LANGUAGES.unnecessaary[appLanguage],
           data1: calculateTotal(
             currentPeriodData.onlyUnnecessaryExpences,
             "expence"
@@ -129,7 +129,7 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
           transactions: currentPeriodData.onlyUnnecessaryExpences,
         },
         {
-          name: "Total",
+          name: LANGUAGES.total[appLanguage],
           data1: calculateTotal(currentPeriodData.onlyExpences, "expence"),
           transactions: currentPeriodData.onlyExpences,
         },
@@ -137,8 +137,8 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
     } else {
       return [
         {
-          name: "Category",
-          data1: `From ${format(currentMonthFromInDate, "MM/yyyy")} to ${format(
+          name: LANGUAGES.category[appLanguage],
+          data1: `${format(currentMonthFromInDate, "MM/yyyy")} - ${format(
             currentMonthToInDate,
             "MM/yyyy"
           )}`,
@@ -146,7 +146,7 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
         },
         ...currentPeriodData.transactionsByCategory,
         {
-          name: "Total",
+          name: LANGUAGES.total[appLanguage],
           data1: currentPeriodData.transactionsByCategory.reduce(
             (acc, cat) => acc + cat.data1,
             0
@@ -159,8 +159,52 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
     }
   }, [transactionsCurrentPeriod, transactionType, sorting]);
 
+  const modalTitle: string = React.useMemo(() => {
+    if (!!selectedMonthOrCat) {
+      if (selectedMonthOrCat.name === LANGUAGES.total[appLanguage]) {
+        return transactionType === "expence"
+          ? `${LANGUAGES.allExpencesFromTo[appLanguage]} ${format(
+              currentMonthFromInDate,
+              "MM/yyyy"
+            )} ${LANGUAGES.to[appLanguage]} ${format(
+              currentMonthToInDate,
+              "MM/yyyy"
+            )}`
+          : `${LANGUAGES.allEntriesFromTo[appLanguage]} ${format(
+              currentMonthFromInDate,
+              "MM/yyyy"
+            )} ${LANGUAGES.to[appLanguage]} ${format(
+              currentMonthToInDate,
+              "MM/yyyy"
+            )}`;
+      } else {
+        return transactionType === "expence"
+          ? `'${selectedMonthOrCat.name}' ${
+              LANGUAGES.expencesFromTo[appLanguage]
+            } ${format(currentMonthFromInDate, "MM/yyyy")} ${
+              LANGUAGES.to[appLanguage]
+            } ${format(currentMonthToInDate, "MM/yyyy")}`
+          : `'${selectedMonthOrCat.name}' ${
+              LANGUAGES.entriesFromTo[appLanguage]
+            } ${format(currentMonthFromInDate, "MM/yyyy")} ${
+              LANGUAGES.to[appLanguage]
+            } ${format(currentMonthToInDate, "MM/yyyy")}`;
+      }
+    } else {
+      return "";
+    }
+  }, [selectedMonthOrCat]);
+
+  const title = React.useMemo(
+    () =>
+      sorting === "necessary"
+        ? `${LANGUAGES.necessaary[appLanguage]}/${LANGUAGES.unnecessaary[appLanguage]}`
+        : LANGUAGES.byCategories[appLanguage],
+    [dataToShow, sorting]
+  );
+
   const data = React.useMemo(
-    () => [{ title: "Necessary/Unnecessary fromTo", data: dataToShow }],
+    () => [{ title: title, data: dataToShow }],
     [dataToShow]
   );
 
@@ -174,7 +218,7 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
         <TransactionsDisplayModal
           data={selectedMonthOrCat.transactions}
           isOpen={!!selectedMonthOrCat}
-          title="TODO"
+          title={modalTitle}
           onClose={() => setSelectedMonthOrCat(null)}
         />
       )}

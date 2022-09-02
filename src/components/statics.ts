@@ -2,6 +2,23 @@ import { CategoryType, Preferences, Transaction } from "./types";
 import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  difference: ["Difference", "Diferencia"],
+  from: ["From", "Desde"],
+  to: ["to", "hasta"],
+  entriesFromTo: ["entries \nfrom", "ingresos \ndesde"],
+  expencesFromTo: ["expences \nfrom", "egresos \ndesde"],
+  entriesFrom: ["entries from", "ingresos de"],
+  expencesFrom: ["expences from", "egresos de"],
+  allEntriesFromTo: ["All entries from\n", "Todos los ingresos desde\n"],
+  allExpencesFromTo: ["All expences from\n", "Todos los egresos desde\n"],
+  allEntriesFrom: ["All entries from", "Todos los ingresos de"],
+  allExpencesFrom: ["All expences from", "Todos los egresos de"],
+  byCategories: ["By Categories", "Por Categorías"],
+  category: ["Category", "Categoría"],
+  total: ["Total", "Total"],
+  type: ["Type", "Tipo"],
+  necessaary: ["Necessary", "Necesario"],
+  unnecessaary: ["Unnecessary", "Innecesario"],
   ok: ["Ok", "Ok"],
   analysis: {
     monthSelect: {

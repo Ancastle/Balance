@@ -5,27 +5,19 @@ import {
   ScrollView,
   Box,
   Center,
-  SectionList,
   Pressable,
   Flex,
-  Heading,
+  Text,
 } from "native-base";
-import { parseISO, format } from "date-fns";
 
-// Types
-import { Person, TransactionInput } from "../../types";
+import { subtitlesStyles } from "../../styles";
 
 // Utils
 import { LANGUAGES } from "../../statics";
-
-import { makeCurrencyFormat, makeDoubleDigit, isEven } from "../../utils";
+import { makeCurrencyFormat, isEven } from "../../utils";
 
 // Store
-import {
-  selectPreferencesLanguage,
-  useAppSelector,
-  useAppDispatch,
-} from "../../../store";
+import { selectPreferencesLanguage, useAppSelector } from "../../../store";
 
 interface TransactionsDisplayModalProps {
   data: any;
@@ -40,16 +32,20 @@ const TransactionsDisplayModal: React.FC<TransactionsDisplayModalProps> = ({
   title,
   onClose,
 }) => {
-  const dispatch = useAppDispatch();
-
-  console.log(data);
-
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Content maxWidth="400px">
         <Modal.CloseButton />
-        <Modal.Header>{title}</Modal.Header>
+        <Modal.Header>
+          <Text
+            fontWeight={subtitlesStyles.fontWeight}
+            fontSize={subtitlesStyles.fontSize}
+          >
+            {title}
+          </Text>
+        </Modal.Header>
         <Modal.Body>
           <ScrollView w={["270"]} h="80">
             {data.map((item: any, index: number) => (
