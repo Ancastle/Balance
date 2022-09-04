@@ -11,8 +11,9 @@ import MonthSummary from "./MonthSummary";
 import {
   selectTransactionsData,
   selectCreditCardData,
-  useAppSelector,
   selectPreferencesLanguage,
+  selectPreferencesDateFormat,
+  useAppSelector,
 } from "../../../store";
 
 import { calculateTypeTotal } from "../../utils";
@@ -22,6 +23,7 @@ import { LANGUAGES } from "../../statics";
 const LastDaysSummary: React.FC = () => {
   const creditCardTransactions = useAppSelector(selectCreditCardData);
   const transactions = useAppSelector(selectTransactionsData);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
@@ -58,11 +60,14 @@ const LastDaysSummary: React.FC = () => {
   );
 
   const startingDate = React.useMemo(
-    () => format(periodFirstDay, "dd/MM/yyyy"),
+    () => format(periodFirstDay, `${dateFormat}/yyyy`),
     [[periodFirstDay]]
   );
 
-  const endingDate = React.useMemo(() => format(new Date(), "dd/MM/yyyy"), []);
+  const endingDate = React.useMemo(
+    () => format(new Date(), `${dateFormat}/yyyy`),
+    []
+  );
 
   const lastDaysNeededExpences = React.useMemo(
     () =>

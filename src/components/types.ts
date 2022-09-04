@@ -11,6 +11,7 @@ export type UuId = string | number[];
 
 export interface Preferences {
   appLanguage: number;
+  dateFormat: string;
 }
 
 export interface CategoryType {

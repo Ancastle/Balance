@@ -14,12 +14,15 @@ import { LANGUAGES } from "../../statics";
 import {
   selectPreferencesLanguage,
   selectHistoryData,
+  selectPreferencesDateFormat,
   useAppSelector,
 } from "../../../store";
+import { format } from "date-fns";
 
 const History: React.FC = () => {
   const history = useAppSelector(selectHistoryData);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const data = React.useMemo(
     () => [
@@ -44,12 +47,11 @@ const History: React.FC = () => {
             bg={isEven(index) ? "primary.500" : "primary.300"}
           >
             <Flex direction="row" py={1.5}>
-              <Box flex={1}>{` ${makeDoubleDigit(
-                parseISO(item.date).getDate()
-              )}/${makeDoubleDigit(parseISO(item.date).getMonth() + 1)}`}</Box>
-              <Box flex={1}>{` ${makeDoubleDigit(
-                parseISO(item.date).getHours()
-              )}:${makeDoubleDigit(parseISO(item.date).getMinutes())}`}</Box>
+              <Box flex={1}>{` ${format(
+                parseISO(item.date),
+                dateFormat
+              )}`}</Box>
+              <Box flex={1}>{` ${format(parseISO(item.date), "HH:mm")}`}</Box>
               <Center flex={6}>
                 <Text numberOfLines={1}>{item.name}</Text>
               </Center>

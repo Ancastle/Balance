@@ -11,7 +11,7 @@ import {
   Checkbox,
 } from "native-base";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import parseISO from "date-fns/parseISO";
+import { parseISO, format } from "date-fns";
 
 //Types
 import { Transaction, TransactionType } from "../types";
@@ -24,6 +24,7 @@ import { makeCurrencyFormat, makeFlatNumber, makeDoubleDigit } from "../utils";
 import {
   selectCategoriesData,
   selectPreferencesLanguage,
+  selectPreferencesDateFormat,
   useAppSelector,
 } from "../../store";
 
@@ -44,6 +45,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
 }) => {
   const categories = useAppSelector(selectCategoriesData);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const [categoryId, setCategoryId] = React.useState("");
   const [name, setName] = React.useState("");
@@ -178,13 +180,13 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
           )}
         </Modal.Body>
         <Text ml={5} mb={4}>
-          {`${LANGUAGES.date[appLanguage]} (dd/mm): ${makeDoubleDigit(
-            parseISO(transaction.date).getDate()
-          )}/${makeDoubleDigit(parseISO(transaction.date).getMonth() + 1)} \n${
-            LANGUAGES.hour[appLanguage]
-          } : ${makeDoubleDigit(
-            parseISO(transaction.date).getHours()
-          )}:${makeDoubleDigit(parseISO(transaction.date).getMinutes())}`}
+          {`${LANGUAGES.date[appLanguage]} (dd/mm): ${format(
+            parseISO(transaction.date),
+            dateFormat
+          )} \n${LANGUAGES.hour[appLanguage]} : ${format(
+            parseISO(transaction.date),
+            "HH:mm"
+          )}`}
         </Text>
         <Modal.Footer>
           <Button.Group space={2}>

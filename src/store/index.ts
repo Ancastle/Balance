@@ -23,7 +23,9 @@ export {
 export {
   fetchPreferencesAsync,
   changeLanguage,
+  changeDateFormat,
   selectPreferencesLanguage,
+  selectPreferencesDateFormat,
   selectPreferencesStatus,
 } from "./preferencesSlice";
 

@@ -18,17 +18,19 @@ import MonthSummary from "./MonthSummary";
 import {
   selectTransactionsData,
   selectCreditCardData,
-  useAppSelector,
   selectPreferencesLanguage,
+  selectPreferencesDateFormat,
+  useAppSelector,
 } from "../../../store";
 
-import { calculateTypeTotal, makeCurrencyFormat } from "../../utils";
+import { calculateTypeTotal } from "../../utils";
 
 import { LANGUAGES } from "../../statics";
 
 const LastMonthSummary: React.FC = () => {
   const creditCardTransactions = useAppSelector(selectCreditCardData);
   const transactions = useAppSelector(selectTransactionsData);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
@@ -45,12 +47,12 @@ const LastMonthSummary: React.FC = () => {
   );
 
   const startingDate = React.useMemo(
-    () => format(lastMonthFirstDay, "dd/MM/yyyy"),
+    () => format(lastMonthFirstDay, `${dateFormat}/yyyy`),
     [lastMonthFirstDay]
   );
 
   const endingDate = React.useMemo(
-    () => format(lastMonthLastDay, "dd/MM/yyyy"),
+    () => format(lastMonthLastDay, `${dateFormat}/yyyy`),
     [lastMonthLastDay]
   );
 

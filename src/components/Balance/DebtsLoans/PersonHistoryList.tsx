@@ -9,13 +9,17 @@ import {
   Text,
   ScrollView,
 } from "native-base";
-import parseISO from "date-fns/parseISO";
+import { parseISO, format } from "date-fns";
 
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat, isEven } from "../../utils";
 import { LANGUAGES } from "../../statics";
 
-import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+import {
+  selectPreferencesLanguage,
+  selectPreferencesDateFormat,
+  useAppSelector,
+} from "../../../store";
 
 import { Person } from "../../types";
 
@@ -27,6 +31,7 @@ const PersonHistoryList: React.FC<BalanceTransactionsListProps> = ({
   person,
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   return (
     <>
@@ -46,9 +51,7 @@ const PersonHistoryList: React.FC<BalanceTransactionsListProps> = ({
               <Pressable>
                 <Flex direction="row" py={1.5}>
                   <Box flex={1.5}>
-                    {`${makeDoubleDigit(
-                      parseISO(item.date).getDate()
-                    )}/${makeDoubleDigit(parseISO(item.date).getMonth() + 1)}`}
+                    {`${format(parseISO(item.date), dateFormat)}`}
                   </Box>
                   <Box flex={6} justifyContent="flex-start">
                     <Text numberOfLines={1}> {item.name}</Text>

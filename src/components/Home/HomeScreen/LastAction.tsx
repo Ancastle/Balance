@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Heading } from "native-base";
-import { parseISO } from "date-fns";
+import { parseISO, format } from "date-fns";
 
 import { subtitlesStyles, title2Styles } from "../../styles";
 
@@ -8,6 +8,7 @@ import { subtitlesStyles, title2Styles } from "../../styles";
 import {
   useAppSelector,
   selectHistoryData,
+  selectPreferencesDateFormat,
   selectPreferencesLanguage,
 } from "../../../store";
 
@@ -18,13 +19,9 @@ import { LANGUAGES } from "../../statics";
 const LastAction: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
   const history = useAppSelector(selectHistoryData);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const lastAction = React.useMemo(() => history[0], [history]);
-
-  const lastActionDate = React.useMemo(
-    () => lastAction && parseISO(lastAction.date),
-    [lastAction]
-  );
 
   return (
     <>
@@ -40,11 +37,13 @@ const LastAction: React.FC = () => {
         w="380"
       >
         {lastAction
-          ? `${lastAction.name} ${
-              LANGUAGES.timeOn[appLanguage]
-            } ${getDateDayMonth(lastActionDate)} ${
-              LANGUAGES.timeAt[appLanguage]
-            } ${getDateHourMinutes(lastActionDate)}`
+          ? `${lastAction.name} ${LANGUAGES.timeOn[appLanguage]} ${format(
+              parseISO(lastAction.date),
+              dateFormat
+            )} ${LANGUAGES.timeAt[appLanguage]} ${format(
+              parseISO(lastAction.date),
+              "HH:mm"
+            )}`
           : LANGUAGES.noLastAction[appLanguage]}
       </Heading>
     </>

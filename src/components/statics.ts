@@ -2,6 +2,8 @@ import { CategoryType, Preferences, Transaction } from "./types";
 import { formatISO, sub } from "date-fns";
 
 export const LANGUAGES = {
+  monthDayFormatLabel: ["Month/day (mm/dd)", "Mes/día (mm/dd)"],
+  dayMonthFormatLabel: ["Day/month (dd/mm)", "Día/mes (dd/mm)"],
   difference: ["Difference", "Diferencia"],
   from: ["From", "Desde"],
   to: ["to", "hasta"],
@@ -51,8 +53,8 @@ export const LANGUAGES = {
   },
   helpers: {
     homeScreen: [
-      "Expences are shown as Total (necessary, unnecessary)\nCredit card expences are included even before you pay them",
-      "Los egresos se muestran como Total (necesarios, innecesarios)\nLos gastos de tarjeta de crédito estan incluidos, incluso antes de pagarlos",
+      "Expences are shown as Total (necessary, unnecessary)\nCredit card expences are included even before you pay them\nYou can edit the number in the last '15' days",
+      "Los egresos se muestran como Total (necesarios, innecesarios)\nLos gastos de tarjeta de crédito estan incluidos, incluso antes de pagarlos\nEl número en los últimos '15' días puede ser editado",
     ],
     analysisFromTo: [
       "The month To must be after the month From.\nMonth From must not be the current month.",
@@ -346,6 +348,18 @@ export const LANGUAGES = {
           "Select a language",
           "Selecciona un idioma",
         ],
+        changeTimeFormatPreference: [
+          "Change date format",
+          "Cambiar formato de fecha ",
+        ],
+        changeFormatModalTitle: [
+          "Change date format",
+          "Cambiar formato de fecha",
+        ],
+        changeFormatPlaceholder: [
+          "Select a date format",
+          "Selecciona un formato de fecha",
+        ],
       },
     },
   },
@@ -385,6 +399,7 @@ export const INITIAL_CATEGORIES: CategoryType[] = [
 
 export const DEFAULT_PREFERENCES: Preferences = {
   appLanguage: 1,
+  dateFormat: "dd/MM",
 };
 
 export const DEVONLYTestingRecords: Transaction[] = [
@@ -556,3 +571,12 @@ export const ALL_LANGUAGES = [
   { name: "English", id: 0 },
   { name: "Español", id: 1 },
 ];
+
+export const ALL_FORMATS = (appLanguage: number) => {
+  const dayMonth = LANGUAGES.dayMonthFormatLabel[appLanguage];
+  const monthDay = LANGUAGES.monthDayFormatLabel[appLanguage];
+  return [
+    { name: dayMonth, value: "dd/MM" },
+    { name: monthDay, value: "MM/dd" },
+  ];
+};

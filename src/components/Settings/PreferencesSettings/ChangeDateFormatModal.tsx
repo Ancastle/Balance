@@ -3,55 +3,48 @@ import { Button, Modal, Box, Select, CheckIcon } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Utils
-import { LANGUAGES, ALL_LANGUAGES } from "../../statics";
+import { LANGUAGES, ALL_FORMATS } from "../../statics";
 
 // Store
 import {
-  adjustCategoryNames,
+  selectPreferencesDateFormat,
   selectPreferencesLanguage,
+  changeDateFormat,
   useAppSelector,
   useAppDispatch,
-  changeLanguage,
-  addHistoryRegister,
 } from "../../../store";
 
-interface ManageCategoriesModalProps {
+interface ChangeDateFormatModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
+const ChangeDateFormatModal: React.FC<ChangeDateFormatModalProps> = ({
   isOpen,
   onClose,
 }) => {
   const dispatch = useAppDispatch();
 
-  const onAdjustCategoryNames = React.useCallback(
-    (appLanguage: number, newLanguage: number) => {
-      dispatch(adjustCategoryNames(appLanguage, newLanguage));
-    },
-    [dispatch, adjustCategoryNames]
-  );
-
-  const onChangeLanguage = React.useCallback(
-    (newLanguageId: string) => {
-      dispatch(changeLanguage(newLanguageId));
-    },
-    [dispatch, changeLanguage]
-  );
-
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
-  const [selectedLanguage, setSelectedLanguage] = React.useState("");
+  const onChangeDateFormat = React.useCallback(
+    (newDateFormat: string) => {
+      dispatch(changeDateFormat(newDateFormat));
+    },
+    [dispatch, changeDateFormat]
+  );
+
+  const [selectedFormat, setSelectedFormat] = React.useState("");
 
   const isSaveDisabled = React.useMemo(
-    () => appLanguage === parseInt(selectedLanguage, 10),
-    [appLanguage, selectedLanguage]
+    () => dateFormat === selectedFormat,
+    [dateFormat, selectedFormat]
   );
 
   React.useEffect(() => {
-    setSelectedLanguage(appLanguage.toString());
-  }, [appLanguage]);
+    setSelectedFormat(dateFormat);
+  }, [dateFormat]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -59,7 +52,7 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
         <Modal.CloseButton />
         <Modal.Header>
           {
-            LANGUAGES.settings.tabs.preferences.changeLanguageModalTitle[
+            LANGUAGES.settings.tabs.preferences.changeFormatModalTitle[
               appLanguage
             ]
           }
@@ -69,10 +62,10 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
             dropdownIcon={
               <MaterialCommunityIcons name="chevron-down" size={20} />
             }
-            selectedValue={selectedLanguage}
+            selectedValue={selectedFormat}
             minWidth="200"
             placeholder={
-              LANGUAGES.settings.tabs.preferences.changeLanguagePlaceholder[
+              LANGUAGES.settings.tabs.preferences.changeFormatPlaceholder[
                 appLanguage
               ]
             }
@@ -81,14 +74,10 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
               endIcon: <CheckIcon size="5" />,
             }}
             mt={3}
-            onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+            onValueChange={(itemValue) => setSelectedFormat(itemValue)}
           >
-            {ALL_LANGUAGES.map((language, i) => (
-              <Select.Item
-                key={i}
-                label={language.name}
-                value={language.id.toString()}
-              />
+            {ALL_FORMATS(appLanguage).map((format, i) => (
+              <Select.Item key={i} label={format.name} value={format.value} />
             ))}
           </Select>
         </Modal.Body>
@@ -105,12 +94,8 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
                 {LANGUAGES.cancel[appLanguage]}
               </Button>
               <Button
-                onPress={() => {
-                  onAdjustCategoryNames(
-                    appLanguage,
-                    parseInt(selectedLanguage, 10)
-                  );
-                  onChangeLanguage(selectedLanguage);
+                onPress={async () => {
+                  await onChangeDateFormat(selectedFormat);
                   onClose();
                 }}
                 isDisabled={isSaveDisabled}
@@ -125,4 +110,4 @@ const ChangeLanguageModal: React.FC<ManageCategoriesModalProps> = ({
   );
 };
 
-export default ChangeLanguageModal;
+export default ChangeDateFormatModal;

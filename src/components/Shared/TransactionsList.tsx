@@ -8,7 +8,7 @@ import {
   Box,
   Text,
 } from "native-base";
-import parseISO from "date-fns/parseISO";
+import { parseISO, format } from "date-fns";
 
 // Components
 import EditTransactionModal from "./EditTransactionModal";
@@ -24,6 +24,7 @@ import { LANGUAGES } from "../statics";
 import {
   selectTransactionsData,
   selectPreferencesLanguage,
+  selectPreferencesDateFormat,
   useAppSelector,
 } from "../../store";
 
@@ -38,6 +39,7 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
 }) => {
   const transactions = useAppSelector(selectTransactionsData);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();
@@ -77,10 +79,9 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
                 }}
               >
                 <Flex direction="row" py={1.5}>
-                  <Box flex={1.5}>{` ${makeDoubleDigit(
-                    parseISO(item.date).getDate()
-                  )}/${makeDoubleDigit(
-                    parseISO(item.date).getMonth() + 1
+                  <Box flex={1.5}>{` ${format(
+                    parseISO(item.date),
+                    dateFormat
                   )}`}</Box>
                   <Box flex={6} justifyContent="flex-start">
                     <Text numberOfLines={1}> {item.name}</Text>
