@@ -24,8 +24,6 @@ import {
   selectPreferencesLanguage,
 } from "../../../store";
 
-import { DEVONLYRESETTRANSACTIONS } from "../../../store/transactionsSlice";
-
 import { LANGUAGES } from "../../statics";
 import HelperToastIcon from "../../Shared/HelperToastIcon";
 
@@ -64,16 +62,6 @@ const HomeScreen: React.FC = () => {
         <LastDaysSummary />
         <CurrentMonthSummary />
         <LastMonthSummary />
-
-        {/* DEVONLY*/}
-        <Pressable
-          fontWeight="medium"
-          onPress={() => {
-            dispatch(DEVONLYRESETTRANSACTIONS());
-          }}
-        >
-          <Text> RESET ALL REGISTERS</Text>
-        </Pressable>
       </Container>
     </Container>
   );

@@ -12,6 +12,7 @@ import {
 // Components
 import ChangeLanguageModal from "./ChangeLanguageModal";
 import ChangeDateFormatModal from "./ChangeDateFormatModal";
+import ChangeDefaultDaysModal from "./ChangeDefaultDaysModal";
 
 // Utils
 import { isEven } from "../../utils";
@@ -23,17 +24,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../store";
-
-//DEVONLY
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { STORAGE } from "../../statics";
-
-import {
-  DEVONLYSETTESTINGTRANSACTIONS,
-  setTestingTransactions,
-} from "../../../store/transactionsSlice";
-import { DEVONLYRESETCATEGORIES } from "../../../store/categoriesSlice";
-import ChangeDefaultDaysModal from "./ChangeDefaultDaysModal";
 
 const PreferencesSettings: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -126,31 +116,6 @@ const PreferencesSettings: React.FC = () => {
           onClose={() => setShowPastDaysModal(false)}
         />
       )}
-
-      <Pressable
-        py={1.5}
-        onPress={() => {
-          dispatch(DEVONLYRESETCATEGORIES());
-        }}
-      >
-        <Flex direction="row" py={1.5}>
-          <Box ml={7} flex={1} justifyContent="flex-start">
-            <Text>Reset categories DEVONLY</Text>
-          </Box>
-        </Flex>
-      </Pressable>
-      <Pressable
-        py={1.5}
-        onPress={() => {
-          dispatch(DEVONLYSETTESTINGTRANSACTIONS());
-        }}
-      >
-        <Flex direction="row" py={1.5}>
-          <Box ml={7} flex={1} justifyContent="flex-start">
-            <Text>Set Testing Transactions DEVONLY</Text>
-          </Box>
-        </Flex>
-      </Pressable>
     </>
   );
 };
