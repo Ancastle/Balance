@@ -60,7 +60,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
       dispatch(
         addHistoryRegister(
           LANGUAGES.addPersonTransaction[appLanguage],
-          newTransactionInput.name
+          newTransactionInput.personName || ""
         )
       );
     },
@@ -98,6 +98,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
             value: amount,
             categoryId: "expence1",
             isNecesary: false,
+            personName: person.name,
           });
         } else {
           onAdd({
@@ -106,6 +107,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
             value: amount,
             categoryId: "entry1",
             isNecesary: false,
+            personName: person.name,
           });
         }
       }

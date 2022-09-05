@@ -53,12 +53,24 @@ export const LANGUAGES = {
   },
   helpers: {
     homeScreen: [
-      "Expences are shown as Total (necessary, unnecessary)\nCredit card expences are included even before you pay them\nYou can edit the number in the last '15' days",
-      "Los egresos se muestran como Total (necesarios, innecesarios)\nLos gastos de tarjeta de crédito estan incluidos, incluso antes de pagarlos\nEl número en los últimos '15' días puede ser editado",
+      "Expences are shown as Total (necessary, unnecessary)\nCredit card expences are included even before you pay them\nYou can edit the number in the last days, you can also set a different default number on Settings tab.",
+      "Los egresos se muestran como Total (necesarios, innecesarios)\nLos gastos de tarjeta de crédito estan incluidos, incluso antes de pagarlos\nEl número en los últimos días puede ser editado, también es posible editar este número por defecto en la pestaña de Ajustes.",
+    ],
+    analysisScreen: [
+      "You can use this screen to review your expences/entries by each month, compare between them or select a date from/to for the revision.\nYou can also group the transactions by needed/unneeded or by category (ony by cateogry for entries).\nYou can look for more details on the totals by clicking on them while you are not comparing two months.",
+      "En esta sección se puede revisar los egresos/ingresos por cada mes, comparar entre ellos o seleccionar una mes desde/hasta para la revisión.\nTambién se puede agrupar las transacciones por necesario/innecesario o por categorías (solo por categorías en el caso de ingresos).\nPara ver más detalles acerca de los totales, toca sobre ellos cuando no este seleccionada la opcion de comparar.",
     ],
     analysisFromTo: [
       "The month To must be after the month From.\nMonth From must not be the current month.",
       "El mes Hasta debe ser despues del mes Desde.\nLa mes Desde debe ser diferente al mes en curso.",
+    ],
+    debtLoan: [
+      "Use this section to manage debts and loans for people you know. \nAdd a person by their name and tap on them to add a transaction with that person.\nPositive numbers on the list mean they own you money. \nNegative numbers mean you own them money.\nEvery person has an individual history of transactions, you can check on it by tapping on a person's name",
+      "Usa esta sección para administrar tus prestamos y deudas con las personas que conoces\nAgrega una persona por su nombre y luego toca en el para agregar una transacción con esa persona.\nLos números positivos significan que esta persona te debe dinero.\nLos números negativos significan que le debes dinero a esta persona.\nCada persona tiene un historial individual de transacciones, se puede acceder a este tocando en el nombre de la persona.",
+    ],
+    creditCard: [
+      "Use this screen to add transactions to your Credit Card. \nThis expences will be inmediately reflected on your Home screen summary.\nWhen you pay your Credit Card expences, the changes will be automatically added to your Balance and Expences.",
+      "Usa esta pantalla para agregar transacciones a tu tarjeta de Crédito. \nEstas transacciones se verán reflejadas inmediatamente en el resumen de tu pantalla de Inicio.\nCuando realices pagos a tu Tarjeta de Crédito, estos se verán agregados automaticamente a tu Balance y Egresos.",
     ],
   },
   payedCreditCard: ["payed your CC", "pagó su TC"],
@@ -216,6 +228,7 @@ export const LANGUAGES = {
   delete: ["Delete", "Eliminar"],
   save: ["Save", "Guardar"],
   name: ["Name", "Nombre"],
+  pastDaysDefault: ["Default past days", "Días pasados por defecto"],
   value: ["Value", "Valor"],
   reason: ["Optional reason", "Razón opcional"],
   edit: ["Edit", "Editar"],
@@ -231,7 +244,7 @@ export const LANGUAGES = {
     expences: ["Expences", "Egresos"],
     entries: ["Entries", "Ingresos"],
     balance: ["Balance", "Balance"],
-    settings: ["Settings", "Opciones"],
+    settings: ["Settings", "Ajustes"],
   },
   home: {
     tabs: {
@@ -344,6 +357,10 @@ export const LANGUAGES = {
         label: ["Manage preferences", "Administrar preferencias"],
         changeLanguage: ["Change language", "Cambiar idioma"],
         changeLanguageModalTitle: ["Change language", "Cambiar idioma"],
+        changePastDaysDefault: [
+          "Change default past days",
+          "Cambiar días pasados por defecto",
+        ],
         changeLanguagePlaceholder: [
           "Select a language",
           "Selecciona un idioma",
@@ -400,6 +417,7 @@ export const INITIAL_CATEGORIES: CategoryType[] = [
 export const DEFAULT_PREFERENCES: Preferences = {
   appLanguage: 1,
   dateFormat: "dd/MM",
+  pastDays: 15,
 };
 
 export const DEVONLYTestingRecords: Transaction[] = [

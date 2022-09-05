@@ -12,7 +12,7 @@ export interface PreferencesState {
 }
 
 const initialState: PreferencesState = {
-  preferences: { appLanguage: 0, dateFormat: "" },
+  preferences: { appLanguage: 0, dateFormat: "dd/MM", pastDays: 15 },
   status: "idle",
 };
 
@@ -106,12 +106,26 @@ export const changeDateFormat =
     dispatch(storePreferencesAsync(newPreferences));
   };
 
+export const changePastDaysDefault =
+  (newPastDaysDefault: number): AppThunk =>
+  (dispatch, getState) => {
+    const currentePreferences = selectPreferences(getState());
+    const newPreferences = {
+      ...currentePreferences,
+      pastDays: newPastDaysDefault,
+    };
+    dispatch(storePreferencesAsync(newPreferences));
+  };
+
 // Selectors
 export const selectPreferences = (state: RootState) =>
   state.preferences.preferences;
 
 export const selectPreferencesLanguage = (state: RootState) =>
   state.preferences.preferences.appLanguage;
+
+export const selectPreferencesPastDaysDefault = (state: RootState) =>
+  state.preferences.preferences.pastDays;
 
 export const selectPreferencesDateFormat = (state: RootState) =>
   state.preferences.preferences.dateFormat;

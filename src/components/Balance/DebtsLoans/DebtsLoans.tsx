@@ -8,12 +8,14 @@ import {
   Box,
   Text,
   Button,
+  useToast,
 } from "native-base";
 
 // Components
 import AddPersonTransactionModal from "./AddPersonTransactionModal";
 import AddPersonModal from "./AddPersonModal";
 import DeletePersonModal from "./DeletePersonModal";
+import HelperToastIcon from "../../Shared/HelperToastIcon";
 
 // Types
 import { Person, UuId } from "../../types";
@@ -36,6 +38,15 @@ import {
 
 const BalanceTransactionsList: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const people = useAppSelector(selectPeopleData);
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
+
+  const [showAddPerson, setShowAddPerson] = React.useState(false);
+  const [showDeletePerson, setShowDeletePerson] = React.useState(false);
+  const [currentPerson, setCurrentPerson] = React.useState<Person | null>(null);
+
+  const toast = useToast();
 
   const onAddPerson = React.useCallback(
     (personName: string) => {
@@ -80,12 +91,6 @@ const BalanceTransactionsList: React.FC = () => {
     },
     [dispatch, addPersonTransaction, addHistoryRegister]
   );
-  const people = useAppSelector(selectPeopleData);
-  const appLanguage = useAppSelector(selectPreferencesLanguage);
-
-  const [showAddPerson, setShowAddPerson] = React.useState(false);
-  const [showDeletePerson, setShowDeletePerson] = React.useState(false);
-  const [currentPerson, setCurrentPerson] = React.useState<Person | null>(null);
 
   const data = React.useMemo(
     () => [
@@ -130,6 +135,19 @@ const BalanceTransactionsList: React.FC = () => {
 
   return (
     <>
+      <HelperToastIcon
+        styles={{ position: "absolute", left: 330, top: 14, zIndex: 99 }}
+        onPress={() => {
+          if (!toast.isActive("homeScreenHelper")) {
+            toast.show({
+              id: "homeScreenHelper",
+              description: LANGUAGES.helpers.debtLoan[appLanguage],
+              placement: "top",
+              duration: 8000,
+            });
+          }
+        }}
+      />
       <SectionList
         mb="4"
         sections={data}

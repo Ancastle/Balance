@@ -53,10 +53,10 @@ const PersonHistoryList: React.FC<BalanceTransactionsListProps> = ({
                   <Box flex={1.5}>
                     {`${format(parseISO(item.date), dateFormat)}`}
                   </Box>
-                  <Box flex={6} justifyContent="flex-start">
+                  <Box flex={5} justifyContent="flex-start">
                     <Text numberOfLines={1}> {item.name}</Text>
                   </Box>
-                  <Center flex={2.5}>
+                  <Center flex={4}>
                     <Text numberOfLines={1}>
                       {makeCurrencyFormat(parseInt(item.value, 10))}
                     </Text>

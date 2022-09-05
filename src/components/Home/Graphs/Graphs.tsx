@@ -18,6 +18,7 @@ import { MonthTotals } from "./MonthTotals";
 
 // Store
 import { selectPreferencesLanguage, useAppSelector } from "../../../store";
+import HelperToastIcon from "../../Shared/HelperToastIcon";
 
 const Graphs: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -72,6 +73,19 @@ const Graphs: React.FC = () => {
 
   return (
     <Container h="610" mb="4" ml={"2"}>
+      <HelperToastIcon
+        styles={{ position: "absolute", left: 330, top: 14 }}
+        onPress={() => {
+          if (!toast.isActive("homeScreenHelper")) {
+            toast.show({
+              id: "homeScreenHelper",
+              description: LANGUAGES.helpers.analysisScreen[appLanguage],
+              placement: "top",
+              duration: 5000,
+            });
+          }
+        }}
+      />
       <TransactionTypeFilter
         type={type}
         setType={(nextType) => {

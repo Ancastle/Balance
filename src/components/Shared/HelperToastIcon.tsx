@@ -1,22 +1,19 @@
 import * as React from "react";
-import {
-  Container,
-  Heading,
-  Text,
-  View,
-  Pressable,
-  useToast,
-  Icon,
-} from "native-base";
+import { Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
 interface HelperToastIconProps {
   onPress: () => void;
+  styles?: any;
 }
 
-const HelperToastIcon: React.FC<HelperToastIconProps> = ({ onPress }) => {
+const HelperToastIcon: React.FC<HelperToastIconProps> = ({
+  onPress,
+  styles,
+}) => {
   return (
     <Icon
+      style={styles}
       onPress={onPress}
       ml={3}
       as={<MaterialIcons name="help" />}

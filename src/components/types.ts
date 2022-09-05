@@ -12,6 +12,7 @@ export type UuId = string | number[];
 export interface Preferences {
   appLanguage: number;
   dateFormat: string;
+  pastDays: number;
 }
 
 export interface CategoryType {
@@ -33,6 +34,7 @@ export interface TransactionInput {
   value: string;
   categoryId: string;
   isNecesary: boolean;
+  personName?: string;
 }
 
 export interface Transaction {

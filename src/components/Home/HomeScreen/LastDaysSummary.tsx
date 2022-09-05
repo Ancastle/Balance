@@ -14,6 +14,7 @@ import {
   selectPreferencesLanguage,
   selectPreferencesDateFormat,
   useAppSelector,
+  selectPreferencesPastDaysDefault,
 } from "../../../store";
 
 import { calculateTypeTotal } from "../../utils";
@@ -24,6 +25,7 @@ const LastDaysSummary: React.FC = () => {
   const creditCardTransactions = useAppSelector(selectCreditCardData);
   const transactions = useAppSelector(selectTransactionsData);
   const dateFormat = useAppSelector(selectPreferencesDateFormat);
+  const pastDaysDefault = useAppSelector(selectPreferencesPastDaysDefault);
 
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
@@ -104,6 +106,7 @@ const LastDaysSummary: React.FC = () => {
     [lastDaysCCTransactions]
   );
 
+  React.useEffect(() => setDays(pastDaysDefault.toString()), [pastDaysDefault]);
   return (
     <MonthSummary
       title={

@@ -33,6 +33,7 @@ import {
   setTestingTransactions,
 } from "../../../store/transactionsSlice";
 import { DEVONLYRESETCATEGORIES } from "../../../store/categoriesSlice";
+import ChangeDefaultDaysModal from "./ChangeDefaultDaysModal";
 
 const PreferencesSettings: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -40,8 +41,8 @@ const PreferencesSettings: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
-
   const [showTimeFormatModal, setShowTimeFormatModal] = React.useState(false);
+  const [showPastDaysModal, setShowPastDaysModal] = React.useState(false);
 
   const data = React.useMemo(
     () => [
@@ -58,6 +59,12 @@ const PreferencesSettings: React.FC = () => {
             name: LANGUAGES.settings.tabs.preferences
               .changeTimeFormatPreference[appLanguage],
             set: () => setShowTimeFormatModal(true),
+          },
+          {
+            name: LANGUAGES.settings.tabs.preferences.changePastDaysDefault[
+              appLanguage
+            ],
+            set: () => setShowPastDaysModal(true),
           },
         ],
       },
@@ -107,11 +114,16 @@ const PreferencesSettings: React.FC = () => {
           onClose={() => setShowLanguageModal(false)}
         />
       )}
-
       {showTimeFormatModal && (
         <ChangeDateFormatModal
           isOpen={showTimeFormatModal}
           onClose={() => setShowTimeFormatModal(false)}
+        />
+      )}
+      {showPastDaysModal && (
+        <ChangeDefaultDaysModal
+          isOpen={showPastDaysModal}
+          onClose={() => setShowPastDaysModal(false)}
         />
       )}
 
