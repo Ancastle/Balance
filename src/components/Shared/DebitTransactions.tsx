@@ -36,6 +36,7 @@ const DebitTransactions: React.FC<DebitTransactionsProps> = ({
         <Button
           bg="primary.900"
           bottom={5}
+          mt={5}
           width="350"
           height="50"
           onPress={() => setShowAddModal(true)}

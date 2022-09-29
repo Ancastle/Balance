@@ -8,7 +8,7 @@ import {
   Box,
   Text,
 } from "native-base";
-import parseISO from "date-fns/parseISO";
+import { parseISO, format } from "date-fns";
 
 // Types
 import { Transaction } from "../../types";
@@ -24,6 +24,7 @@ import {
   selectCreditCardData,
   selectCreditCardTotal,
   editCreditCardTransaction,
+  selectPreferencesDateFormat,
   useAppSelector,
   useAppDispatch,
   addHistoryRegister,
@@ -48,6 +49,7 @@ const CreditCardTransactionsList: React.FC = () => {
   const creditCardTransactions = useAppSelector(selectCreditCardData);
   const totalDebt = useAppSelector(selectCreditCardTotal);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [transaction, setTransaction] = React.useState<Transaction>();
@@ -85,9 +87,7 @@ const CreditCardTransactionsList: React.FC = () => {
               >
                 <Flex direction="row" py={1.5}>
                   <Box flex={1.5}>
-                    {` ${makeDoubleDigit(
-                      parseISO(item.date).getDate()
-                    )}/${makeDoubleDigit(parseISO(item.date).getMonth() + 1)}`}
+                    {` ${format(parseISO(item.date), dateFormat)}`}
                   </Box>
                   <Box flex={6} justifyContent="flex-start">
                     <Text numberOfLines={1}> {item.name}</Text>

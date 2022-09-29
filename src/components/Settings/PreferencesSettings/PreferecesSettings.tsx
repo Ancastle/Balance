@@ -11,6 +11,8 @@ import {
 
 // Components
 import ChangeLanguageModal from "./ChangeLanguageModal";
+import ChangeDateFormatModal from "./ChangeDateFormatModal";
+import ChangeDefaultDaysModal from "./ChangeDefaultDaysModal";
 
 // Utils
 import { isEven } from "../../utils";
@@ -23,21 +25,14 @@ import {
   useAppSelector,
 } from "../../../store";
 
-//DEVONLY
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { STORAGE } from "../../statics";
-import {
-  DEVONLYSETTESTINGTRANSACTIONS,
-  setTestingTransactions,
-} from "../../../store/transactionsSlice";
-import { DEVONLYRESETCATEGORIES } from "../../../store/categoriesSlice";
-
 const PreferencesSettings: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
   const dispatch = useAppDispatch();
 
   const [showLanguageModal, setShowLanguageModal] = React.useState(false);
+  const [showTimeFormatModal, setShowTimeFormatModal] = React.useState(false);
+  const [showPastDaysModal, setShowPastDaysModal] = React.useState(false);
 
   const data = React.useMemo(
     () => [
@@ -50,10 +45,21 @@ const PreferencesSettings: React.FC = () => {
             ],
             set: () => setShowLanguageModal(true),
           },
+          {
+            name: LANGUAGES.settings.tabs.preferences
+              .changeTimeFormatPreference[appLanguage],
+            set: () => setShowTimeFormatModal(true),
+          },
+          {
+            name: LANGUAGES.settings.tabs.preferences.changePastDaysDefault[
+              appLanguage
+            ],
+            set: () => setShowPastDaysModal(true),
+          },
         ],
       },
     ],
-    []
+    [appLanguage]
   );
 
   return (
@@ -92,34 +98,24 @@ const PreferencesSettings: React.FC = () => {
           </Center>
         )}
       />
-      <ChangeLanguageModal
-        isOpen={showLanguageModal}
-        onClose={() => setShowLanguageModal(false)}
-      />
-      <Pressable
-        py={1.5}
-        onPress={() => {
-          dispatch(DEVONLYRESETCATEGORIES());
-        }}
-      >
-        <Flex direction="row" py={1.5}>
-          <Box ml={7} flex={1} justifyContent="flex-start">
-            <Text>Reset categories DEVONLY</Text>
-          </Box>
-        </Flex>
-      </Pressable>
-      <Pressable
-        py={1.5}
-        onPress={() => {
-          dispatch(DEVONLYSETTESTINGTRANSACTIONS());
-        }}
-      >
-        <Flex direction="row" py={1.5}>
-          <Box ml={7} flex={1} justifyContent="flex-start">
-            <Text>Set Testing Transactions DEVONLY</Text>
-          </Box>
-        </Flex>
-      </Pressable>
+      {showLanguageModal && (
+        <ChangeLanguageModal
+          isOpen={showLanguageModal}
+          onClose={() => setShowLanguageModal(false)}
+        />
+      )}
+      {showTimeFormatModal && (
+        <ChangeDateFormatModal
+          isOpen={showTimeFormatModal}
+          onClose={() => setShowTimeFormatModal(false)}
+        />
+      )}
+      {showPastDaysModal && (
+        <ChangeDefaultDaysModal
+          isOpen={showPastDaysModal}
+          onClose={() => setShowPastDaysModal(false)}
+        />
+      )}
     </>
   );
 };

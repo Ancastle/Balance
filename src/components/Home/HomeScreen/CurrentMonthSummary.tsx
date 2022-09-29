@@ -18,6 +18,7 @@ import {
   selectPreferencesLanguage,
   selectCreditCardData,
   selectTransactionsData,
+  selectPreferencesDateFormat,
   useAppSelector,
 } from "../../../store";
 
@@ -29,6 +30,7 @@ const CurrentMonthSummary: React.FC = () => {
   const creditCardTransactions = useAppSelector(selectCreditCardData);
   const transactions = useAppSelector(selectTransactionsData);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const date: Date = React.useMemo(() => new Date(), [transactions]);
 
@@ -63,12 +65,12 @@ const CurrentMonthSummary: React.FC = () => {
   );
 
   const startingDate = React.useMemo(
-    () => format(currentMonthFirstDay, "dd/MM/yyyy"),
+    () => format(currentMonthFirstDay, `${dateFormat}/yyyy`),
     [currentMonthFirstDay]
   );
 
   const endingDate = React.useMemo(
-    () => format(currentMonthLastDay, "dd/MM/yyyy"),
+    () => format(currentMonthLastDay, `${dateFormat}/yyyy`),
     [currentMonthLastDay]
   );
 

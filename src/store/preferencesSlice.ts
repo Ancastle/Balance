@@ -12,7 +12,7 @@ export interface PreferencesState {
 }
 
 const initialState: PreferencesState = {
-  preferences: { appLanguage: 0 },
+  preferences: { appLanguage: 0, dateFormat: "dd/MM", pastDays: 15 },
   status: "idle",
 };
 
@@ -61,7 +61,7 @@ export const preferencesSlice = createSlice({
         fetchPreferencesAsync.fulfilled,
         (state, action: PayloadAction<Preferences>) => {
           state.status = "fulfilled";
-          state.preferences.appLanguage = action.payload.appLanguage;
+          state.preferences = action.payload;
         }
       )
       .addCase(fetchPreferencesAsync.rejected, (state) => {
@@ -74,7 +74,7 @@ export const preferencesSlice = createSlice({
         storePreferencesAsync.fulfilled,
         (state, action: PayloadAction<Preferences>) => {
           state.status = "fulfilled";
-          state.preferences.appLanguage = action.payload.appLanguage;
+          state.preferences = action.payload;
         }
       )
       .addCase(storePreferencesAsync.rejected, (state) => {
@@ -95,12 +95,40 @@ export const changeLanguage =
     dispatch(storePreferencesAsync(newPreferences));
   };
 
+export const changeDateFormat =
+  (newDateFormat: string): AppThunk =>
+  (dispatch, getState) => {
+    const currentePreferences = selectPreferences(getState());
+    const newPreferences = {
+      ...currentePreferences,
+      dateFormat: newDateFormat,
+    };
+    dispatch(storePreferencesAsync(newPreferences));
+  };
+
+export const changePastDaysDefault =
+  (newPastDaysDefault: number): AppThunk =>
+  (dispatch, getState) => {
+    const currentePreferences = selectPreferences(getState());
+    const newPreferences = {
+      ...currentePreferences,
+      pastDays: newPastDaysDefault,
+    };
+    dispatch(storePreferencesAsync(newPreferences));
+  };
+
 // Selectors
 export const selectPreferences = (state: RootState) =>
   state.preferences.preferences;
 
 export const selectPreferencesLanguage = (state: RootState) =>
   state.preferences.preferences.appLanguage;
+
+export const selectPreferencesPastDaysDefault = (state: RootState) =>
+  state.preferences.preferences.pastDays;
+
+export const selectPreferencesDateFormat = (state: RootState) =>
+  state.preferences.preferences.dateFormat;
 
 export const selectPreferencesStatus = (state: RootState) =>
   state.preferences.status;

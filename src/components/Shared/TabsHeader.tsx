@@ -3,6 +3,9 @@ import { Dimensions, StatusBar, Animated, Pressable } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 import { Box } from "native-base";
 
+// Store
+import { selectPreferencesLanguage, useAppSelector } from "../../store";
+
 // Types
 import { Tab } from "../types";
 
@@ -19,17 +22,23 @@ const TabsHeader: React.FC<TabsHeaderProps> = ({
   secondRoute,
   thirdRoute,
 }) => {
+  const appLanguage = useAppSelector(selectPreferencesLanguage);
+
   const [index, setIndex] = React.useState(0);
 
   const [routes] = React.useState(tabs);
 
   const initialLayout = { width: Dimensions.get("window").width };
 
-  const renderScene = SceneMap({
-    first: () => firstRoute,
-    second: () => secondRoute || null,
-    third: () => thirdRoute || null,
-  });
+  const renderScene = React.useMemo(
+    () =>
+      SceneMap({
+        first: () => firstRoute,
+        second: () => secondRoute || null,
+        third: () => thirdRoute || null,
+      }),
+    [appLanguage]
+  );
 
   const renderTabBar = (props: any) => {
     return (

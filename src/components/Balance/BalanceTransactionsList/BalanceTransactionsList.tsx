@@ -8,7 +8,7 @@ import {
   Box,
   Text,
 } from "native-base";
-import parseISO from "date-fns/parseISO";
+import { parseISO, format } from "date-fns";
 
 // Utils
 import { makeDoubleDigit, makeCurrencyFormat } from "../../utils";
@@ -19,6 +19,7 @@ import {
   selectPreferencesLanguage,
   selectTransactionsData,
   selectTransactionsTotal,
+  selectPreferencesDateFormat,
   useAppSelector,
 } from "../../../store";
 
@@ -26,6 +27,7 @@ const BalanceTransactionsList: React.FC = () => {
   const transactions = useAppSelector(selectTransactionsData);
   const totalBalance = useAppSelector(selectTransactionsTotal);
   const appLanguage = useAppSelector(selectPreferencesLanguage);
+  const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const data = React.useMemo(
     () => [
@@ -55,9 +57,7 @@ const BalanceTransactionsList: React.FC = () => {
               <Pressable>
                 <Flex direction="row" py={1.5}>
                   <Box flex={1.5}>
-                    {`${makeDoubleDigit(
-                      parseISO(item.date).getDate()
-                    )}/${makeDoubleDigit(parseISO(item.date).getMonth() + 1)}`}
+                    {format(parseISO(item.date), dateFormat)}
                   </Box>
                   <Box flex={6} justifyContent="flex-start">
                     <Text numberOfLines={1}> {item.name}</Text>

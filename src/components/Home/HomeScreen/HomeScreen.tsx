@@ -24,9 +24,8 @@ import {
   selectPreferencesLanguage,
 } from "../../../store";
 
-import { DEVONLYRESETTRANSACTIONS } from "../../../store/transactionsSlice";
-
 import { LANGUAGES } from "../../statics";
+import HelperToastIcon from "../../Shared/HelperToastIcon";
 
 const HomeScreen: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -45,19 +44,17 @@ const HomeScreen: React.FC = () => {
             fontSize={titleStyles.fontSize}
             fontWeight={titleStyles.fontWeight}
           >{`${LANGUAGES.welcome[appLanguage]}!`}</Heading>
-          <Icon
-            ml={3}
-            onPress={() =>
-              toast.show({
-                description: LANGUAGES.helpers.homeScreen[appLanguage],
-                placement: "top",
-                duration: 5000,
-              })
-            }
-            as={<MaterialIcons name="help" />}
-            size={5}
-            mt={0.5}
-            color="primary.500"
+          <HelperToastIcon
+            onPress={() => {
+              if (!toast.isActive("homeScreenHelper")) {
+                toast.show({
+                  id: "homeScreenHelper",
+                  description: LANGUAGES.helpers.homeScreen[appLanguage],
+                  placement: "top",
+                  duration: 5000,
+                });
+              }
+            }}
           />
         </Container>
 
@@ -65,16 +62,6 @@ const HomeScreen: React.FC = () => {
         <LastDaysSummary />
         <CurrentMonthSummary />
         <LastMonthSummary />
-
-        {/* DEVONLY*/}
-        <Pressable
-          fontWeight="medium"
-          onPress={() => {
-            dispatch(DEVONLYRESETTRANSACTIONS());
-          }}
-        >
-          <Text> RESET ALL REGISTERS</Text>
-        </Pressable>
       </Container>
     </Container>
   );
