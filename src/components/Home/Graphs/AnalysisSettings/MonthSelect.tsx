@@ -13,14 +13,14 @@ interface MonthSelectProps {
   setMonth: (nextMonth: string) => void;
   title: string;
   currentDate: Date;
-  lastSixMonths: Date[];
+  lastThreeMonths: Date[];
 }
 const MonthSelect: React.FC<MonthSelectProps> = ({
   month,
   setMonth,
   title,
   currentDate,
-  lastSixMonths,
+  lastThreeMonths,
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
   return (
@@ -49,7 +49,7 @@ const MonthSelect: React.FC<MonthSelectProps> = ({
           label={format(currentDate, "MM/yyyy")}
           value={"currentMonth"}
         />
-        {lastSixMonths.map((month, i) => (
+        {lastThreeMonths.map((month, i) => (
           <Select.Item
             key={i}
             label={format(month, "MM/yyyy")}

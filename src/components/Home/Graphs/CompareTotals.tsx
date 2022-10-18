@@ -20,7 +20,7 @@ interface CompareTotalsProps {
   transactionType: string;
   month1: string;
   month2: string;
-  lastSixMonths: Date[];
+  lastThreeMonths: Date[];
   sorting: string;
 }
 
@@ -28,7 +28,7 @@ export const CompareTotals: React.FC<CompareTotalsProps> = ({
   transactionType,
   month1,
   month2,
-  lastSixMonths,
+  lastThreeMonths,
   sorting,
 }) => {
   const categories = useAppSelector(selectCategoriesData);
@@ -39,16 +39,16 @@ export const CompareTotals: React.FC<CompareTotalsProps> = ({
     () =>
       month1 === "currentMonth"
         ? new Date()
-        : lastSixMonths[parseInt(month1, 10)],
-    [month1, lastSixMonths]
+        : lastThreeMonths[parseInt(month1, 10)],
+    [month1, lastThreeMonths]
   );
 
   const currentMonth2InDate = React.useMemo(
     () =>
       month2 === "currentMonth"
         ? new Date()
-        : lastSixMonths[parseInt(month2, 10)],
-    [month2, lastSixMonths]
+        : lastThreeMonths[parseInt(month2, 10)],
+    [month2, lastThreeMonths]
   );
 
   const transactionsMonth1 = React.useMemo(

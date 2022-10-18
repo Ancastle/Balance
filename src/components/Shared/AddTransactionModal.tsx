@@ -79,6 +79,10 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
     onClose();
   }, [name, amount, categoryId, type, necesary]);
 
+  React.useEffect(() => {
+    setCategoryId(showingCategories[0].id.toString());
+  }, [showingCategories]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Content maxWidth="400px">

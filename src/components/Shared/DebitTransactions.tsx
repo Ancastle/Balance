@@ -16,7 +16,7 @@ import { selectPreferencesLanguage, useAppSelector } from "../../store";
 
 interface DebitTransactionsProps {
   type: TransactionType;
-  onEdit: (editingTransaction: Transaction) => void;
+  onEdit: (editingTransaction: Transaction, originalValue: string) => void;
   onAdd: (newTransaction: TransactionInput) => void;
 }
 

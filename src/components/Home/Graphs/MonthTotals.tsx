@@ -20,14 +20,14 @@ import {
 interface MonthTotalsProps {
   transactionType: string;
   selectedMonth: string;
-  lastSixMonths: Date[];
+  lastThreeMonths: Date[];
   sorting: string;
 }
 
 export const MonthTotals: React.FC<MonthTotalsProps> = ({
   transactionType,
   selectedMonth,
-  lastSixMonths,
+  lastThreeMonths,
   sorting,
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -40,8 +40,8 @@ export const MonthTotals: React.FC<MonthTotalsProps> = ({
     () =>
       selectedMonth === "currentMonth"
         ? new Date()
-        : lastSixMonths[parseInt(selectedMonth, 10)],
-    [selectedMonth, lastSixMonths]
+        : lastThreeMonths[parseInt(selectedMonth, 10)],
+    [selectedMonth, lastThreeMonths]
   );
 
   const transactionsCurrentMonth = React.useMemo(

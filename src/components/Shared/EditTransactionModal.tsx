@@ -33,7 +33,7 @@ interface EditTransactionModalProps {
   transaction: Transaction;
   type: TransactionType;
   onClose: () => void;
-  onEdit: (editingTransaction: Transaction) => void;
+  onEdit: (editingTransaction: Transaction, originalValue: string) => void;
 }
 
 const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
@@ -61,7 +61,7 @@ const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
       categoryId: categoryId,
       isNecesary: necesary,
     };
-    onEdit(editedTransaction);
+    onEdit(editedTransaction, transaction.value);
     onClose();
   }, [transaction, name, value, categoryId, necesary]);
 

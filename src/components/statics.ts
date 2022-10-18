@@ -357,8 +357,8 @@ export const LANGUAGES = {
         changeLanguage: ["Change language", "Cambiar idioma"],
         changeLanguageModalTitle: ["Change language", "Cambiar idioma"],
         changePastDaysDefault: [
-          "Change default past days",
-          "Cambiar días pasados por defecto",
+          "Change default past days (Home Screen)",
+          "Cambiar días pasados por defecto (Pantalla de Inicio)",
         ],
         changeLanguagePlaceholder: [
           "Select a language",
@@ -584,16 +584,16 @@ export const DEFAULT_PREFERENCES: Preferences = {
 //   },
 // ];
 
-// export const ALL_LANGUAGES = [
-//   { name: "English", id: 0 },
-//   { name: "Español", id: 1 },
-// ];
+export const ALL_LANGUAGES = [
+  { name: "English", id: 0 },
+  { name: "Español", id: 1 },
+];
 
-// export const ALL_FORMATS = (appLanguage: number) => {
-//   const dayMonth = LANGUAGES.dayMonthFormatLabel[appLanguage];
-//   const monthDay = LANGUAGES.monthDayFormatLabel[appLanguage];
-//   return [
-//     { name: dayMonth, value: "dd/MM" },
-//     { name: monthDay, value: "MM/dd" },
-//   ];
-// };
+export const ALL_FORMATS = (appLanguage: number) => {
+  const dayMonth = LANGUAGES.dayMonthFormatLabel[appLanguage];
+  const monthDay = LANGUAGES.monthDayFormatLabel[appLanguage];
+  return [
+    { name: dayMonth, value: "dd/MM" },
+    { name: monthDay, value: "MM/dd" },
+  ];
+};

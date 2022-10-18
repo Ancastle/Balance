@@ -30,7 +30,7 @@ import {
 
 interface TransactionsListProps {
   type: TransactionType;
-  onEdit: (editingTransaction: Transaction) => void;
+  onEdit: (editingTransaction: Transaction, originalValue: string) => void;
 }
 
 const TransactionsList: React.FC<TransactionsListProps> = ({

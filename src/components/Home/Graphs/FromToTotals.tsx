@@ -28,7 +28,7 @@ interface FromToTotalsProps {
   transactionType: string;
   monthFrom: string;
   monthTo: string;
-  lastSixMonths: Date[];
+  lastThreeMonths: Date[];
   sorting: string;
 }
 
@@ -36,7 +36,7 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
   transactionType,
   monthFrom,
   monthTo,
-  lastSixMonths,
+  lastThreeMonths,
   sorting,
 }) => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
@@ -49,16 +49,16 @@ export const FromToTotals: React.FC<FromToTotalsProps> = ({
     () =>
       monthFrom === "currentMonth"
         ? new Date()
-        : startOfMonth(lastSixMonths[parseInt(monthFrom, 10)]),
-    [monthFrom, lastSixMonths]
+        : startOfMonth(lastThreeMonths[parseInt(monthFrom, 10)]),
+    [monthFrom, lastThreeMonths]
   );
 
   const currentMonthToInDate = React.useMemo(
     () =>
       monthTo === "currentMonth"
         ? new Date()
-        : endOfMonth(lastSixMonths[parseInt(monthTo, 10)]),
-    [monthTo, lastSixMonths]
+        : endOfMonth(lastThreeMonths[parseInt(monthTo, 10)]),
+    [monthTo, lastThreeMonths]
   );
 
   const transactionsCurrentPeriod = React.useMemo(

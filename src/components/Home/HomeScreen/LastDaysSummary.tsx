@@ -119,7 +119,7 @@ const LastDaysSummary: React.FC = () => {
           <Box alignItems="center">
             <TextInput
               keyboardType="numeric"
-              maxLength={3}
+              maxLength={2}
               onChangeText={(text) => setDays(text)}
               value={days}
               style={{

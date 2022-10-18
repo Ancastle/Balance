@@ -97,6 +97,10 @@ const AddCreditCardTransactionModal: React.FC<
     }
   }, [isALoan]);
 
+  React.useEffect(() => {
+    setCategoryId(showingCategories[0].id.toString());
+  }, [showingCategories]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Content maxWidth="400px">

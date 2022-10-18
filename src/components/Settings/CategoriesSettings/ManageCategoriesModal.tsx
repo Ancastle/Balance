@@ -123,7 +123,7 @@ const ManageCategoriesModal: React.FC<ManageCategoriesModalProps> = ({
         <Modal.Footer>
           <Box marginBottom={1}>
             {mode === "edit" && (
-              <Text fontSize="xs">
+              <Text fontSize="xs" left={-30}>
                 {type === "entry"
                   ? LANGUAGES.settings.tabs.categories.entryNote[appLanguage]
                   : LANGUAGES.settings.tabs.categories.expencesNote[

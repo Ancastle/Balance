@@ -156,6 +156,7 @@ export const editCreditCardTransaction =
           name: editingTransaction.name,
           value: editingTransaction.value,
           categoryId: editingTransaction.categoryId,
+          isNecesary: editingTransaction.isNecesary,
         };
       } else {
         return t;

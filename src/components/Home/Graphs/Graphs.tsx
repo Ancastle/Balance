@@ -29,13 +29,13 @@ const Graphs: React.FC = () => {
   const [analysisType, setAnalysisType] = React.useState("monthly");
   const [sorting, setSorting] = React.useState("necessary");
   const [selectedMonth, setSelectedMonth] = React.useState("currentMonth");
-  const [monthFrom, setMonthFrom] = React.useState("5");
+  const [monthFrom, setMonthFrom] = React.useState("2");
   const [monthTo, setMonthTo] = React.useState("currentMonth");
 
   const currentDate: Date = React.useMemo(() => new Date(), []);
 
-  const lastSixMonths = React.useMemo(
-    () => [...Array(6)].map((item, i) => sub(currentDate, { months: i + 1 })),
+  const lastThreeMonths = React.useMemo(
+    () => [...Array(3)].map((_, i) => sub(currentDate, { months: i + 1 })),
     [currentDate]
   );
 
@@ -47,7 +47,7 @@ const Graphs: React.FC = () => {
 
   React.useEffect(() => {
     if (analysisType === "compare") {
-      setMonthFrom("5");
+      setMonthFrom("2");
       setMonthTo("currentMonth");
     }
   }, [analysisType]);
@@ -62,7 +62,7 @@ const Graphs: React.FC = () => {
         compareMonthFrom < compareMonthTo)
     ) {
       setMonthTo("currentMonth");
-      setMonthFrom("5");
+      setMonthFrom("2");
       toast.show({
         description: LANGUAGES.helpers.analysisFromTo[appLanguage],
         placement: "top",
@@ -109,7 +109,7 @@ const Graphs: React.FC = () => {
           month={selectedMonth}
           setMonth={(nextMonth) => setSelectedMonth(nextMonth)}
           currentDate={currentDate}
-          lastSixMonths={lastSixMonths}
+          lastThreeMonths={lastThreeMonths}
         />
       )}
       {["fromTo", "compare"].includes(analysisType) && (
@@ -122,7 +122,7 @@ const Graphs: React.FC = () => {
           month={monthFrom}
           setMonth={(nextMonthFrom) => setMonthFrom(nextMonthFrom)}
           currentDate={currentDate}
-          lastSixMonths={lastSixMonths}
+          lastThreeMonths={lastThreeMonths}
         />
       )}
       {["fromTo", "compare"].includes(analysisType) && (
@@ -135,13 +135,13 @@ const Graphs: React.FC = () => {
           month={monthTo}
           setMonth={(nextMonthTo) => setMonthTo(nextMonthTo)}
           currentDate={currentDate}
-          lastSixMonths={lastSixMonths}
+          lastThreeMonths={lastThreeMonths}
         />
       )}
       {analysisType === "monthly" && (
         <MonthTotals
           transactionType={type}
-          lastSixMonths={lastSixMonths}
+          lastThreeMonths={lastThreeMonths}
           selectedMonth={selectedMonth}
           sorting={sorting}
         />
@@ -149,7 +149,7 @@ const Graphs: React.FC = () => {
       {analysisType === "fromTo" && (
         <FromToTotals
           transactionType={type}
-          lastSixMonths={lastSixMonths}
+          lastThreeMonths={lastThreeMonths}
           monthFrom={monthFrom}
           monthTo={monthTo}
           sorting={sorting}
@@ -158,7 +158,7 @@ const Graphs: React.FC = () => {
       {analysisType === "compare" && (
         <CompareTotals
           transactionType={type}
-          lastSixMonths={lastSixMonths}
+          lastThreeMonths={lastThreeMonths}
           month1={monthFrom}
           month2={monthTo}
           sorting={sorting}

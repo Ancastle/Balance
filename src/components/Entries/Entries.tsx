@@ -39,8 +39,8 @@ const Entries: React.FC = () => {
   );
 
   const onEdit = React.useCallback(
-    (editingTransaction: Transaction) => {
-      dispatch(editTransaction(editingTransaction));
+    (editingTransaction: Transaction, originalValue: string) => {
+      dispatch(editTransaction(editingTransaction, originalValue));
       dispatch(
         addHistoryRegister(
           LANGUAGES.editTransaction[appLanguage],

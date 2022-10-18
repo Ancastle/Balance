@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Center } from "native-base";
 
 // Components
 import { TabsHeader } from "../Shared";
@@ -20,7 +19,6 @@ import {
   fetchCategoriesAsync,
   fetchPreferencesAsync,
   selectPreferencesLanguage,
-  selectPreferencesDateFormat,
   fetchCreditCardAsync,
   fetchPeopleAsync,
   useAppSelector,

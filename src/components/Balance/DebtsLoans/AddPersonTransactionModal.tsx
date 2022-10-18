@@ -123,6 +123,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
         <Modal.Header>
           {LANGUAGES.balance.tabs.debtsLoans.addingTransaction[appLanguage]}
           <Text>{person?.name}</Text>
+          <Text>{`(${makeCurrencyFormat(parseInt(person?.value))})`}</Text>
         </Modal.Header>
         <Modal.Body>
           <PersonHistoryList person={person} />
