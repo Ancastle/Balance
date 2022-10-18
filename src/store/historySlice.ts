@@ -37,13 +37,17 @@ export const fetchHistoryAsync = createAsyncThunk(
 export const storeHistoryAsync = createAsyncThunk(
   "history/storeHistoryAsync",
   async (newHistory: HistoryRegister[]) => {
+    let newHistoryTrimmed = [...newHistory];
+    if (newHistoryTrimmed.length > 20) {
+      newHistoryTrimmed = newHistoryTrimmed.slice(0, 20);
+    }
     try {
-      const jsonValue = JSON.stringify({ history: newHistory });
+      const jsonValue = JSON.stringify({ history: newHistoryTrimmed });
       await AsyncStorage.setItem(STORAGE.history, jsonValue);
     } catch (e) {
       console.log("Error: Could not store history data");
     }
-    return newHistory;
+    return newHistoryTrimmed;
   }
 );
 

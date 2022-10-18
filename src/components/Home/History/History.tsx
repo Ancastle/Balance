@@ -5,7 +5,7 @@ import parseISO from "date-fns/parseISO";
 import { titleStyles } from "../../styles";
 
 // Utils
-import { makeDoubleDigit, isEven } from "../../utils";
+import { isEven } from "../../utils";
 
 // Statics
 import { LANGUAGES } from "../../statics";

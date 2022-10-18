@@ -83,7 +83,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
       !amount ||
       !whoPays ||
       !person ||
-      (whoPays === "me" && parseInt(amount, 10) > totalBalance),
+      (whoPays === "me" && parseInt(amount, 10) > totalBalance && !isCash),
     [amount, whoPays, person]
   );
 
@@ -97,7 +97,7 @@ const AddPersonTransactionModal: React.FC<AddPersonTransactionModalProps> = ({
             type: "expence",
             value: amount,
             categoryId: "expence1",
-            isNecesary: false,
+            isNecesary: true,
             personName: person.name,
           });
         } else {
