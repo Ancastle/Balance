@@ -32,6 +32,8 @@ export const fetchCreditCardAsync = createAsyncThunk(
       if (value) {
         const parsed = JSON.parse(value).creditCard;
         return parsed;
+      } else {
+        return [];
       }
     } catch (e) {
       console.log("Error: Could not fetch creditCard data");

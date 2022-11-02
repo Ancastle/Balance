@@ -27,13 +27,13 @@ const Entries: React.FC = () => {
 
   const onAdd = React.useCallback(
     (newTransactionInput: TransactionInput) => {
-      dispatch(addTransaction(newTransactionInput)),
-        dispatch(
-          addHistoryRegister(
-            LANGUAGES.addTransaction[appLanguage],
-            newTransactionInput.name
-          )
-        );
+      dispatch(addTransaction(newTransactionInput));
+      dispatch(
+        addHistoryRegister(
+          LANGUAGES.addTransaction[appLanguage],
+          newTransactionInput.name
+        )
+      );
     },
     [dispatch, addTransaction]
   );

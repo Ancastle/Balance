@@ -1,14 +1,5 @@
 import * as React from "react";
-import {
-  Container,
-  Heading,
-  Text,
-  View,
-  Pressable,
-  useToast,
-  Icon,
-} from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Container, Heading, useToast, Image, Center } from "native-base";
 
 import { titleStyles } from "../../styles";
 
@@ -18,11 +9,7 @@ import LastDaysSummary from "./LastDaysSummary";
 import LastAction from "./LastAction";
 
 // Store
-import {
-  useAppSelector,
-  useAppDispatch,
-  selectPreferencesLanguage,
-} from "../../../store";
+import { useAppSelector, selectPreferencesLanguage } from "../../../store";
 
 import { LANGUAGES } from "../../statics";
 import HelperToastIcon from "../../Shared/HelperToastIcon";
@@ -30,17 +17,22 @@ import HelperToastIcon from "../../Shared/HelperToastIcon";
 const HomeScreen: React.FC = () => {
   const appLanguage = useAppSelector(selectPreferencesLanguage);
 
-  const dispatch = useAppDispatch();
-
   const toast = useToast();
 
   return (
     <Container flex={1} ml="2">
-      <View flex={1}>{/*TBD INSERT LOGO */}</View>
-
+      <Center>
+        <Image
+          source={require("../../../../assets/Logo2-02-03.png")}
+          alt="logoImage"
+          size="200"
+          left="25%"
+        />
+      </Center>
       <Container flex={1.8} my={15} w="380">
         <Container flexDirection={"row"}>
           <Heading
+            w={250}
             fontSize={titleStyles.fontSize}
             fontWeight={titleStyles.fontWeight}
           >{`${LANGUAGES.welcome[appLanguage]}!`}</Heading>

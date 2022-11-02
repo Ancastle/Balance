@@ -12,8 +12,6 @@ import {
   selectPreferencesLanguage,
 } from "../../../store";
 
-import { getDateDayMonth, getDateHourMinutes } from "../../utils";
-
 import { LANGUAGES } from "../../statics";
 
 const LastAction: React.FC = () => {
@@ -21,7 +19,10 @@ const LastAction: React.FC = () => {
   const history = useAppSelector(selectHistoryData);
   const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
-  const lastAction = React.useMemo(() => history[0], [history]);
+  const lastAction = React.useMemo(
+    () => (history ? history[0] : { name: "", date: "" }),
+    [history]
+  );
 
   return (
     <>
@@ -36,7 +37,7 @@ const LastAction: React.FC = () => {
         fontSize={subtitlesStyles.fontSize}
         w="380"
       >
-        {lastAction
+        {lastAction && lastAction.name
           ? `${lastAction.name} ${LANGUAGES.timeOn[appLanguage]} ${format(
               parseISO(lastAction.date),
               dateFormat

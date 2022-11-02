@@ -29,6 +29,8 @@ export const fetchTransactionsAsync = createAsyncThunk(
       if (value) {
         const parsed = JSON.parse(value);
         return parsed;
+      } else {
+        return { transactions: [], total: 0 };
       }
     } catch (e) {
       console.log("Error: Could not fetch transactions data");

@@ -27,6 +27,8 @@ export const fetchHistoryAsync = createAsyncThunk(
       if (value) {
         const parsed = JSON.parse(value).history;
         return parsed;
+      } else {
+        return [];
       }
     } catch (e) {
       console.log("Error: Could not fetch history data");

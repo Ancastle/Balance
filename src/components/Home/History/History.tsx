@@ -25,12 +25,15 @@ const History: React.FC = () => {
   const dateFormat = useAppSelector(selectPreferencesDateFormat);
 
   const data = React.useMemo(
-    () => [
-      {
-        title: LANGUAGES.history[appLanguage],
-        data: history,
-      },
-    ],
+    () =>
+      history
+        ? [
+            {
+              title: LANGUAGES.history[appLanguage],
+              data: history,
+            },
+          ]
+        : [],
     [history]
   );
 

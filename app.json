@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "finances",
-    "slug": "finances",
+    "name": "Balance",
+    "slug": "Balance",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Logo1-01-02.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
