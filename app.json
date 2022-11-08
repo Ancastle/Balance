@@ -4,7 +4,7 @@
     "slug": "Balance",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Logo1-01-02.png",
+    "icon": "./assets/newIcon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/newIcon.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ancastle.finances"
