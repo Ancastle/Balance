@@ -90,7 +90,7 @@ const LastMonthSummary: React.FC = () => {
         ),
         "expence"
       ),
-    [transactions]
+    [lastMonthTransactions]
   );
 
   const lastMonthCCTransactions = React.useMemo(

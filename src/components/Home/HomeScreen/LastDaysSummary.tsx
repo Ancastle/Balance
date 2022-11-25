@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Heading, Box } from "native-base";
 import { TextInput } from "react-native";
-import { sub, parseISO, isAfter, format } from "date-fns";
+import { sub, parseISO, isAfter, format, startOfDay } from "date-fns";
 
 import { title2Styles } from "../../styles";
 
@@ -34,7 +34,7 @@ const LastDaysSummary: React.FC = () => {
   const today: Date = React.useMemo(() => new Date(), [transactions]);
 
   const periodFirstDay = React.useMemo(
-    () => sub(today, { days: parseInt(days) }),
+    () => startOfDay(sub(today, { days: parseInt(days) })),
     [today, days]
   );
 
@@ -55,7 +55,9 @@ const LastDaysSummary: React.FC = () => {
   );
 
   const lastDaysExpences = React.useMemo(
-    () => calculateTypeTotal(lastDaysTransactions, "expence") + calculateTypeTotal(lastDaysCCTransactions, "expence"),
+    () =>
+      calculateTypeTotal(lastDaysTransactions, "expence") +
+      calculateTypeTotal(lastDaysCCTransactions, "expence"),
     [lastDaysTransactions]
   );
 
@@ -87,7 +89,7 @@ const LastDaysSummary: React.FC = () => {
         ),
         "expence"
       ),
-    [transactions]
+    [lastDaysTransactions]
   );
 
   const lastDaysCCNeededExpences = React.useMemo(

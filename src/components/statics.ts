@@ -56,8 +56,8 @@ export const LANGUAGES = {
       "Los egresos se muestran como Total (necesarios, innecesarios)\nLos gastos de tarjeta de crédito estan incluidos, incluso antes de pagarlos\nEl número en los últimos días puede ser editado, también es posible editar este número por defecto en la pestaña de Ajustes.",
     ],
     analysisScreen: [
-      "You can use this screen to review your expences/entries by each month, compare between them or select a date from/to for the revision.\nYou can also group the transactions by needed/unneeded or by category (ony by cateogry for entries).\nYou can look for more details on the totals by clicking on them while you are not comparing two months.",
-      "En esta sección se puede revisar los egresos/ingresos por cada mes, comparar entre ellos o seleccionar una mes desde/hasta para la revisión.\nTambién se puede agrupar las transacciones por necesario/innecesario o por categorías (solo por categorías en el caso de ingresos).\nPara ver más detalles acerca de los totales, toca sobre ellos cuando no este seleccionada la opcion de comparar.",
+      "You can use this screen to review your expences/entries by each month, compare between them or select a date from/to for the revision.\nYou can also group the transactions by needed/unneeded or by category (ony by cateogry for entries).\nYou can look for more details on the totals by clicking on them while you are not comparing two months.\nThis section does not include the debts from your credit card.",
+      "En esta sección se puede revisar los egresos/ingresos por cada mes, comparar entre ellos o seleccionar una mes desde/hasta para la revisión.\nTambién se puede agrupar las transacciones por necesario/innecesario o por categorías (solo por categorías en el caso de ingresos).\nPara ver más detalles acerca de los totales, toca sobre ellos cuando no este seleccionada la opcion de comparar.\nEsta sesión no incluye las deudas de tarjeta de crédito.",
     ],
     analysisFromTo: [
       "The month To must be after the month From.\nMonth From must not be the current month.",
