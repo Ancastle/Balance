@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Heading, Box } from "native-base";
 import { TextInput } from "react-native";
-import { sub, startOfMonth, parseISO, isAfter, format } from "date-fns";
+import { sub, parseISO, isAfter, format } from "date-fns";
 
 import { title2Styles } from "../../styles";
 
@@ -46,8 +46,16 @@ const LastDaysSummary: React.FC = () => {
     [periodFirstDay]
   );
 
+  const lastDaysCCTransactions = React.useMemo(
+    () =>
+      creditCardTransactions.filter((transaction) => {
+        return isAfter(parseISO(transaction.date), periodFirstDay);
+      }),
+    [periodFirstDay, creditCardTransactions]
+  );
+
   const lastDaysExpences = React.useMemo(
-    () => calculateTypeTotal(lastDaysTransactions, "expence"),
+    () => calculateTypeTotal(lastDaysTransactions, "expence") + calculateTypeTotal(lastDaysCCTransactions, "expence"),
     [lastDaysTransactions]
   );
 
@@ -74,25 +82,12 @@ const LastDaysSummary: React.FC = () => {
   const lastDaysNeededExpences = React.useMemo(
     () =>
       calculateTypeTotal(
-        transactions.filter(
+        lastDaysTransactions.filter(
           (tr) => tr.type === "expence" && tr.isNecesary === true
         ),
         "expence"
       ),
     [transactions]
-  );
-
-  const lastDaysCCTransactions = React.useMemo(
-    () =>
-      creditCardTransactions.filter((transaction) => {
-        return isAfter(parseISO(transaction.date), periodFirstDay);
-      }),
-    [periodFirstDay, creditCardTransactions]
-  );
-
-  const lastDaysCCExpences = React.useMemo(
-    () => calculateTypeTotal(lastDaysCCTransactions, "expence"),
-    [lastDaysCCTransactions]
   );
 
   const lastDaysCCNeededExpences = React.useMemo(
@@ -138,7 +133,7 @@ const LastDaysSummary: React.FC = () => {
         </Heading>
       }
       neededExpences={lastDaysNeededExpences + lastDaysCCNeededExpences}
-      expences={lastDaysExpences + lastDaysCCExpences}
+      expences={lastDaysExpences}
       entries={lastDaysEntries}
       balance={lastDaysBalance}
     />
